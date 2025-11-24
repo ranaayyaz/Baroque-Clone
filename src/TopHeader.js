@@ -1,18 +1,10 @@
 import React from 'react'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+
 function TopHeader() {
   return (
-    <div>
-       <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-      <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-      <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-    </DropdownButton>
-      <i className="fas fa-heart"></i>
-        <i className="fas fa-star text-warning"></i>
-
-
+    <div className="bg-[#2f2f2f] w-full text-white h-12">
+      
+hjkjhkjh
     </div>
   )
 }
