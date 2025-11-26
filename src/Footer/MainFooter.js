@@ -24,7 +24,7 @@ const MainFooter = () => {
           <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
             Our Shop: First Floor, Dolmen Mall,
             <br />
-            Shop No F-06, A Block DHA Phase 69,
+            Shop No F-06, A Block DHA Phase 6,
             <br />
             Lahore
           </li>

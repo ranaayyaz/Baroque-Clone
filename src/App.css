@@ -1,0 +1,12 @@
+ /* Top Header Animation */
+ 
+ @keyframes marquee {
+    0% { transform: translateX(100%); }  /* ✅ Right corner se start */
+    100% { transform: translateX(-100%); } /* ✅ Left corner tak jaye */
+  }
+  .animate-marquee {
+    animation: marquee 50s linear infinite;
+  }
+
+
+  

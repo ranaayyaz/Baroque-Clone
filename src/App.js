@@ -9,10 +9,8 @@ function App() {
       {/* Your other components */}
         <TopHeader />
         <Navigation/>
-      <MainFooter />
-      <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+      {/* <MainFooter /> */}
+      {/* <h1 class="text-3xl font-bold underline"></h1> */}
       
     </div>
   );
