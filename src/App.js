@@ -10,9 +10,10 @@ function App() {
       {/* Your other components */}
         <TopHeader />
         <Navigation/>
-      {/* <MainFooter /> */}
+    
       {/* <h1 class="text-3xl font-bold underline"></h1> */}
       <MainBanner/>
+        <MainFooter />
     </div>
   );
 }
