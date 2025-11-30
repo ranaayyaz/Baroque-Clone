@@ -1,6 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import './App.css';
+import { LuUserRound } from "react-icons/lu";
+import { PiShoppingCartSimpleBold } from "react-icons/pi";
+import { FaRegHeart } from "react-icons/fa";
+import { IoSearchSharp } from "react-icons/io5";
+import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { LiaBarsSolid } from "react-icons/lia";
+
 
 const Navigation = () => {
   const [showFirstCanvas, setShowFirstCanvas] = useState(false);
@@ -38,22 +45,23 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className='h-12 mt-3   navbar'>
+      <nav className='h-[75px] mt-3   navbar'>
         <div className="flex justify-between items-center">
           <div>
             <div className="pl-12">
               <button onClick={handleShowFirst} className="">
-                <i className="fa-solid fa-bars text-3xl "></i>
+                <i className=" text-[2rem] "><LiaBarsSolid />
+</i>
               </button>
             </div>
           </div>
           <div>
-            <div className="pl-12 w-100 ml-12" >
+            <div className="pl-12 w-100 ml-[12rem]" >
               <a href="">
                 <img 
                   alt="BAROQUE Logo" 
                   src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp" 
-                  className="h-10"
+                  className="h-9"
                 />
               </a>
             </div>
@@ -68,15 +76,15 @@ const Navigation = () => {
               >
                 PAKISTAN
                 <i 
-                  className="fa-solid fa-angle-down ml-1 text-xs cursor-pointer"
+                  className=" ml-1 text-2xl cursor-pointer"
                   onClick={handleCountryClick}
-                ></i>
+                ><MdOutlineKeyboardArrowDown />
+</i>
               </span>
-
-              <i className="fa-solid fa-magnifying-glass text-xl cursor-pointer"></i>
-              <i className="fa-solid fa-cart-shopping text-xl cursor-pointer"></i>
-              <i className="fa-solid fa-user text-xl cursor-pointer"></i>
-              <i className="fa-regular fa-heart text-xl cursor-pointer"></i>
+  <i className="text-[1.5rem] cursor-pointer"><LuUserRound /></i>
+              <i className=" text-[1.5rem] cursor-pointer"><IoSearchSharp /></i>
+              <i className="  text-[1.5rem] cursor-pointer"><PiShoppingCartSimpleBold /></i>
+              <i className=" text-[1.5rem] cursor-pointer"><FaRegHeart /></i>
             </div>
           </div>
         </div>
