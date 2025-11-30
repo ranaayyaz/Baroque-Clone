@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import './App.css';
 
 const Navigation = () => {
   const [showFirstCanvas, setShowFirstCanvas] = useState(false);
@@ -37,7 +38,7 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className='h-12 mt-3 border-b border-gray-300'>
+      <nav className='h-12 mt-3   navbar'>
         <div className="flex justify-between items-center">
           <div>
             <div className="pl-12">
