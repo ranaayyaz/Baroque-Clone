@@ -1,3 +1,12 @@
+ 
+ * {
+  font-family: "Proza Libre, sans-serif";
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ 
+ 
  /* Top Header Animation */
  
  @keyframes marquee {
@@ -31,7 +40,25 @@ padding-top: 20px;
     position:relative;
 
   }
+  .btn{
+    position: absolute;
+     margin-top: -110px;
+     
+     left: 47%;
+  }
+  .btn:hover{
+    background-color: transparent;
+    color:white;
+    transition: background-color 0.4s ease;
+    border: white 1px solid;
+  }
 
   .divide{
 justify-content: space-between;
+  }
+
+
+  /* Own Your New Look */
+  .letterSpacing{
+    letter-spacing: 4px;
   }

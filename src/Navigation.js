@@ -45,50 +45,67 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className='h-[75px] mt-3   navbar w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4'>
-        <div className="flex justify-between items-center">
-          <div>
-            <div className="pl-12">
-              <button onClick={handleShowFirst} className="">
-                <i className=" text-[2rem] "><LiaBarsSolid />
-</i>
-              </button>
-            </div>
-          </div>
-          <div>
-            <div className="pl-12 w-100 ml-[12rem]" >
-              <a href="">
-                <img 
-                  alt="BAROQUE Logo" 
-                  src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp" 
-                  className="h-9"
-                />
-              </a>
-            </div>
-          </div>
+     <nav className='h-[75px] mt-3 navbar w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4'>
+  <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-0">
+    
+    {/* Left Section - Menu Button */}
+    <div>
+      <div className="pl-4 sm:pl-6 md:pl-8 lg:pl-12">
+        <button onClick={handleShowFirst} className="">
+          <i className="text-[1.5rem] sm:text-[1.8rem] md:text-[2rem]">
+            <LiaBarsSolid />
+          </i>
+        </button>
+      </div>
+    </div>
+    
+    {/* Center Section - Logo */}
+    <div>
+      <div className="pl-8 sm:pl-10 md:pl-12 lg:pl-12 w-100 lg:ml-[12rem]" >
+        <a href="">
+          <img 
+            alt="BAROQUE Logo" 
+            src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp" 
+            className="h-7 sm:h-8 md:h-9"
+          />
+        </a>
+      </div>
+    </div>
 
-          <div>
-            <div className="flex pr-12 space-x-6">
-              {/* ✅ Pakistan text aur angle down pe click handler add kiya */}
-              <span 
-                className="flex items-center text-sm tracking-wide cursor-pointer"
-                onClick={handleCountryClick}
-              >
-                PAKISTAN
-                <i 
-                  className=" ml-1 text-2xl cursor-pointer"
-                  onClick={handleCountryClick}
-                ><MdOutlineKeyboardArrowDown />
-</i>
-              </span>
-  <i className="text-[1.5rem] cursor-pointer"><LuUserRound /></i>
-              <i className=" text-[1.5rem] cursor-pointer"><IoSearchSharp /></i>
-              <i className="  text-[1.5rem] cursor-pointer"><PiShoppingCartSimpleBold /></i>
-              <i className=" text-[1.5rem] cursor-pointer"><FaRegHeart /></i>
-            </div>
-          </div>
-        </div>
-      </nav>
+    {/* Right Section - Icons */}
+    <div>
+      <div className="flex pr-4 sm:pr-6 md:pr-8 lg:pr-12 space-x-4 sm:space-x-5 md:space-x-6">
+        {/* ✅ Pakistan text aur angle down pe click handler add kiya */}
+        <span 
+          className="flex items-center text-xs sm:text-sm tracking-wide cursor-pointer"
+          onClick={handleCountryClick}
+        >
+          PAKISTAN
+          <i 
+            className="ml-0.5 sm:ml-1 text-xl sm:text-2xl cursor-pointer"
+            onClick={handleCountryClick}
+          >
+            <MdOutlineKeyboardArrowDown />
+          </i>
+        </span>
+        
+        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+          <LuUserRound />
+        </i>
+        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+          <IoSearchSharp />
+        </i>
+        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+          <PiShoppingCartSimpleBold />
+        </i>
+        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+          <FaRegHeart />
+        </i>
+      </div>
+    </div>
+    
+  </div>
+</nav>
 
      
 

@@ -84,7 +84,7 @@ const MainFooter = () => {
         </div>
 
         {/* Social Icons - Centered on mobile */}
-      <div className="">
+      <div className=" container mx-auto px-4">
 
   <div className="flex justify-center lg:justify-start lg:ml-0 mt-6">
           <div className="flex gap-6">
