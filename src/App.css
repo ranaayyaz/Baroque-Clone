@@ -31,3 +31,7 @@ padding-top: 20px;
     position:relative;
 
   }
+
+  .divide{
+justify-content: space-between;
+  }

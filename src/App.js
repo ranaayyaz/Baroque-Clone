@@ -7,12 +7,15 @@ import MainBanner from './MainBanner';
 function App() {
   return (
     <div className="App">
-      {/* Your other components */}
         <TopHeader />
         <Navigation/>
-    
-      {/* <h1 class="text-3xl font-bold underline"></h1> */}
       <MainBanner/>
+
+
+
+
+
+      
         <MainFooter />
     </div>
   );
