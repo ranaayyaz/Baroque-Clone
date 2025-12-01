@@ -45,7 +45,7 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className='h-[75px] mt-3   navbar'>
+      <nav className='h-[75px] mt-3   navbar w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4'>
         <div className="flex justify-between items-center">
           <div>
             <div className="pl-12">
