@@ -9,7 +9,7 @@ function OwnYourLook() {
   return (
 <>
   <div className="flex justify-center items-center mt-[3rem] mb-[3rem] letterSpacing">
-    <div className="text-sm md:text-lg lg:text-xl xl:text-4xl font-bold">
+    <div className="text-sm md:text-lg lg:text-xl xl:text-4xl ">
       OWN YOUR NEW LOOK
     </div>
   </div>
