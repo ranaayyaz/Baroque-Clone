@@ -5,6 +5,10 @@ import TopHeader from './TopHeader';
 import Navigation from './Navigation';
 import MainBanner from './MainBanner';
 import OwnYourLook from './OwnYourLook';
+import ReadyToWear from './ReadyToWear';
+import ChantelleCollection from './ChantelleCollection';
+import Essentials from './Essentials';
+import Newsletter from './Newsletter';
 function App() {
   return (
     <div className="App">
@@ -12,11 +16,11 @@ function App() {
         <Navigation/>
       <MainBanner/>
 <OwnYourLook/>
+<ReadyToWear/>
 
-
-
-
-      
+<ChantelleCollection/>
+<Essentials/>
+      <Newsletter />
         <MainFooter />
     </div>
   );

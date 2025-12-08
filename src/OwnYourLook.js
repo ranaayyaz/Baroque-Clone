@@ -8,28 +8,34 @@ function OwnYourLook() {
 
   return (
 <>
-  <div className="flex justify-center items-center mt-[3rem] mb-[3rem] letterSpacing">
+  <div className="flex justify-center items-center mt-[4rem] mb-[4rem] letterSpacing">
     <div className="text-sm md:text-lg lg:text-xl xl:text-4xl ">
       OWN YOUR NEW LOOK
     </div>
   </div>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-[70px]">
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-[70px] relative">
+  {/* Pehla ImageCard */}
+  <div className="relative  img-hover-zoom">
     <ImageCard
       imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1764607526/2_glhkcs.webp"
     />
+     <button className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
+      STITCHED
+    </button>   
+  </div>
+
+  {/* Doosra ImageCard */}
+  <div className="relative  img-hover-zoom">
     <ImageCard
       imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1764606571/1_siikvo.webp"
     />
+    <button className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
+      UNSTITCHED
+    </button>
   </div>
+</div>
 </>
-
-
-      
-        
-        
-      
-    
   );
 }
 
