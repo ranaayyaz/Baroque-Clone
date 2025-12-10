@@ -7,6 +7,8 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { LiaBarsSolid } from "react-icons/lia";
+import { FaAngleRight } from "react-icons/fa6";
+
 
 
 const Navigation = () => {
@@ -142,7 +144,9 @@ const Navigation = () => {
                   onClick={() => handleSecondCanvas('CHANTELE')}
                 >
                   <span className="py-2">CHANTELE</span>
-                  <span className="text-gray-400 py-2"><i class="fa-solid fa-angle-right"></i></span>
+                  <span className="text-gray-400 py-2"><i><FaAngleRight />
+
+</i></span>
                 </button>
                 
                 <button 
@@ -150,7 +154,9 @@ const Navigation = () => {
                   onClick={() => handleSecondCanvas('UNSTITCHED')}
                 >
                   <span className=" py-2">UNSTITCHED</span>
-                  <span className="text-gray-400 py-2"><i class="fa-solid fa-angle-right"></i></span>
+                  <span className="text-gray-400 py-2"><i><FaAngleRight />
+
+</i></span>
                 </button>
 
                 <button 
@@ -158,7 +164,9 @@ const Navigation = () => {
                   onClick={() => handleSecondCanvas('STITCHED')}
                 >
                   <span className=" py-2">STITCHED</span>
-                  <span className="text-gray-400 py-2"><i class="fa-solid fa-angle-right"></i></span>
+                  <span className="text-gray-400 py-2"><i><FaAngleRight />
+
+</i></span>
                 </button>
 
                 <button 
@@ -166,7 +174,9 @@ const Navigation = () => {
                   onClick={() => handleSecondCanvas('READY TO WEAR')}
                 >
                   <span className=" py-2">READY TO WEAR</span>
-                  <span className="text-gray-400 py-2"><i class="fa-solid fa-angle-right"></i></span>
+                  <span className="text-gray-400 py-2"><i><FaAngleRight />
+
+</i></span>
                 </button>
 
                 <button 
@@ -174,7 +184,9 @@ const Navigation = () => {
                   onClick={() => handleSecondCanvas('ESSENTIALS')}
                 >
                   <span className=" py-2">ESSENTIALS</span>
-                  <span className="text-gray-400 py-2"><i class="fa-solid fa-angle-right"></i></span>
+                  <span className="text-gray-400 py-2"><i><FaAngleRight />
+
+</i></span>
                 </button>
 
                 <button className="py-4 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
@@ -204,12 +216,13 @@ const Navigation = () => {
                 <nav className="flex flex-col">
                   {activeMenu === 'CHANTELE' && (
                     <>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="py-2">UNSTITCHED</span>
+                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">STITCHED</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="py-7">STITCHED</span>
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">UNSTITCHED</span>
                       </button>
+                      
                     </>
                   )}
                     {activeMenu === 'UNSTITCHED' && (
@@ -234,19 +247,19 @@ const Navigation = () => {
 
                   {activeMenu === 'STITCHED' && (
                     <>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">WINTER</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">FORMALS</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">VELVET</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SUMMER</span>
                       </button>
                     </>
@@ -254,19 +267,19 @@ const Navigation = () => {
 
                   {activeMenu === 'READY TO WEAR' && (
                     <>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                       <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">WINTER</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">FORMALS</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">VELVET</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SUMMER</span>
                       </button>
                     </>
@@ -274,15 +287,17 @@ const Navigation = () => {
 
                   {activeMenu === 'ESSENTIALS' && (
                     <>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+
+  <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">ENSEMBELS</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">DUPPATAS</span>
                       </button>
-                      <button className="py-3 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">BOTTOMS</span>
+                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">SHAWLS</span>
                       </button>
+                     
                     </>
                   )}
                   {/* ... rest of your existing canvas code ... */}

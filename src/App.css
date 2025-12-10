@@ -79,3 +79,11 @@ justify-content: space-between;
 .img-hover-zoom:hover img {
   transform: scale(1.5);
 }
+
+
+.about{
+    /* margin-top: 100px; */
+    display: flex;
+    justify-content: space-evenly;
+padding: 50px 50px 0px 0px;
+}
