@@ -14,6 +14,7 @@ import WhoWeAre from './Footer/About/WhoWeAre';
 import OurResponsibility from './Footer/About/OurResponsibility';
 import ServiceWeProvide from './Footer/About/ServiceWeProvide';
 import CareerS from './Footer/About/Careers';
+import ContactUs from './Footer/CustomerService/ContactUs';
 function App() {
   return (
     
@@ -34,7 +35,7 @@ function App() {
               <ChantelleCollection />
               <Essentials />
               <Newsletter />
-              <MainFooter />
+              
             </>
           } />
           
@@ -43,7 +44,7 @@ function App() {
           <Route path="/our-responsibility" element={<OurResponsibility/>} />
           <Route path="/service-we-provide" element={<ServiceWeProvide/>} />
           <Route path="/careers" element={<CareerS/>} />
-          <Route path="/contact-us" element={<div>Contact Us Page</div>} />
+          <Route path="/contact-us" element={<ContactUs/>} />
           <Route path="/dispatch-timeline" element={<div>Dispatch Timeline Page</div>} />
           <Route path="/exchange-information" element={<div>Exchange Information Page</div>} />
           <Route path="/privacy-policy" element={<div>Privacy Policy Page</div>} />

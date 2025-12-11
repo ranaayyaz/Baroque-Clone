@@ -7,7 +7,7 @@ function ServiceWeProvide() {
       <div className="mt-[8rem] flex items-center justify-center p-2 mb-[4rem]">
         <div className="max-w-3xl w-full">
           {/* Heading - Center */}
-          <h1 className="text-xl md:text-5xl  text-center mb-[6rem]">
+          <h1 className="text-xl md:text-5xl letterSpacing text-center mb-[6rem]">
             Service We Provide
           </h1>
 
