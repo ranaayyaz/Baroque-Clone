@@ -1,5 +1,6 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok, FaWhatsapp, FaCcMastercard, FaCcVisa } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 const MainFooter = () => {
   return (
@@ -12,16 +13,16 @@ const MainFooter = () => {
             <h5 className="font-bold text-lg mb-4 text-[#d9cfce]">ABOUT</h5>
             <ul className="space-y-2 mb-6">
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Who We Are
+                <Link to="/who-we-are">Who We Are</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Our Responsibility
+                <Link to="/our-responsibility">Our Responsibility</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Service We Provide
+                <Link to="/service-we-provide">Service We Provide</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Careers
+                <Link to="/careers">Careers</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
                 Our Shop: First Floor, Dolmen Mall,
@@ -40,13 +41,13 @@ const MainFooter = () => {
             </h5>
             <ul className="space-y-2 mb-6">
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Contact Us
+                <Link to="/contact-us">Contact Us</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Dispatch Timeline
+                <Link to="/dispatch-timeline">Dispatch Timeline</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Exchange Information
+                <Link to="/exchange-information">Exchange Information</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
                 Email: info@baroque.pk
@@ -65,74 +66,68 @@ const MainFooter = () => {
             <h5 className="font-bold text-lg mb-4 text-[#d9cfce]">POLICIES</h5>
             <ul className="space-y-2">
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Privacy Policy
+                <Link to="/privacy-policy">Privacy Policy</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Refund Policy
+                <Link to="/refund-policy">Refund Policy</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Shipping Policy
+                <Link to="/shipping-policy">Shipping Policy</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Terms of Service
+                <Link to="/terms-of-service">Terms of Service</Link>
               </li>
               <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                Legal
+                <Link to="/legal">Legal</Link>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Social Icons - Centered on mobile */}
-      <div className=" container mx-auto px-4">
-
-  <div className="flex justify-center lg:justify-start lg:ml-0 mt-6">
-          <div className="flex gap-6">
-            <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
-              <FaFacebookF />
-            </i>
-            <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
-              <FaInstagram />
-            </i>
-            <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
-              <FaYoutube />
-            </i>
-            <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
-              <FaWhatsapp />
-            </i>
-            <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
-              <FaTiktok />
-            </i>
-          </div>
-        </div>
-
-        {/* Bottom Section - Stack on mobile */}
-        <div className="flex flex-col lg:flex-row justify-between items-center mt-10 pb-8  ">
-          {/* PAKISTAN */}
-          <div className="mb-4 lg:mb-0 lg:w-3/12 text-center lg:text-left">
-            <p className="font-bold text-[#bdb5b5] text-lg">PAKISTAN</p>
-          </div>
-          
-          {/* BAROQUE */}
-          <div className="mb-4 lg:mb-0 lg:w-3/12 ">
-            <p className="text-[#bdb5b5]">© 2025 – BAROQUE</p>
-          </div>
-          
-          {/* Payment Icons */}
-          <div className=" mb-4 lg:mb-0 lg:w-3/12 ">
-            <div className="flex space-x-4">
-              <i className="text-3xl text-white">
-                <FaCcVisa />
+        {/* Social Icons */}
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center lg:justify-start lg:ml-0 mt-6">
+            <div className="flex gap-6">
+              <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
+                <FaFacebookF />
               </i>
-              <i className="text-3xl text-white">
-                <FaCcMastercard />
+              <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
+                <FaInstagram />
+              </i>
+              <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
+                <FaYoutube />
+              </i>
+              <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
+                <FaWhatsapp />
+              </i>
+              <i className="text-[#d9cfce] text-xl hover:text-[#e8dada] cursor-pointer">
+                <FaTiktok />
               </i>
             </div>
           </div>
+
+          {/* Bottom Section */}
+          <div className="flex flex-col lg:flex-row justify-between items-center mt-10 pb-8">
+            <div className="mb-4 lg:mb-0 lg:w-3/12 text-center lg:text-left">
+              <p className="font-bold text-[#bdb5b5] text-lg">PAKISTAN</p>
+            </div>
+            
+            <div className="mb-4 lg:mb-0 lg:w-3/12">
+              <p className="text-[#bdb5b5]">© 2025 – BAROQUE</p>
+            </div>
+            
+            <div className="mb-4 lg:mb-0 lg:w-3/12">
+              <div className="flex space-x-4">
+                <i className="text-3xl text-white">
+                  <FaCcVisa />
+                </i>
+                <i className="text-3xl text-white">
+                  <FaCcMastercard />
+                </i>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-      </div>
       </div>
     </footer>
   );

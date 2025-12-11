@@ -9,7 +9,7 @@ const Newsletter = () => {
   <section class="w-full py-16 bg-white">
   <div class="max-w-3xl mx-auto text-center px-4">
     
-    <h2 class="text-3xl tracking-widest font-semibold text-gray-900">
+    <h2 class="text-3xl tracking-widest font-semibold text-gray-900 mt-12">
       NEWSLETTER
     </h2>
 <br/>
@@ -33,66 +33,70 @@ const Newsletter = () => {
       </button>
     </form>
   </div>
+<div className="w-full py-16 bg-white">
+  <div
+    className="
+      w-full 
+      grid 
+      grid-cols-1
+      sm:grid-cols-2
+      lg:grid-cols-4
+      gap-8
+      text-center 
+      px-4 
+      max-w-[1600px] 
+      mx-auto
+    "
+  >
 
-  <div className="about grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 py-12 px-4 md:px-8 lg:px-16">
-  
-  {/* Free Shipping */}
-  <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
-    <i className="bi bi-truck text-3xl md:text-4xl text-gray-800 mb-4 about"><FiTruck />
-</i>
-    <br />
-    <strong className="text-lg md:text-xl font-bold text-gray-900 block mb-3">
-      Free Shipping
-    </strong>
-    <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-      We provide free shipping all across <br className="hidden sm:block" /> 
-      Pakistan on all of our orders
-    </p>
+    {/* Free Shipping */}
+    <div className="p-6 flex flex-col items-center">
+      <div className="text-4xl text-gray-900 mb-4">
+        <FiTruck />
+      </div>
+      <h3 className="text-lg font-semibold tracking-wider">Free Shipping</h3>
+      <p className="text-gray-600 mt-3 leading-relaxed text-sm">
+        We provide free shipping all across <br /> Pakistan on all of our orders
+      </p>
+    </div>
+
+    {/* Custom Size */}
+    <div className="p-6 flex flex-col items-center">
+      <div className="text-4xl text-gray-900 mb-4">
+        <TbTextResize />
+      </div>
+      <h3 className="text-lg font-semibold tracking-wider">Custom Size</h3>
+      <p className="text-gray-600 mt-3 leading-relaxed text-sm">
+        Get your outfit tailored to perfection as <br /> per your desired measurements
+      </p>
+    </div>
+
+    {/* ORDER EXCHANGE */}
+    <div className="p-6 flex flex-col items-center">
+      <div className="text-4xl text-gray-900 mb-4">
+        <TbExchange />
+      </div>
+      <h3 className="text-lg font-semibold tracking-wider">ORDER EXCHANGE</h3>
+      <p className="text-gray-600 mt-3 leading-relaxed text-sm">
+        For a hassle free exchange service, fill out <br /> the exchange form
+      </p>
+    </div>
+
+    {/* ORDER CANCELLATION */}
+    <div className="p-6 flex flex-col items-center">
+      <div className="text-4xl text-gray-900 mb-4">
+        <TbUserCancel />
+      </div>
+      <h3 className="text-lg font-semibold tracking-wider">ORDER CANCELLATION</h3>
+      <p className="text-gray-600 mt-3 leading-relaxed text-sm">
+        For a hassle free cancellation service, fill out <br /> the cancellation form
+      </p>
+    </div>
+
   </div>
-
-  {/* Custom Size */}
-  <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
-    <i className="bi bi-bounding-box-circles text-3xl md:text-4xl text-gray-800 mb-4"><TbTextResize />
-</i>
-    <br />
-    <strong className="text-lg md:text-xl font-bold text-gray-900 block mb-3">
-      Custom Size
-    </strong>
-    <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-      Get your outfit tailored to perfection as <br className="hidden sm:block" /> 
-      per your desired measurements
-    </p>
-  </div>
-
-  {/* ORDER EXCHANGE */}
-  <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
-    <i className="bi bi-person-lines-fill text-3xl md:text-4xl text-gray-800 mb-4"><TbExchange />
-</i>
-    <br />
-    <strong className="text-lg md:text-xl font-bold text-gray-900 block mb-3">
-      ORDER EXCHANGE
-    </strong>
-    <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-      For a hassle free exchange service, fill out <br className="hidden sm:block" /> 
-      the exchange form
-    </p>
-  </div>
-
-  {/* ORDER CANCELLATION */}
-  <div className="text-center p-6 bg-gray-50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300">
-    <i className="bi bi-person-fill-slash text-3xl md:text-4xl text-gray-800 mb-4"><TbUserCancel />
-</i>
-    <br />
-    <strong className="text-lg md:text-xl font-bold text-gray-900 block mb-3">
-      ORDER CANCELLATION
-    </strong>
-    <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-      For a hassle free cancellation service, fill <br className="hidden sm:block" /> 
-      out the cancellation form
-    </p>
-  </div>
-
 </div>
+
+
 </section>
 
   );
