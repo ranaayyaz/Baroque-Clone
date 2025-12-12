@@ -3,7 +3,10 @@ import TopHeader from "./../../TopHeader";
 
 function Careers() {
   return (
-    <div className="mt-[8rem] flex items-center justify-center p-2 mb-[4rem]">
+    <>
+<div className="mt-[4.5rem] border-t border-gray-300"></div>
+
+    <div className="mt-[3rem] flex items-center justify-center p-2 mb-[4rem]">
       <div className="max-w-3xl w-full">
         {/* Heading - Center */}
         <h1 className="text-xl md:text-5xl letterSpacing  text-center mb-[7rem]">
@@ -37,12 +40,16 @@ function Careers() {
           <h1 className="text-xl md:text-2xl  text-center mb-5 font-bold letterSpacing">
             Be a part of our team send us your CV's at:
           </h1>
-          <h1 className="text-xl md:text-2xl  text-center mb-5 letterSpacing">
+          <h1 className="text-xl md:text-xl  text-center mb-5 letterSpacing    border-b border-gray-300 pt-4 pb-4">
             jobs@baroque.pk
           </h1>
         </div>
       </div>
     </div>
+
+
+
+    </>
   );
 }
 

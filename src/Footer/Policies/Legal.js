@@ -2,7 +2,22 @@ import React from 'react'
 
 function Legal() {
   return (
-    <div>Legal</div>
+   <><div className="mt-[4.5rem] border-t border-gray-300"></div>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   </>
   )
 }
 
