@@ -28,7 +28,7 @@ const Newsletter = () => {
 
       <button 
         type="submit"
-        class="w-full sm:w-auto bg-black text-white tracking-widest px-8 py-3 hover:bg-gray-800 transition">
+        class="w-full sm:w-auto bg-black text-white tracking-widest trans px-8 py-3 hover:bg-gray-800 transition">
         SUBSCRIBE
       </button>
     </form>
