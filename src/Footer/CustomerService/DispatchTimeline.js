@@ -13,9 +13,9 @@ function DispatchTimeline() {
           </h1>
 
           {/* Description - Left aligned, all lines start from same point */}
-          <div className="text-justify text-center letterSpacing border-t border-b border-gray-300">
+          <div className="text-justify text-center  border-t border-b border-gray-300">
             <p className="mb-12 mt-12">
-             <span className="font-bold ">LOCAL DISPATCH TIME</span><br/><br/>
+             <span className="font-bold letterSpacing ">LOCAL DISPATCH TIME</span><br/><br/>
 FOR UNSTITCHED AND READY TO WEAR: WITHIN 1 WEEK<br/>
 FOR STITCHED : WITHIN 3 WEEKS.<br/>
 CUSTOMIZE STITCHING : 1 WEEK EXTRA.<br/>

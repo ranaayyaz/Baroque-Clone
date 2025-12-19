@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
 import MainFooter from './Footer/MainFooter';
-import TopHeader from './TopHeader';
-import Navigation from './Navigation';
-import MainBanner from './MainBanner';
-import OwnYourLook from './OwnYourLook';
-import ReadyToWear from './ReadyToWear';
-import ChantelleCollection from './ChantelleCollection';
-import Essentials from './Essentials';
-import Newsletter from './Newsletter';
+import TopHeader from './Home-Page-Components/TopHeader';
+import Navigation from './Home-Page-Components/Navigation';
+import MainBanner from './Home-Page-Components/MainBanner';
+import OwnYourLook from './Home-Page-Components/OwnYourLook';
+import ReadyToWear from './Home-Page-Components/ReadyToWear';
+import ChantelleCollection from './Home-Page-Components/ChantelleCollection';
+import Essentials from './Home-Page-Components/Essentials';
+import Newsletter from './Home-Page-Components/Newsletter';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WhoWeAre from './Footer/About/WhoWeAre';
 import OurResponsibility from './Footer/About/OurResponsibility';
@@ -22,6 +22,8 @@ import Refund from './Footer/Policies/Refund';
 import Shipping from './Footer/Policies/Shipping';
 import Terms from './Footer/Policies/Terms';
 import Legal from './Footer/Policies/Legal';
+import Stitched from './Collections/Stitched';  // ✅ CORRECT
+
 
 function App() {
   return (
@@ -64,6 +66,10 @@ function App() {
       </div>
        <MainFooter />
     </Router>
+
+
+
+
   );
 }
 

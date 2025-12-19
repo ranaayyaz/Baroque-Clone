@@ -13,7 +13,7 @@ function Refund() {
           </h1>
 
           {/* Description - Left aligned, all lines start from same point */}
-          <div className=" leading-relaxed letterSpacing">
+          <div className=" leading-relaxed ">
             <p className="mb-6  text-xl font-bold ">REFUND POLICY</p>
 
             <p className="mb-6">
@@ -25,7 +25,7 @@ function Refund() {
               addition/removal of article etc can be made within <span className="font-bold">48 hours (2 day)</span> from the day the order is placed.
             </p>
 
-            <p className="mb-6  text-xl font-bold">Cancellation</p>
+            <p className="mb-6  text-xl font-bold letterSpacing">Cancellation</p>
 
             <p className="mb-6">
               In order to cancel the order, please fill out the cancellation
@@ -41,7 +41,7 @@ function Refund() {
               mind, don’t require order anymore, changes in order)
             </p>
 
-            <p className="mb-6  text-xl font-bold">Return</p>
+            <p className="mb-6  text-xl font-bold letterSpacing">Return</p>
 
             <p className="mb-6">
               To initiate a return request, you have to fill the form at <span className="font-bold underline">(Click
@@ -73,7 +73,7 @@ function Refund() {
               our generous return policy or a product received with missing tags
               and other components
             </p>
-            <p className="mb-6  text-xl font-bold"> Damages and issues</p>
+            <p className="mb-6  text-xl font-bold letterSpacing"> Damages and issues</p>
 
             <p className="mb-6">
               In case of any damaged or incorrect item, the concern must be
@@ -81,7 +81,7 @@ function Refund() {
               assistance or else the complain cannot be accepted.
             </p>
 
-            <p className="mb-6  text-xl font-bold">
+            <p className="mb-6  text-xl font-bold letterSpacing">
               {" "}
               Exceptions / non-returnable items
             </p>

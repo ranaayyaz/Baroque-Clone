@@ -12,7 +12,7 @@ function Shipping() {
           </h1>
 
           {/* Description - Left aligned, all lines start from same point */}
-          <div className=" leading-relaxed letterSpacing">
+          <div className=" leading-relaxed">
             <p className="mb-12">
               Once the order is dispatched, you will be sent a shipping
               confirmation email with your carrier information and tracking

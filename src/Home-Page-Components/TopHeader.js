@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+import '../App.css'
 function TopHeader() {
   return (
 <div className="bg-[#2f2f2f] w-full text-white h-10 mt-[0.5px] pt-[9px] text-sm overflow-hidden">

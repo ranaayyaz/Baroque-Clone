@@ -1,6 +1,6 @@
 import React from 'react'
-import './App.css';
-import ImageCard from './ImageCard';
+import '../App.css';
+import ImageCard from '../ImageCard';
 function ReadyToWear() {
   return (
     <>

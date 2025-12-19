@@ -8,12 +8,12 @@ function WhoWeAre() {
     <div className="mt-[4rem] flex items-center justify-center p-2 mb-[4rem]">
       <div className="max-w-3xl w-full">
         {/* Heading - Center */}
-        <h1 className="text-xl md:text-5xl letterSpacing text-center mb-8">
+        <h1 className="text-xl md:text-4xl letterSpacing text-center mb-8">
           WHO WE ARE
         </h1>
 
         {/* Description - Left aligned, all lines start from same point */}
-        <div className="text-gray-700  leading-relaxed text-justify">
+        <div className="text-gray-700  leading-relaxed  text-justify">
           <p className="mb-6">
             Baroque ( Bilal Textile) is a renowned fashion clothing brand with
             over 30 years of experience in the textile sector, producing fabric

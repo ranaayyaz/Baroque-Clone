@@ -15,11 +15,11 @@ function ServiceWeProvide() {
           {/* Description - Left aligned, all lines start from same point */}
           <div className="text-justify  ">
             <p className="mb-6">
-             <span className="font-bold">CUSTOMIZED STITCHING:</span><br/>
+             <span className="font-bold letterSpacing">CUSTOMIZED STITCHING:</span><br/><br/>
 Please note that the custom stitch is available for paid orders only and is charged <span className="font-bold"> PKR 5,000</span> each article.
             </p>
 
-            <p className="mb-6">
+            <p className="mb-6 ">
            * Cancellation of Orders or Changes can be made within <span className="font-bold"> 2-3 Days</span> after Order Placement.<br/>
 * Changes made after specified timeline will cause delay in order.<br/>
 * Customized stitching orders may require additional <span className="font-bold"> 1 - week</span> for completion.<br/>
@@ -35,7 +35,7 @@ Please note that the custom stitch is available for paid orders only and is char
             </p>
 
             <p className="mb-6">
-              <span className="font-bold "> PSS (PRIORITY STITCHING SERVICE):</span><br/>
+              <span className="font-bold letterSpacing "> PSS (PRIORITY STITCHING SERVICE):</span><br/><br/>
                Priority stitching service is
               for all customers. This service allows all our customers to
               receive their stitched orders more quickly and without any hustle.
@@ -44,7 +44,7 @@ Please note that the custom stitch is available for paid orders only and is char
               the cart page before the checkout page.
             </p>
              <p>
-              <span className="font-bold"> DISPATCH TIMELINE: 2 WEEKS
+              <span className="font-bold letterSpacing"> DISPATCH TIMELINE: 2 WEEKS
 
 :</span><br/>
                

@@ -8,12 +8,12 @@ function Privacy() {
       <div className="mt-[4rem] flex items-center justify-center p-2 mb-[4rem]">
         <div className="max-w-3xl w-full">
           {/* Heading - Center */}
-          <h1 className="text-xl md:text-3xl letterSpacing text-center mb-12 font-bold">
+          <h1 className="text-xl md:text-3xl letterSpacing text-center mb-12 ">
             PRIVACY POLICY
           </h1>
 
           {/* Description - Left aligned, all lines start from same point */}
-          <div className="  letterSpacing ">
+          <div className=" ">
             <p className="mb-6">
            <span className="underline">          Last updated: September 5, 2023     </span>
               <br />
@@ -34,7 +34,7 @@ function Privacy() {
               use or access any of the Services.
               <br />
               <br />
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing">
                 {" "}
                 CHANGES TO THIS PRIVACY POLICY
               </span>
@@ -48,7 +48,7 @@ function Privacy() {
               required by applicable law.
               <br />
               <br />
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing ">
                 {" "}
                 HOW WE COLLECT AND USE YOUR PERSONAL INFORMATION
               </span>
@@ -69,7 +69,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing ">
                 {" "}
                 WHAT PERSONAL INFORMATION WE COLLECT
               </span>
@@ -86,7 +86,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing ">
                 {" "}
                 INFORMATION WE COLLECT DIRECTLY FROM YOU
               </span>
@@ -128,7 +128,7 @@ function Privacy() {
               <br />
               <br />
               <p className="mb-6">
-                <span className=" text-2xl letterSpacing font-bold" >
+                <span className=" text-2xl letterSpacing " >
                   {" "}
                   INFORMATION WE COLLECT THROUGH COOKIES
                 </span>
@@ -148,7 +148,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing">
                 {" "}
                 INFORMATION WE OBTAIN FROM THIRD PARTIES
               </span>
@@ -191,7 +191,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl letterSpacing">
                 {" "}
                 HOW WE USE YOUR PERSONAL INFORMATION
               </span>
@@ -240,7 +240,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold"> COOKIES</span>
+              <span className=" text-2xl "> COOKIES</span>
               <br />
               <br />
               Like many websites, we use Cookies on our Site. For specific
@@ -268,7 +268,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl ">
                 {" "}
                 USER GENERATED CONTENT
               </span>
@@ -292,7 +292,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl ">
                 {" "}
                 THIRD PARTY WEBSITES AND LINKS
               </span>
@@ -317,7 +317,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold"> CHILDREN'S DATA</span>
+              <span className=" text-2xl "> CHILDREN'S DATA</span>
               <br />
               <br />
               The Services are not intended to be used by children, and we do
@@ -336,7 +336,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl ">
                 {" "}
                 SECURITY AND RETENTION OF YOUR INFORMATION
               </span>
@@ -359,7 +359,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold">
+              <span className=" text-2xl ">
                 {" "}
                 YOUR RIGHTS AND CHOICES
               </span>
@@ -468,7 +468,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl letterSpacing font-bold"> COMPLAINT'S</span>
+              <span className=" text-2xl letterSpacing "> COMPLAINT'S</span>
               <br />
               <br />
               If you have complaints about how we process your personal
@@ -483,7 +483,7 @@ function Privacy() {
             </p>
 
             <p className="mb-6">
-              <span className=" text-2xl font-bold letterSpacing">
+              <span className=" text-2xl  ">
                 {" "}
                 INTERNATIONA USERS
               </span>
@@ -505,7 +505,7 @@ function Privacy() {
               <br />
             </p>
             <p className="mb-6">
-              <span className=" text-2xl font-bold letterSpacing"> CONTACT</span>
+              <span className=" text-2xl "> CONTACT</span>
               <br />
               <br />
               Should you have any questions about our privacy practices or this

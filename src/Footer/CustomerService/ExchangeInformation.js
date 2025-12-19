@@ -5,7 +5,7 @@ function ExchangeInformation() {
     <><div className="mt-[4.5rem] border-t border-gray-300"></div>
     
      <div className="mt-[4rem] flex items-center justify-center p-2 mb-[4rem]">
-        <div className="max-w-3xl w-full">
+        <div className="max-w-3xl w-full ">
           {/* Heading - Center */}
           <h1 className="text-xl md:text-3xl letterSpacing text-center mb-12 ">
                             EXCHANGE & REFUND

@@ -3,7 +3,7 @@ import React from "react";
 function OurResponsibility() {
   return (
     <>   <div className="mt-[4.5rem] border-t border-gray-300"></div>
-    <div className="mt-[5rem] flex items-center justify-center p-2 mb-[4rem]">
+    <div className="mt-[4rem] flex items-center justify-center p-2 mb-[4rem]">
       <div className="max-w-3xl w-full">
         {/* Heading - Center */}
         <h1 className="text-xl md:text-3xl letterSpacing text-center mb-12">
@@ -11,7 +11,7 @@ function OurResponsibility() {
         </h1>
 
         {/* Description - Left aligned, all lines start from same point */}
-        <div className=" leading-relaxed letterSpacing  text-center">
+        <div className=" leading-relaxed   text-center">
           <p className="mb-6 text-center text-[2rem]">#WEARHAPPINESSTHISEID</p>
 
           <p className="mb-6 border-t  border-gray-300 pt-4 pb-4">
