@@ -65,6 +65,8 @@ function App() {
           <Route path="/legal" element={<Legal />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+
+          {/* Product Cateogry Pages */}
           <Route
             path="/stitched"
             element={<CollectionCategory category="stitched" />}

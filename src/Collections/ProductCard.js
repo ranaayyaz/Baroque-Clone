@@ -1,4 +1,4 @@
-import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { IoHeartOutline } from "react-icons/io5";
 import ImageCard from "../ImageCard";
 
 const ProductCard = ({ imgUrl, name, price, season }) => {

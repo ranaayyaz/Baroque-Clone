@@ -17,7 +17,7 @@ const MainBanner = () => {
     </div>
    <div>
 
-    <button className=" px-7 py-3 bg-white text-black btn text-xl">
+    <button className=" px-7 py-3 bg-white text-black border btn text-xl">
     Shop Now
     </button>
    </div>

@@ -1,6 +1,4 @@
-import React from "react";
 import { useState } from "react";
-import "../App.css";
 import { LuUserRound } from "react-icons/lu";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
@@ -8,7 +6,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { LiaBarsSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
-import { Link, Links, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const [showFirstCanvas, setShowFirstCanvas] = useState(false);
@@ -46,7 +44,7 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className="h-[75px] mt-3 navbar  w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4">
+      <nav className="h-[75px] mt-3 navbar w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4">
         <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-0">
           {/* Left Section - Menu Button */}
           <div>
@@ -89,7 +87,10 @@ const Navigation = () => {
                 </i>
               </span>
 
-              <Link to="/signin" className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+              <Link
+                to="/signin"
+                className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer"
+              >
                 <LuUserRound />
               </Link>
               <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">

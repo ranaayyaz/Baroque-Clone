@@ -1,14 +1,13 @@
- 
- * {
-  font-family: "Arial UnicodeMS", sans-serif japanese;
+ @import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+  font-family: "Figtree", sans-serif;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-
  
  /* Top Header Animation */
- 
  @keyframes marquee {
     0% { transform: translateX(100%); }  /* ✅ Right corner se start */
     100% { transform: translateX(-100%); } /* ✅ Left corner tak jaye */
@@ -18,24 +17,22 @@
   }
 
 
-  /* Navigation Css */
-
-  .navbar{
+/* Navigation Css */
+.navbar{
   margin-top: 41px;
-padding-top: 20px;
+  padding-top: 20px;
     position:absolute;
     top:0;
     left:0;
     width:100%;
     z-index:10;
-  }
-  .navbar:hover{
+}
+.navbar:hover{
     background-color:white;
     transition: background-color 0.4s ease;
-  }
+}
     
 /* Banner CSS */
-
     .banner{
     position:relative;
 
@@ -56,23 +53,18 @@ padding-top: 20px;
     background-color: transparent;
     color:rgb(5, 0, 0);
     transition: background-color 0.4s ease;
-    border: rgb(0, 0, 0) 0.5px solid;
   }
 
   .divide{
-justify-content: space-between;
+    justify-content: space-between;
   }
-
 
   /* Own Your New Look */
   .letterSpacing{
     letter-spacing: 2px;
   }
 
-
 /* Image Zoom CSS */
-
-
 .img-hover-zoom {
   overflow: hidden;
   cursor: pointer;
@@ -86,10 +78,9 @@ justify-content: space-between;
   transform: scale(1.5);
 }
 
-
 .about{
-    /* margin-top: 100px; */
-    display: flex;
-    justify-content: space-evenly;
-padding: 50px 50px 0px 0px;
+  /* margin-top: 100px; */
+  display: flex;
+  justify-content: space-evenly;
+  padding: 50px 50px 0px 0px;
 }

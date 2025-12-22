@@ -3,8 +3,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { BsFillGridFill, BsFillGrid3X3GapFill } from "react-icons/bs";
 import { products } from "../mock/product";
 import { NavLink, useLocation } from "react-router-dom";
-import ProductCard from "./ProductCard";
 import { formatCategoryName } from "../helper/formatCategoryName";
+import ProductCard from "./ProductCard";
 
 function CollectionCategory({ category }) {
   const location = useLocation();
@@ -22,7 +22,7 @@ function CollectionCategory({ category }) {
           {formatCategoryName(category)}
         </div>
 
-        <div className=" text-gray-400 mb-[100px] pb-8">
+        <div className="text-gray-400 mb-[100px] pb-8">
           <ul className="flex justify-center items-center gap-6 mt-6">
             <li>
               <NavLink
