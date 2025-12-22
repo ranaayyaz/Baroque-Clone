@@ -2,6 +2,7 @@
 import React from 'react';
 import '../App.css';
 import ImageCard from '../ImageCard';
+import { Link } from 'react-router-dom';
 
 function OwnYourLook() {
  
@@ -20,9 +21,9 @@ function OwnYourLook() {
     <ImageCard
       imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1764607526/2_glhkcs.webp"
     />
-     <button className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
+     <Link to="/stitched" className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
       STITCHED
-    </button>   
+    </Link>   
   </div>
 
   {/* Doosra ImageCard */}
@@ -30,9 +31,9 @@ function OwnYourLook() {
     <ImageCard
       imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1764606571/1_siikvo.webp"
     />
-    <button className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
+    <Link to="unstitched" className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white hover:border transition">
       UNSTITCHED
-    </button>
+    </Link>
   </div>
 </div>
 </>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
-import '../App.css';
+import React from "react";
+import { useState } from "react";
+import "../App.css";
 import { LuUserRound } from "react-icons/lu";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
@@ -8,21 +8,19 @@ import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { LiaBarsSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
-import { Link, Outlet } from 'react-router-dom'; 
-
-
+import { Link, Links, Outlet } from "react-router-dom";
 
 const Navigation = () => {
   const [showFirstCanvas, setShowFirstCanvas] = useState(false);
   const [showSecondCanvas, setShowSecondCanvas] = useState(false);
-  const [activeMenu, setActiveMenu] = useState('');
+  const [activeMenu, setActiveMenu] = useState("");
   const [showCountryModal, setShowCountryModal] = useState(false); // ✅ New state for country modal
 
   const handleCloseFirst = () => {
     setShowFirstCanvas(false);
     setShowSecondCanvas(false);
-    setActiveMenu('');
-  }
+    setActiveMenu("");
+  };
 
   const handleShowFirst = () => setShowFirstCanvas(true);
 
@@ -33,7 +31,7 @@ const Navigation = () => {
 
   const handleCloseSecond = () => {
     setShowSecondCanvas(false);
-    setActiveMenu('');
+    setActiveMenu("");
   };
 
   // ✅ Country Modal handlers
@@ -48,88 +46,84 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-     <nav className='h-[75px] mt-3 navbar  w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4'>
-  <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-0">
-    
-    {/* Left Section - Menu Button */}
-    <div>
-      <div className="pl-4 sm:pl-6 md:pl-8 lg:pl-12">
-        <button onClick={handleShowFirst} className="">
-          <i className="text-[1.5rem] sm:text-[1.8rem] md:text-[2rem]">
-            <LiaBarsSolid />
-          </i>
-        </button>
-      </div>
-    </div>
-    
-    {/* Center Section - Logo */}
-    <div>
-      <div className="pl-8 sm:pl-10 md:pl-12 lg:pl-12 w-100 lg:ml-[12rem]" >
-        <a href="">
-          <img 
-            alt="BAROQUE Logo" 
-            src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp" 
-            className="h-7 sm:h-8 md:h-9"
-          />
-        </a>
-      </div>
-    </div>
+      <nav className="h-[75px] mt-3 navbar  w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4">
+        <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-0">
+          {/* Left Section - Menu Button */}
+          <div>
+            <div className="pl-4 sm:pl-6 md:pl-8 lg:pl-12">
+              <button onClick={handleShowFirst} className="">
+                <i className="text-[1.5rem] sm:text-[1.8rem] md:text-[2rem]">
+                  <LiaBarsSolid />
+                </i>
+              </button>
+            </div>
+          </div>
 
-    {/* Right Section - Icons */}
-    <div>
-      <div className="flex pr-4 sm:pr-6 md:pr-8 lg:pr-12 space-x-4 sm:space-x-5 md:space-x-6">
-        {/* ✅ Pakistan text aur angle down pe click handler add kiya */}
-        <span 
-          className="flex items-center text-xs sm:text-sm tracking-wide cursor-pointer"
-          onClick={handleCountryClick}
-        >
-          PAKISTAN
-          <i 
-            className="ml-0.5 sm:ml-1 text-xl sm:text-2xl cursor-pointer"
-            onClick={handleCountryClick}
-          >
-            <MdOutlineKeyboardArrowDown />
-          </i>
-        </span>
-        
-        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-          <LuUserRound />
-        </i>
-        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-          <IoSearchSharp />
-        </i>
-        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-          <PiShoppingCartSimpleBold />
-        </i>
-        <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-          <FaRegHeart />
-        </i>
-      </div>
-    </div>
-    
-  </div>
-</nav>
+          {/* Center Section - Logo */}
+          <div>
+            <div className="pl-8 sm:pl-10 md:pl-12 lg:pl-12 w-100 lg:ml-[12rem]">
+              <Link to="/">
+                <img
+                  alt="BAROQUE Logo"
+                  src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp"
+                  className="h-7 sm:h-8 md:h-9"
+                />
+              </Link>
+            </div>
+          </div>
 
-     
+          {/* Right Section - Icons */}
+          <div>
+            <div className="flex pr-4 sm:pr-6 md:pr-8 lg:pr-12 space-x-4 sm:space-x-5 md:space-x-6">
+              {/* ✅ Pakistan text aur angle down pe click handler add kiya */}
+              <span
+                className="flex items-center text-xs sm:text-sm tracking-wide cursor-pointer"
+                onClick={handleCountryClick}
+              >
+                PAKISTAN
+                <i
+                  className="ml-0.5 sm:ml-1 text-xl sm:text-2xl cursor-pointer"
+                  onClick={handleCountryClick}
+                >
+                  <MdOutlineKeyboardArrowDown />
+                </i>
+              </span>
+
+              <Link to="/signin" className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+                <LuUserRound />
+              </Link>
+              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+                <IoSearchSharp />
+              </i>
+              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+                <PiShoppingCartSimpleBold />
+              </i>
+              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
+                <FaRegHeart />
+              </i>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {/* Pehla Canvas - Fixed Content */}
       {showFirstCanvas && (
         <div className="fixed inset-0 z-50">
           {/* Backdrop */}
-          <div 
+          <div
             className="fixed inset-0 bg-black bg-opacity-50"
             onClick={handleCloseFirst}
           ></div>
-          
+
           {/* Canvas Content - FIXED POSITION */}
-          <div 
+          <div
             className="fixed top-0 left-0 h-full w-[400px] bg-white shadow-lg z-50"
-            style={{ transform: 'none' }}
+            style={{ transform: "none" }}
           >
             {/* Header */}
             <div className="flex justify-between items-center p-4 ">
               <h3 className="text-lg"></h3>
-              <button 
+              <button
                 onClick={handleCloseFirst}
                 className="text-gray-500 hover:text-gray-700 text-4xl"
               >
@@ -140,58 +134,70 @@ const Navigation = () => {
             {/* Body */}
             <div className="p-4">
               <nav className="flex flex-col">
-                <button 
+                <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas('CHANTELE')}
+                  onClick={() => handleSecondCanvas("CHANTELE")}
                 >
                   <span className="py-2">CHANTELE</span>
-                  <span className="text-gray-400 py-2"><i><FaAngleRight />
-
-</i></span>
+                  <span className="text-gray-400 py-2">
+                    <i>
+                      <FaAngleRight />
+                    </i>
+                  </span>
                 </button>
-                
-                <button 
+
+                <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas('UNSTITCHED')}
+                  onClick={() => handleSecondCanvas("UNSTITCHED")}
                 >
                   <span className=" py-2">UNSTITCHED</span>
-                  <span className="text-gray-400 py-2"><i><FaAngleRight />
-
-</i></span>
+                  <span className="text-gray-400 py-2">
+                    <i>
+                      <FaAngleRight />
+                    </i>
+                  </span>
                 </button>
 
-                <button 
+                <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas('STITCHED')}
+                  onClick={() => handleSecondCanvas("STITCHED")}
                 >
                   <span className=" py-2">STITCHED</span>
-                  <span className="text-gray-400 py-2"><i><FaAngleRight />
-
-</i></span>
+                  <span className="text-gray-400 py-2">
+                    <i>
+                      <FaAngleRight />
+                    </i>
+                  </span>
                 </button>
 
-                <button 
+                <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas('READY TO WEAR')}
+                  onClick={() => handleSecondCanvas("READY TO WEAR")}
                 >
                   <span className=" py-2">READY TO WEAR</span>
-                  <span className="text-gray-400 py-2"><i><FaAngleRight />
-
-</i></span>
+                  <span className="text-gray-400 py-2">
+                    <i>
+                      <FaAngleRight />
+                    </i>
+                  </span>
                 </button>
 
-                <button 
+                <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas('ESSENTIALS')}
+                  onClick={() => handleSecondCanvas("ESSENTIALS")}
                 >
                   <span className=" py-2">ESSENTIALS</span>
-                  <span className="text-gray-400 py-2"><i><FaAngleRight />
-
-</i></span>
+                  <span className="text-gray-400 py-2">
+                    <i>
+                      <FaAngleRight />
+                    </i>
+                  </span>
                 </button>
 
                 <button className="py-4 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                  <span className="font-semibold text-red-600 py-4" >SPECIAL PRICES</span>
+                  <span className="font-semibold text-red-600 py-4">
+                    SPECIAL PRICES
+                  </span>
                 </button>
 
                 <button className="py-4 w-full text-left hover:bg-gray-50 px-2 rounded">
@@ -203,9 +209,9 @@ const Navigation = () => {
 
           {/* Dusra Canvas - Second Level - FIXED POSITION */}
           {showSecondCanvas && (
-            <div 
+            <div
               className="fixed top-0 left-[400px] h-full w-[400px] bg-white shadow-lg z-[60]"
-              style={{ transform: 'none' }}
+              style={{ transform: "none" }}
             >
               {/* Header - Cross/Back Icon Nahin Hai */}
               <div className="p-4">
@@ -215,7 +221,7 @@ const Navigation = () => {
               {/* Body */}
               <div className="p-4">
                 <nav className="flex flex-col">
-                  {activeMenu === 'CHANTELE' && (
+                  {activeMenu === "CHANTELE" && (
                     <>
                       <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">STITCHED</span>
@@ -223,10 +229,9 @@ const Navigation = () => {
                       <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">UNSTITCHED</span>
                       </button>
-                      
                     </>
                   )}
-                    {activeMenu === 'UNSTITCHED' && (
+                  {activeMenu === "UNSTITCHED" && (
                     <>
                       <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
@@ -246,7 +251,7 @@ const Navigation = () => {
                     </>
                   )}
 
-                  {activeMenu === 'STITCHED' && (
+                  {activeMenu === "STITCHED" && (
                     <>
                       <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
@@ -266,9 +271,9 @@ const Navigation = () => {
                     </>
                   )}
 
-                  {activeMenu === 'READY TO WEAR' && (
+                  {activeMenu === "READY TO WEAR" && (
                     <>
-                       <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
                       </button>
                       <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
@@ -286,10 +291,9 @@ const Navigation = () => {
                     </>
                   )}
 
-                  {activeMenu === 'ESSENTIALS' && (
+                  {activeMenu === "ESSENTIALS" && (
                     <>
-
-  <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">ENSEMBELS</span>
                       </button>
                       <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
@@ -298,7 +302,6 @@ const Navigation = () => {
                       <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHAWLS</span>
                       </button>
-                     
                     </>
                   )}
                   {/* ... rest of your existing canvas code ... */}
@@ -309,11 +312,7 @@ const Navigation = () => {
         </div>
       )}
 
-
-
-
-
- {/* ✅ Country Selection Modal */}
+      {/* ✅ Country Selection Modal */}
       {showCountryModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto">
@@ -329,9 +328,10 @@ const Navigation = () => {
               <p className="text-gray-600 text-center mb-4">
                 Please select your shipping country.
               </p>
-              
+
               <p className="text-gray-500 text-sm text-center mb-6">
-                Buy from the country of your choice. Remember that we can only ship your order to addresses located in the chosen country.
+                Buy from the country of your choice. Remember that we can only
+                ship your order to addresses located in the chosen country.
               </p>
 
               {/* Country Selection */}
@@ -339,7 +339,7 @@ const Navigation = () => {
                 <label className="block text-gray-700 font-medium mb-3">
                   Country
                 </label>
-                <select 
+                <select
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   defaultValue="Pakistan"
                 >
@@ -353,7 +353,7 @@ const Navigation = () => {
               </div>
 
               {/* Shop Now Button */}
-              <button 
+              <button
                 onClick={handleCloseCountryModal}
                 className="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition duration-200"
               >
@@ -363,7 +363,6 @@ const Navigation = () => {
           </div>
         </div>
       )}
-
     </>
   );
 };
