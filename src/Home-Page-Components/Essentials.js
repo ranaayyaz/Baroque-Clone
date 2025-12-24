@@ -1,6 +1,7 @@
 import React from "react";
 import "../App.css";
 import ImageCard from "../ImageCard";
+import { Link } from "react-router-dom";
 function Essentials() {
   return (
     <>
@@ -14,28 +15,36 @@ function Essentials() {
         {/* Pehla ImageCard */}
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201752/8_afwuqi.webp" />
-          <button className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white hover:border transition text-sm md:text-base">
+          <Link
+            to="/essentials/ensembles"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+          >
             ENSEMBLES
-          </button>
+          </Link>
         </div>
 
         {/* Doosra ImageCard */}
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201753/9_loocrc.webp" />
-          <button className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white hover:border transition text-sm md:text-base">
+          <Link
+            to="/essentials/shawls"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+          >
             SHAWLS
-          </button>
+          </Link>
         </div>
 
         {/* Teesra ImageCard */}
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201752/10_et3hzq.webp" />
-          <button className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white hover:border transition text-sm md:text-base">
+          <Link
+            to="/essentials/dupattas"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+          >
             DUPATTAS
-          </button>
+          </Link>
         </div>
       </div>
-     
     </>
   );
 }

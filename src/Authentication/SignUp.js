@@ -1,35 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Sign Up Data:", formData);
-    alert("Account created!");
-  };
-
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-2xl">
         <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
 
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">
@@ -38,8 +15,6 @@ const SignUp = () => {
               <input
                 type="text"
                 name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
                 className="w-full p-2 border rounded"
                 placeholder="First name"
               />
@@ -52,8 +27,6 @@ const SignUp = () => {
               <input
                 type="text"
                 name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
                 className="w-full p-2 border rounded"
                 placeholder="Last name"
               />
@@ -61,12 +34,10 @@ const SignUp = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1">E-mail</label>
             <input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
               className="w-full p-2 border rounded"
               placeholder="Email address"
             />
@@ -77,8 +48,6 @@ const SignUp = () => {
             <input
               type="password"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
               className="w-full p-2 border rounded"
               placeholder="Password"
             />
@@ -91,8 +60,6 @@ const SignUp = () => {
             <input
               type="password"
               name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
               className="w-full p-2 border rounded"
               placeholder="Confirm password"
             />

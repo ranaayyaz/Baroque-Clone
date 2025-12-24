@@ -118,64 +118,64 @@ function CollectionCategory({ category }) {
           {/* 👈 LEFT SIDEBAR */}
           <div className="lg:w-1/4 mb-8 lg:mb-0 lg:pr-8 lg:sticky lg:top-[60px] lg:h-[calc(100vh-100px)] lg:overflow-y-auto mt-12">
             <nav className="flex flex-col letterSpacing">
-              <button>
-                <span className="text-[#2d3748] items-center flex pb-5 text-top border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+              
+              <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex pb-5 text-top border-b w-full text-left  px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200 ">
                   AVAILABILITY{" "}
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
 
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+              <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200" >
                   PRICE{" "}
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
-
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 border-b text-left hover:bg-gray-50 px-2 rounded">
+ <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 border-b text-left  px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   TYPE{" "}
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
 
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+              <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left  px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   FABRIC{" "}
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
 
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+              <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   SIZE
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
 
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+               <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   PIECES{" "}
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
 
-              <button>
-                <span className="text-[#2d3748] items-center flex py-5 w-full text-left hover:bg-gray-50 px-2 rounded">
+              <button className="group w-full">
+                <span className="text-[#2d3748] items-center flex py-5 w-full text-left text-gray-500  px-2 rounded  text-gray-500 group-hover:text-black transition-colors duration-200">
                   PRODUCT STYLE
-                  <span className="ml-auto text-gray-400 text-[25px]">
+                  <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>

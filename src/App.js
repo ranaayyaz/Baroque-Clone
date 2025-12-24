@@ -24,93 +24,159 @@ import Legal from "./Footer/Policies/Legal";
 import CollectionCategory from "./Collections/CollectionCategory";
 import SignIn from "./Authentication/SignIn";
 import SignUp from "./Authentication/SignUp";
+import Dashboard from "./Admin/Dashboard";
 function App() {
   return (
     <Router>
-      <TopHeader />
-      <Navigation />
+      <Routes>
+        <Route path="/admin-dashboard" element={<Dashboard />} />
 
-      <div className="App">
-        <Routes>
-          {/* Home Page Route */}
-          <Route
-            path="/"
-            element={
-              <>
-                <MainBanner />
-                <OwnYourLook />
-                <ReadyToWear />
-                <ChantelleCollection />
-                <Essentials />
-                <Newsletter />
-              </>
-            }
-          />
+        <Route
+          path="/*"
+          element={
+            <>
+              <TopHeader />
+              <Navigation />
 
-          {/* Other Pages */}
-          <Route path="/who-we-are" element={<WhoWeAre />} />
-          <Route path="/our-responsibility" element={<OurResponsibility />} />
-          <Route path="/service-we-provide" element={<ServiceWeProvide />} />
-          <Route path="/careers" element={<CareerS />} />
-          <Route path="/contact-us" element={<ContactUs />} />
-          <Route path="/dispatch-timeline" element={<DispatchTimeline />} />
-          <Route
-            path="/exchange-information"
-            element={<ExchangeInformation />}
-          />
-          <Route path="/privacy-policy" element={<Privacy />} />
-          <Route path="/refund-policy" element={<Refund />} />
-          <Route path="/shipping-policy" element={<Shipping />} />
-          <Route path="/terms-of-service" element={<Terms />} />
-          <Route path="/legal" element={<Legal />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+              <Routes>
+                {/* Home Page Route */}
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <MainBanner />
+                      <OwnYourLook />
+                      <ReadyToWear />
+                      <ChantelleCollection />
+                      <Essentials />
+                      <Newsletter />
+                    </>
+                  }
+                />
 
-          {/* Product Cateogry Pages */}
-          <Route
-            path="/stitched"
-            element={<CollectionCategory category="stitched" />}
-          />
-          <Route
-            path="/stitched/formal"
-            element={<CollectionCategory category="stitchedFormal" />}
-          />
-          <Route
-            path="/stitched/casual"
-            element={<CollectionCategory category="stitchedCasual" />}
-          />
-          <Route
-            path="/stitched/partywear"
-            element={<CollectionCategory category="stitchedPartywear" />}
-          />
-          <Route
-            path="/stitched/winter"
-            element={<CollectionCategory category="stitchedWinter" />}
-          />
+                <Route path="/who-we-are" element={<WhoWeAre />} />
+                <Route
+                  path="/our-responsibility"
+                  element={<OurResponsibility />}
+                />
+                <Route
+                  path="/service-we-provide"
+                  element={<ServiceWeProvide />}
+                />
+                <Route path="/careers" element={<CareerS />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route
+                  path="/dispatch-timeline"
+                  element={<DispatchTimeline />}
+                />
+                <Route
+                  path="/exchange-information"
+                  element={<ExchangeInformation />}
+                />
+                <Route path="/privacy-policy" element={<Privacy />} />
+                <Route path="/refund-policy" element={<Refund />} />
+                <Route path="/shipping-policy" element={<Shipping />} />
+                <Route path="/terms-of-service" element={<Terms />} />
+                <Route path="/legal" element={<Legal />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
 
-          <Route
-            path="/unstitched"
-            element={<CollectionCategory category="unstitched" />}
-          />
-          <Route
-            path="/unstitched/formal"
-            element={<CollectionCategory category="unstitchedFormal" />}
-          />
-          <Route
-            path="/unstitched/casual"
-            element={<CollectionCategory category="unstitchedCasual" />}
-          />
-          <Route
-            path="/unstitched/partywear"
-            element={<CollectionCategory category="unstitchedPartywear" />}
-          />
-          <Route
-            path="/unstitched/winter"
-            element={<CollectionCategory category="unstitchedWinter" />}
-          />
-        </Routes>
-      </div>
-      <MainFooter />
+                {/* Product Collections Routes */}
+
+                <Route
+                  path="/stitched"
+                  element={<CollectionCategory category="stitched" />}
+                />
+                <Route
+                  path="/stitched/formal"
+                  element={<CollectionCategory category="stitchedFormal" />}
+                />
+                <Route
+                  path="/stitched/casual"
+                  element={<CollectionCategory category="stitchedCasual" />}
+                />
+                <Route
+                  path="/stitched/partywear"
+                  element={<CollectionCategory category="stitchedPartywear" />}
+                />
+                <Route
+                  path="/stitched/winter"
+                  element={<CollectionCategory category="stitchedWinter" />}
+                />
+
+                <Route
+                  path="/unstitched"
+                  element={<CollectionCategory category="unstitched" />}
+                />
+                <Route
+                  path="/unstitched/formal"
+                  element={<CollectionCategory category="unstitchedFormal" />}
+                />
+
+                <Route
+                  path="/unstitched/casual"
+                  element={<CollectionCategory category="unstitchedCasual" />}
+                />
+
+                <Route
+                  path="/unstitched/partywear"
+                  element={
+                    <CollectionCategory category="unstitchedPartywear" />
+                  }
+                />
+
+                <Route
+                  path="/unstitched/winter"
+                  element={<CollectionCategory category="unstitchedWinter" />}
+                />
+
+                <Route
+                  path="/ready-to-wear/velvet"
+                  element={<CollectionCategory category="readytowearvelvet" />}
+                />
+                <Route
+                  path="/ready-to-wear/formals"
+                  element={<CollectionCategory category="readytowearformals" />}
+                />
+                <Route
+                  path="/ready-to-wear/winter"
+                  element={<CollectionCategory category="readytowearwinter" />}
+                />
+
+                {/* Chantelle Collection */}
+                <Route
+                  path="/chantelle/stitched"
+                  element={<CollectionCategory category="chantellestitched" />}
+                />
+                <Route
+                  path="/chantelle/unstitched"
+                  element={
+                    <CollectionCategory category="chantelleunstitched" />
+                  }
+                />
+
+                {/* Essentials */}
+                <Route
+                  path="/essentials/ensembles"
+                  element={
+                    <CollectionCategory category="essentialsensembles" />
+                  }
+                />
+                <Route
+                  path="/essentials/shawls"
+                  element={<CollectionCategory category="essentialsehawls" />}
+                />
+                <Route
+                  path="/essentials/dupattas"
+                  element={<CollectionCategory category="essentialseupattas" />}
+                />
+              </Routes>
+
+              <MainFooter />
+            </>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

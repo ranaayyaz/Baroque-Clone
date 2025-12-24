@@ -4,7 +4,7 @@ import ImageCard from "../ImageCard";
 const ProductCard = ({ imgUrl, name, price, season }) => {
   return (
     <div className="relative flex flex-col items-center">
-      <span className="cursor-pointer w-full">
+      <span className="cursor-pointer w-full ">
         <ImageCard imgUrl={imgUrl} />
       </span>
 
