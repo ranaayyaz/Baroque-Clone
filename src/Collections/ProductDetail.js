@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { products } from "../mock/product";
 
 const ProductDetail = () => {
@@ -91,9 +91,9 @@ const ProductDetail = () => {
                   {sz}
                 </button>
               ))}
-              <a className="ml-auto text-sm underline" href="#">
+              <Link className="ml-auto text-sm underline" to="#">
                 SIZE CHART
-              </a>
+              </Link>
             </div>
           </div>
 

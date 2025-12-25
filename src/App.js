@@ -27,7 +27,7 @@ import SignIn from "./Authentication/SignIn";
 import SignUp from "./Authentication/SignUp";
 import Dashboard from "./Admin/Dashboard";
 import ScrollToTop from "./ScrollToTop";
-
+import Shop from "./Shop";
 function App() {
   return (
     <Router>
@@ -59,6 +59,7 @@ function App() {
                     </>
                   }
                 />
+    <Route path="/shop-all" element={<Shop />} />
 
                 <Route path="/who-we-are" element={<WhoWeAre />} />
                 <Route
