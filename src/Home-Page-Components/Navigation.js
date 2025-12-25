@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuUserRound } from "react-icons/lu";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
@@ -14,6 +14,17 @@ const Navigation = () => {
   const [activeMenu, setActiveMenu] = useState("");
   const [showCountryModal, setShowCountryModal] = useState(false); // ✅ New state for country modal
 
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleCloseFirst = () => {
     setShowFirstCanvas(false);
     setShowSecondCanvas(false);
@@ -25,11 +36,6 @@ const Navigation = () => {
   const handleSecondCanvas = (menuType) => {
     setActiveMenu(menuType);
     setShowSecondCanvas(true);
-  };
-
-  const handleCloseSecond = () => {
-    setShowSecondCanvas(false);
-    setActiveMenu("");
   };
 
   // ✅ Country Modal handlers
@@ -44,64 +50,57 @@ const Navigation = () => {
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
-      <nav className="h-[75px] mt-3 navbar w-full lg:w-3/12 md:w-6/12 mb-8 lg:mx-0 md:mx-0 mx-0 lg:px-4">
-        <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-0">
-          {/* Left Section - Menu Button */}
-          <div>
-            <div className="pl-4 sm:pl-6 md:pl-8 lg:pl-12">
-              <button onClick={handleShowFirst} className="">
-                <i className="text-[1.5rem] sm:text-[1.8rem] md:text-[2rem]">
-                  <LiaBarsSolid />
-                </i>
-              </button>
-            </div>
+      <nav
+        className={`h-[75px] w-full fixed left-0 z-40 ${
+          isScrolled ? "bg-white shadow-md top-0" : "bg-transparent top-10"
+        }`}
+      >
+        <div className="relative flex justify-between items-center h-full px-4 sm:px-6 md:px-8 lg:px-12">
+          {/* Left - Menu */}
+          <button onClick={handleShowFirst}>
+            <i className="text-[1.8rem]">
+              <LiaBarsSolid />
+            </i>
+          </button>
+
+          {/* Center - Logo (Exact Center) */}
+          <Link to="/" className="absolute left-1/2 -translate-x-1/2">
+            <img
+              alt="BAROQUE Logo"
+              src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp"
+              className="h-7 sm:h-8 md:h-9"
+            />
+          </Link>
+
+          {/* Right - Icons */}
+          <div className="hidden lg:flex space-x-5 items-center">
+            <button
+              onClick={handleCountryClick}
+              className="flex items-center text-sm font-medium"
+            >
+              PAKISTAN
+              <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
+            </button>
+
+            <Link to="/signin" className="text-xl">
+              <LuUserRound />
+            </Link>
+
+            <button className="text-xl">
+              <IoSearchSharp />
+            </button>
+
+            <button className="text-xl relative">
+              <PiShoppingCartSimpleBold />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                0
+              </span>
+            </button>
+
+            <button className="text-xl">
+              <FaRegHeart />
+            </button>
           </div>
-
-          {/* Center Section - Logo */}
-          <div>
-            <div className="pl-8 sm:pl-10 md:pl-12 lg:pl-12 w-100 lg:ml-[12rem]">
-              <Link to="/">
-                <img
-                  alt="BAROQUE Logo"
-                  src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp"
-                  className="h-7 sm:h-8 md:h-9"
-                />
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Section - Icons */}
-         <div className="hidden lg:flex  space-x-5 ">
-        {/* Country Selector */}
-        <button 
-          onClick={handleCountryClick}
-          className="flex items-center text-sm font-medium hover:text-gray-700"
-        >
-          PAKISTAN
-          <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
-        </button>
-
-        {/* Icons */}
-        <Link to="/signin" className="text-xl hover:text-gray-700">
-          <LuUserRound />
-        </Link>
-        
-        <button className="text-xl hover:text-gray-700">
-          <IoSearchSharp />
-        </button>
-        
-        <button className="text-xl hover:text-gray-700 relative">
-          <PiShoppingCartSimpleBold />
-          {/* Cart Counter - agar chahiye */}
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-            0
-          </span>
-        </button>
-        
-        <button className="text-xl hover:text-gray-700">
-          <FaRegHeart />
-        </button>
-      </div>
         </div>
       </nav>
 
@@ -121,7 +120,6 @@ const Navigation = () => {
           >
             {/* Header */}
             <div className="flex justify-between items-center p-4 ">
-              <h3 className="text-lg"></h3>
               <button
                 onClick={handleCloseFirst}
                 className="text-gray-500 hover:text-gray-700 text-4xl"
@@ -222,29 +220,57 @@ const Navigation = () => {
                 <nav className="flex flex-col">
                   {activeMenu === "CHANTELE" && (
                     <>
-                      <Link to="/chantelle/stitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/chantelle/stitched"
+                        onClick={handleCloseFirst}
+                        className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">STITCHED</span>
                       </Link>
-                      <Link to="/chantelle/unstitched" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/chantelle/unstitched"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">UNSTITCHED</span>
                       </Link>
                     </>
                   )}
                   {activeMenu === "UNSTITCHED" && (
                     <>
-                      <Link to="/unstitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/unstitched"
+                        onClick={handleCloseFirst}
+                        className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">SHOP All</span>
                       </Link>
-                      <Link to="/unstitched/formal" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/unstitched/formal"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">FORMALS</span>
                       </Link>
-                      <Link to="/unstitched/casual" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/unstitched/casual"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">CASUAL</span>
                       </Link>
-                      <Link to="/unstitched/partywear" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/unstitched/partywear"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">PARTYWEAR</span>
                       </Link>
-                      <Link to="/unstitched/winter" className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/unstitched/winter"
+                        onClick={handleCloseFirst}
+                        className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">WINTER</span>
                       </Link>
                     </>
@@ -252,56 +278,100 @@ const Navigation = () => {
 
                   {activeMenu === "STITCHED" && (
                     <>
-                      <Link to="/stitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/stitched"
+                        onClick={handleCloseFirst}
+                        className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">SHOP All</span>
                       </Link>
-                      <Link to="/stitched/formal" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/stitched/formal"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">FORMALS</span>
                       </Link>
-                      <Link to="/stitched/casual" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/stitched/casual"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">CASUAL</span>
                       </Link>
-                      <Link to="/stitched/partywear" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/stitched/partywear"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">PARTYWEAR</span>
                       </Link>
-                      <Link to="/stitched/winter" className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/stitched/winter"
+                        onClick={handleCloseFirst}
+                        className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">WINTER</span>
                       </Link>
                     </>
                   )}
 
-
                   {activeMenu === "READY TO WEAR" && (
                     <>
-                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">SHOP All</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">WINTER</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/ready-to-wear/formal"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">FORMALS</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">VELVET</span>
-                      </button>
-                      <button className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">SUMMER</span>
-                      </button>
+                      </Link>
+                      <Link
+                        to="/ready-to-wear/casual"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
+                        <span className="">CASUAL</span>
+                      </Link>
+                      <Link
+                        to="/ready-to-wear/partywear"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
+                        <span className="">PARTYWEAR</span>
+                      </Link>
+                      <Link
+                        to="/ready-to-wear/winter"
+                        onClick={handleCloseFirst}
+                        className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
+                        <span className="">WINTER</span>
+                      </Link>
                     </>
                   )}
 
                   {activeMenu === "ESSENTIALS" && (
                     <>
-                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link
+                        to="/essentials/ensembles"
+                        onClick={handleCloseFirst}
+                        className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">ENSEMBELS</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      </Link>
+                      <Link
+                        to="/essentials/dupattas"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">DUPPATAS</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      </Link>
+                      <Link
+                        to="/essentials/shawls"
+                        onClick={handleCloseFirst}
+                        className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                      >
                         <span className="">SHAWLS</span>
-                      </button>
+                      </Link>
                     </>
                   )}
                   {/* ... rest of your existing canvas code ... */}

@@ -22,15 +22,21 @@ import Shipping from "./Footer/Policies/Shipping";
 import Terms from "./Footer/Policies/Terms";
 import Legal from "./Footer/Policies/Legal";
 import CollectionCategory from "./Collections/CollectionCategory";
+import ProductDetail from "./Collections/ProductDetail";
 import SignIn from "./Authentication/SignIn";
 import SignUp from "./Authentication/SignUp";
 import Dashboard from "./Admin/Dashboard";
+import ScrollToTop from "./ScrollToTop";
+
 function App() {
   return (
     <Router>
+      <ScrollToTop />
+
       <Routes>
         <Route path="/admin-dashboard" element={<Dashboard />} />
-
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/*"
           element={
@@ -78,8 +84,6 @@ function App() {
                 <Route path="/shipping-policy" element={<Shipping />} />
                 <Route path="/terms-of-service" element={<Terms />} />
                 <Route path="/legal" element={<Legal />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
 
                 {/* Product Collections Routes */}
 
@@ -131,12 +135,18 @@ function App() {
                 />
 
                 <Route
-                  path="/ready-to-wear/velvet"
-                  element={<CollectionCategory category="readytowearvelvet" />}
+                  path="/ready-to-wear/formal"
+                  element={<CollectionCategory category="readytowearformal" />}
                 />
                 <Route
-                  path="/ready-to-wear/formals"
-                  element={<CollectionCategory category="readytowearformals" />}
+                  path="/ready-to-wear/casual"
+                  element={<CollectionCategory category="readytowearcasual" />}
+                />
+                <Route
+                  path="/ready-to-wear/partywear"
+                  element={
+                    <CollectionCategory category="readytowearpartywear" />
+                  }
                 />
                 <Route
                   path="/ready-to-wear/winter"
@@ -164,12 +174,15 @@ function App() {
                 />
                 <Route
                   path="/essentials/shawls"
-                  element={<CollectionCategory category="essentialsehawls" />}
+                  element={<CollectionCategory category="essentialsshawls" />}
                 />
                 <Route
                   path="/essentials/dupattas"
-                  element={<CollectionCategory category="essentialseupattas" />}
+                  element={<CollectionCategory category="essentialsdupattas" />}
                 />
+
+                {/* Single Product Detail */}
+                <Route path="/product/:id" element={<ProductDetail /> } />
               </Routes>
 
               <MainFooter />

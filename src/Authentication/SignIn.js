@@ -4,7 +4,11 @@ const SignIn = () => {
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-2xl">
-        <h2 className="text-3xl font-bold text-center mb-6">Sign In</h2>
+        <h2 className="text-3xl font-bold text-center mb-6"><img
+                  alt="BAROQUE Logo"
+                  src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp"
+                  className="h-7 sm:h-8 md:h-9 items-center mx-auto"
+                /></h2>
 
         <form className="space-y-4">
           <div>
@@ -13,7 +17,7 @@ const SignIn = () => {
               type="text"
               name="username"
               className="w-full p-2 border rounded"
-              placeholder="Enter username"
+              placeholder="Enter E-mail"
             />
           </div>
 
@@ -31,7 +35,7 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            className="w-full bg-black text-white p-2  hover:bg-transparent hover:text-black border border-black transition-colors duration-300"
           >
             Sign In
           </button>
@@ -39,8 +43,15 @@ const SignIn = () => {
 
         <p className="text-center mt-4 text-sm">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-500 hover:underline">
+          <Link to="/signup" className="text-black font-bold hover:underline">
             Sign up
+          </Link>
+        </p>
+
+         <p className="text-center mt-4 text-sm">
+          Go To{" "}
+          <Link to="/" className="text-black font-bold hover:underline">
+            Home
           </Link>
         </p>
       </div>

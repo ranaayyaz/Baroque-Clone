@@ -1,4 +1,4 @@
-export const products = [
+const _raw_products = [
   // Stitched Formal (10 products)
   {
     id: 1,
@@ -8,6 +8,11 @@ export const products = [
     price: 4950,
     category: "stitchedFormal",
     season: "All Season",
+    images: [
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766586005/140_590f415c-33ee-4d97-8814-cf2cb00effa8_iiicur.webp",
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-9_u4cqey.webp",
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585985/st-11_fvtji6.webp",
+    ],
   },
   {
     id: 2,
@@ -17,6 +22,11 @@ export const products = [
     price: 3850,
     category: "stitchedFormal",
     season: "Winter",
+    images: [
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585985/st-11_fvtji6.webp",
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766586005/140_590f415c-33ee-4d97-8814-cf2cb00effa8_iiicur.webp",
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-9_u4cqey.webp",
+    ],
   },
   {
     id: 3,
@@ -926,7 +936,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766577686/1st_prmvwk.webp",
     name: "Premium Designer Fabric Bundle",
     price: 3850,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -935,7 +945,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585985/st-11_fvtji6.webp",
     name: "Luxury Velvet Collection",
     price: 4850,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -944,7 +954,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-9_u4cqey.webp",
     name: "Designer Velvet Wear",
     price: 4380,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -953,7 +963,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-10_hrkrw9.webp",
     name: "Premium Velvet Bundle",
     price: 5175,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -962,7 +972,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-8_nz5mmb.webp",
     name: "Velvet Party Wear",
     price: 5875,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -971,7 +981,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585949/117_4868dea8-e76b-470d-9010-9946f45bf290_vssmbx.webp",
     name: "Winter Velvet Collection",
     price: 4890,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -980,7 +990,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/st-2_uxqwqi.webp",
     name: "Formal Velvet Wear",
     price: 4450,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -989,7 +999,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/st-4_n8irdi.webp",
     name: "Velvet Designer Set",
     price: 5780,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -998,7 +1008,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585951/st-7_wggw6q.webp",
     name: "Luxury Velvet Bundle",
     price: 6250,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
   {
@@ -1007,7 +1017,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585951/st-3_ndjbic.webp",
     name: "Premium Velvet Collection",
     price: 6980,
-    category: "readytowearvelvet",
+    category: "readytowearformal",
     season: "3 PIECE",
   },
 
@@ -1018,7 +1028,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585951/st-6_jegwyb.webp",
     name: "Heritage Linen Formal",
     price: 3480,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1027,7 +1037,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/163_7583fb1e-93aa-4396-b5d0-ed309cda9e7d_qmlkzo.webp",
     name: "Business Formal Wear",
     price: 4950,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1036,7 +1046,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/144_817e8b02-2ef3-46de-8cd7-78e8a914ed8a_hnfbpl.webp",
     name: "Corporate Formal Collection",
     price: 5380,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1045,7 +1055,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/hover-1st_u6wwur.webp",
     name: "Executive Formal Wear",
     price: 6175,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1054,7 +1064,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585949/125_2e1aca63-1c7e-4ab9-8aab-82756a0a3633_xbnk4w.webp",
     name: "Designer Formal Set",
     price: 4890,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1063,7 +1073,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/1st_qsdtxw.webp",
     name: "Premium Formal Collection",
     price: 5250,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1072,7 +1082,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/176_3514c792-48d8-4721-8c06-99a4ff7e6823_cjls9x.webp",
     name: "Luxury Formal Wear",
     price: 6780,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1081,7 +1091,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/9_c77276d3-74c0-4db6-8ff0-9e9abe2cdb43_rdh9sa.webp",
     name: "Formal Office Wear",
     price: 5980,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1090,7 +1100,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/176_c60b3c5a-0cee-4720-a388-f239fc8ad9a6_duciqd.webp",
     name: "Business Attire Collection",
     price: 4450,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
   {
@@ -1099,7 +1109,7 @@ export const products = [
       "https://res.cloudinary.com/dlqzjthos/image/upload/v1766577686/1st_prmvwk.webp",
     name: "Executive Collection",
     price: 7320,
-    category: "readytowearformals",
+    category: "readytowearcasual",
     season: "3 PIECE",
   },
 
@@ -1654,4 +1664,119 @@ export const products = [
     category: "essentialsdupattas",
     season: "3 PIECE",
   },
+
+  {
+    id: 181,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585950/hover-1st_u6wwur.webp",
+    name: "Premium Designer Fabric Bundle",
+    price: 3850,
+    category: "readytowearpartywear",
+    season: "All Season",
+  },
+  {
+    id: 182,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585949/125_2e1aca63-1c7e-4ab9-8aab-82756a0a3633_xbnk4w.webp",
+    name: "Designer Unstitched Fabric",
+    price: 4675,
+    category: "readytowearpartywear",
+    season: "Autumn",
+  },
+  {
+    id: 183,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/1st_qsdtxw.webp",
+    name: "Luxury Unstitched Collection",
+    price: 5250,
+    category: "readytowearpartywear",
+    season: "Winter",
+  },
+  {
+    id: 184,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/176_3514c792-48d8-4721-8c06-99a4ff7e6823_cjls9x.webp",
+    name: "Summer Unstitched Fabric",
+    price: 3780,
+    category: "readytowearpartywear",
+    season: "Summer",
+  },
+  {
+    id: 185,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/9_c77276d3-74c0-4db6-8ff0-9e9abe2cdb43_rdh9sa.webp",
+    name: "Formal Unstitched Material",
+    price: 4980,
+    category: "readytowearpartywear",
+    season: "Autumn",
+  },
+  {
+    id: 186,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585948/176_c60b3c5a-0cee-4720-a388-f239fc8ad9a6_duciqd.webp",
+    name: "Casual Unstitched Bundle",
+    price: 3450,
+    category: "readytowearpartywear",
+    season: "All Season",
+  },
+  {
+    id: 187,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766577686/1st_prmvwk.webp",
+    name: "Premium Unstitched Wear",
+    price: 4320,
+    category: "readytowearpartywear",
+    season: "Winter",
+  },
+
+  // Ready to Wear Partywear (7 products)
+  {
+    id: 188,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766577686/1st_prmvwk.webp",
+    name: "Premium Designer Fabric Bundle",
+    price: 3850,
+    category: "readytowearpartywear",
+    season: "3 PIECE",
+  },
+  {
+    id: 189,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585985/st-11_fvtji6.webp",
+    name: "Luxury Velvet Collection",
+    price: 4850,
+    category: "readytowearpartywear",
+    season: "3 PIECE",
+  },
+  {
+    id: 190,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-9_u4cqey.webp",
+    name: "Designer Velvet Wear",
+    price: 4380,
+    category: "readytowearpartywear",
+    season: "3 PIECE",
+  },
+  {
+    id: 191,
+    imgUrl:
+      "https://res.cloudinary.com/dlqzjthos/image/upload/v1766585984/st-10_hrkrw9.webp",
+    name: "Premium Velvet Bundle",
+    price: 5175,
+    category: "readytowearpartywear",
+    season: "3 PIECE",
+  },
 ];
+
+// Add `images` array with 3 image URLs per product (fallback to `imgUrl` when not available)
+export const products = _raw_products.map((p) => ({
+  ...p,
+  images:
+    Array.isArray(p.images) && p.images.length
+      ? p.images
+      : [
+          p.imgUrl,
+          `https://picsum.photos/seed/${p.id}-1/800/1000`,
+          `https://picsum.photos/seed/${p.id}-2/800/1000`,
+        ],
+}));

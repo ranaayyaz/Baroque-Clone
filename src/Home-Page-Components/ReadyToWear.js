@@ -16,7 +16,7 @@ function ReadyToWear() {
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1766646920/43_gktvfq.webp" />
           <Link
-            to="/ready-to-wear/velvet"
+            to="/ready-to-wear/formal"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
           >
             VELVET
@@ -27,7 +27,7 @@ function ReadyToWear() {
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1766646960/21_in6fdy.webp" />
           <Link
-            to="/ready-to-wear/formals"
+            to="/ready-to-wear/winter"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
           >
             FORMALS
@@ -38,7 +38,7 @@ function ReadyToWear() {
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765200141/5_iurbuc.webp" />
           <Link
-            to="/ready-to-wear/winter"
+            to="/ready-to-wear/casual"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
           >
             WINTER
