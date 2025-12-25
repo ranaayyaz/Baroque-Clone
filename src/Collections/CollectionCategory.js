@@ -15,8 +15,6 @@ function CollectionCategory({ category }) {
 
   return (
     <>
-      <div className="mt-[4.5rem] border-t border-gray-300"></div>
-
       <div className="text-center mt-[4rem] mb-[4rem] letterSpacing space-y-2">
         <div className="text-sm md:text-lg lg:text-xl xl:text-4xl mb-12">
           {formatCategoryName(category)}
@@ -87,7 +85,7 @@ function CollectionCategory({ category }) {
       </div>
 
       {/* 🔥 PRODUCT BAR - FIXED POSITION */}
-      <div className="sticky top-0 z-40 bg-white border-t border-b border-gray-300 shadow-sm">
+      <div className="sticky top-[82px] z-40 bg-white border-t border-b border-gray-300 shadow-sm">
         <div className="flex items-center px-2">
           <div className="flex w-[15%] sm:w-[10%] lg:w-[8%] gap-4 justify-center py-3">
             <span className="cursor-pointer hover:text-black text-gray-400">
@@ -116,9 +114,8 @@ function CollectionCategory({ category }) {
       <div className="mt-[60px] lg:mt-[0px]">
         <div className="flex flex-col lg:flex-row min-h-screen px-4 lg:px-[40px]">
           {/* 👈 LEFT SIDEBAR */}
-          <div className="lg:w-1/4 mb-8 lg:mb-0 lg:pr-8 lg:sticky lg:top-[60px] lg:h-[calc(100vh-100px)] lg:overflow-y-auto mt-12">
+          <div className="lg:w-1/4 mb-8 lg:mb-0 lg:pr-8 lg:sticky lg:top-[150px] lg:h-[calc(100vh-100px)] lg:overflow-y-auto mt-12">
             <nav className="flex flex-col letterSpacing">
-              
               <button className="group w-full">
                 <span className="text-[#2d3748] items-center flex pb-5 text-top border-b w-full text-left  px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200 ">
                   AVAILABILITY{" "}
@@ -129,14 +126,14 @@ function CollectionCategory({ category }) {
               </button>
 
               <button className="group w-full">
-                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200" >
+                <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   PRICE{" "}
                   <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
                     <MdKeyboardArrowDown />
                   </span>
                 </span>
               </button>
- <button className="group w-full">
+              <button className="group w-full">
                 <span className="text-[#2d3748] items-center flex py-5 border-b text-left  px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   TYPE{" "}
                   <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">
@@ -163,7 +160,7 @@ function CollectionCategory({ category }) {
                 </span>
               </button>
 
-               <button className="group w-full">
+              <button className="group w-full">
                 <span className="text-[#2d3748] items-center flex py-5 border-b w-full text-left px-2 rounded text-gray-500 group-hover:text-black transition-colors duration-200">
                   PIECES{" "}
                   <span className="ml-auto text-gray-500 text-[25px] group-hover:text-black transition-colors duration-200">

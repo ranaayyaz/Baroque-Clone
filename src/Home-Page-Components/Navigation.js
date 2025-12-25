@@ -71,39 +71,37 @@ const Navigation = () => {
           </div>
 
           {/* Right Section - Icons */}
-          <div>
-            <div className="flex pr-4 sm:pr-6 md:pr-8 lg:pr-12 space-x-4 sm:space-x-5 md:space-x-6">
-              {/* ✅ Pakistan text aur angle down pe click handler add kiya */}
-              <span
-                className="flex items-center text-xs sm:text-sm tracking-wide cursor-pointer"
-                onClick={handleCountryClick}
-              >
-                PAKISTAN
-                <i
-                  className="ml-0.5 sm:ml-1 text-xl sm:text-2xl cursor-pointer"
-                  onClick={handleCountryClick}
-                >
-                  <MdOutlineKeyboardArrowDown />
-                </i>
-              </span>
+         <div className="hidden lg:flex  space-x-5 ">
+        {/* Country Selector */}
+        <button 
+          onClick={handleCountryClick}
+          className="flex items-center text-sm font-medium hover:text-gray-700"
+        >
+          PAKISTAN
+          <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
+        </button>
 
-              <Link
-                to="/signin"
-                className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer"
-              >
-                <LuUserRound />
-              </Link>
-              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-                <IoSearchSharp />
-              </i>
-              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-                <PiShoppingCartSimpleBold />
-              </i>
-              <i className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.5rem] cursor-pointer">
-                <FaRegHeart />
-              </i>
-            </div>
-          </div>
+        {/* Icons */}
+        <Link to="/signin" className="text-xl hover:text-gray-700">
+          <LuUserRound />
+        </Link>
+        
+        <button className="text-xl hover:text-gray-700">
+          <IoSearchSharp />
+        </button>
+        
+        <button className="text-xl hover:text-gray-700 relative">
+          <PiShoppingCartSimpleBold />
+          {/* Cart Counter - agar chahiye */}
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            0
+          </span>
+        </button>
+        
+        <button className="text-xl hover:text-gray-700">
+          <FaRegHeart />
+        </button>
+      </div>
         </div>
       </nav>
 
@@ -224,53 +222,54 @@ const Navigation = () => {
                 <nav className="flex flex-col">
                   {activeMenu === "CHANTELE" && (
                     <>
-                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link to="/chantelle/stitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">STITCHED</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      </Link>
+                      <Link to="/chantelle/unstitched" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">UNSTITCHED</span>
-                      </button>
+                      </Link>
                     </>
                   )}
                   {activeMenu === "UNSTITCHED" && (
                     <>
-                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link to="/unstitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">WINTER</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      </Link>
+                      <Link to="/unstitched/formal" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">FORMALS</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">VELVET</span>
-                      </button>
-                      <button className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">SUMMER</span>
-                      </button>
+                      </Link>
+                      <Link to="/unstitched/casual" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">CASUAL</span>
+                      </Link>
+                      <Link to="/unstitched/partywear" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">PARTYWEAR</span>
+                      </Link>
+                      <Link to="/unstitched/winter" className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">WINTER</span>
+                      </Link>
                     </>
                   )}
 
                   {activeMenu === "STITCHED" && (
                     <>
-                      <button className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      <Link to="/stitched" className="py-6 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">SHOP All</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">WINTER</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                      </Link>
+                      <Link to="/stitched/formal" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
                         <span className="">FORMALS</span>
-                      </button>
-                      <button className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">VELVET</span>
-                      </button>
-                      <button className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
-                        <span className="">SUMMER</span>
-                      </button>
+                      </Link>
+                      <Link to="/stitched/casual" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">CASUAL</span>
+                      </Link>
+                      <Link to="/stitched/partywear" className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">PARTYWEAR</span>
+                      </Link>
+                      <Link to="/stitched/winter" className="py-5  w-full text-left hover:bg-gray-50 px-2 rounded">
+                        <span className="">WINTER</span>
+                      </Link>
                     </>
                   )}
+
 
                   {activeMenu === "READY TO WEAR" && (
                     <>
@@ -315,33 +314,33 @@ const Navigation = () => {
 
       {/* ✅ Country Selection Modal */}
       {showCountryModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-5 ">
+          <div className="bg-white  shadow-xl max-w-md w-full mx-auto">
             {/* Modal Header */}
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 text-center">
+            <div className="px-5 pt-7 ">
+              <h2 className="text-xl  text-left letterSpacing">
                 Are you in the right place?
               </h2>
             </div>
 
             {/* Modal Content */}
-            <div className="p-6">
-              <p className="text-gray-600 text-center mb-4">
+            <div className="p-4">
+              <p className=" text-left mb-4">
                 Please select your shipping country.
               </p>
 
-              <p className="text-gray-500 text-sm text-center mb-6">
+              <p className=" text-sm text-left mb-6">
                 Buy from the country of your choice. Remember that we can only
                 ship your order to addresses located in the chosen country.
               </p>
 
               {/* Country Selection */}
               <div className="mb-6">
-                <label className="block text-gray-700 font-medium mb-3">
+                <label className="block text-gray-700 font-sm mb-2">
                   Country
                 </label>
                 <select
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-3  border-b border-black "
                   defaultValue="Pakistan"
                 >
                   <option value="Pakistan">Pakistan</option>
@@ -356,7 +355,7 @@ const Navigation = () => {
               {/* Shop Now Button */}
               <button
                 onClick={handleCloseCountryModal}
-                className="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 transition duration-200"
+                className="w-full bg-black text-white py-3 px-6  font-semibold hover:bg-transparent hover:text-black border border-black transition duration-200"
               >
                 Shop now
               </button>

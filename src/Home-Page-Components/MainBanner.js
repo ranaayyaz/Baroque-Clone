@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const MainBanner = () => {
   // ✅ Yahan apna Cloudinary URL paste karein
   const cloudinaryImageUrl =
-    "https://res.cloudinary.com/dlqzjthos/image/upload/v1764428591/MAin_BAnner25_d116e29e-2634-48a0-80c7-32dc7fb7d04f_iwqaea.webp";
+    "https://res.cloudinary.com/dlqzjthos/image/upload/v1766645486/MAin_BAnner34_zn50s6.webp";
 
   return (
     <>

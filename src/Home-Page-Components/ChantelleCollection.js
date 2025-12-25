@@ -14,7 +14,7 @@ function ChantelleCollection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-[70px] relative">
         {/* Pehla ImageCard */}
         <div className="relative  img-hover-zoom">
-          <ImageCard imgUrl=" https://res.cloudinary.com/dlqzjthos/image/upload/v1765201753/6_yx1fwv.webp" />
+          <ImageCard imgUrl=" https://res.cloudinary.com/dlqzjthos/image/upload/v1766647025/qw_uvqqko.webp" />
           <Link
             to="/chantelle/stitched"
             className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-white transition"
@@ -25,7 +25,7 @@ function ChantelleCollection() {
 
         {/* Doosra ImageCard */}
         <div className="relative  img-hover-zoom">
-          <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201753/7_eg55xz.webp" />
+          <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1766647068/sd_gsjkds.webp" />
           <Link
             to="/chantelle/unstitched"
             className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-white transition"
