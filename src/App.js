@@ -23,6 +23,10 @@ import Terms from "./Footer/Policies/Terms";
 import Legal from "./Footer/Policies/Legal";
 import CollectionCategory from "./Collections/CollectionCategory";
 import ProductDetail from "./Collections/ProductDetail";
+import Cart from "./Collections/Cart";
+import Checkout from "./Collections/Checkout";
+import OrderSuccess from "./Collections/OrderSuccess";
+import Wishlist from "./Collections/Wishlist";
 import SignIn from "./Authentication/SignIn";
 import SignUp from "./Authentication/SignUp";
 import Dashboard from "./Admin/Dashboard";
@@ -59,7 +63,7 @@ function App() {
                     </>
                   }
                 />
-    <Route path="/shop-all" element={<Shop />} />
+                <Route path="/shop-all" element={<Shop />} />
 
                 <Route path="/who-we-are" element={<WhoWeAre />} />
                 <Route
@@ -183,7 +187,11 @@ function App() {
                 />
 
                 {/* Single Product Detail */}
-                <Route path="/product/:id" element={<ProductDetail /> } />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
+                <Route path="/wishlist" element={<Wishlist />} />
               </Routes>
 
               <MainFooter />

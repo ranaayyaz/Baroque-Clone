@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { LuUserRound } from "react-icons/lu";
 import { PiShoppingCartSimpleBold } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
@@ -6,7 +6,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { LiaBarsSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
   const [showFirstCanvas, setShowFirstCanvas] = useState(false);
@@ -15,6 +15,15 @@ const Navigation = () => {
   const [showCountryModal, setShowCountryModal] = useState(false); // ✅ New state for country modal
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [cartPulse, setCartPulse] = useState(false);
+  const [wishlistPulse, setWishlistPulse] = useState(false);
+  const cartPulseRef = useRef(null);
+  const wishlistPulseRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,10 +34,100 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // load user from localStorage when component mounts
+  useEffect(() => {
+    try {
+      const storedAuth = localStorage.getItem("auth");
+      const storedUser = localStorage.getItem("user");
+      if (storedAuth) {
+        const parsed = JSON.parse(storedAuth);
+        setUser(parsed.user || parsed);
+      } else if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (e) {
+      console.error("Failed to parse stored user/auth", e);
+    }
+    const onStorage = (e) => {
+      if (e.key === "auth" || e.key === "user") {
+        try {
+          const newVal = e.newValue;
+          if (newVal) {
+            const parsed = JSON.parse(newVal);
+            setUser(parsed.user || parsed);
+          } else {
+            setUser(null);
+          }
+        } catch (err) {
+          setUser(null);
+        }
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    const onCartChanged = () => {
+      try {
+        const c = JSON.parse(localStorage.getItem("cart") || "[]");
+        setCartCount(Array.isArray(c) ? c.reduce((s,i)=>s + (i.qty||i.quantity||1),0) : 0);
+      } catch (e) {
+        setCartCount(0);
+      }
+    };
+    window.addEventListener("cartChanged", onCartChanged);
+    // initialize cart count
+    onCartChanged();
+    const onWishlistChanged = () => {
+      try {
+        const w = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        setWishlistCount(Array.isArray(w) ? w.length : 0);
+      } catch (e) {
+        setWishlistCount(0);
+      }
+    };
+    window.addEventListener("wishlistChanged", onWishlistChanged);
+    // initialize wishlist count
+    onWishlistChanged();
+
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("cartChanged", onCartChanged);
+      window.removeEventListener("wishlistChanged", onWishlistChanged);
+    };
+  }, []);
+
+  // animate badge when counts change
+  useEffect(() => {
+    // trigger pulse when cartCount changes
+    if (cartCount > 0) {
+      setCartPulse(true);
+      if (cartPulseRef.current) clearTimeout(cartPulseRef.current);
+      cartPulseRef.current = setTimeout(() => setCartPulse(false), 350);
+    } else {
+      setCartPulse(false);
+    }
+    return () => {
+      if (cartPulseRef.current) clearTimeout(cartPulseRef.current);
+    };
+  }, [cartCount]);
+
+  useEffect(() => {
+    // trigger pulse when wishlistCount changes
+    if (wishlistCount > 0) {
+      setWishlistPulse(true);
+      if (wishlistPulseRef.current) clearTimeout(wishlistPulseRef.current);
+      wishlistPulseRef.current = setTimeout(() => setWishlistPulse(false), 350);
+    } else {
+      setWishlistPulse(false);
+    }
+    return () => {
+      if (wishlistPulseRef.current) clearTimeout(wishlistPulseRef.current);
+    };
+  }, [wishlistCount]);
+
   const handleCloseFirst = () => {
     setShowFirstCanvas(false);
     setShowSecondCanvas(false);
     setActiveMenu("");
+    // NOTE: we don't remove custom listeners here (component unmount will clean)
   };
 
   const handleShowFirst = () => setShowFirstCanvas(true);
@@ -82,24 +181,71 @@ const Navigation = () => {
               <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
             </button>
 
-            <Link to="/signin" className="text-xl">
-              <LuUserRound />
-            </Link>
+            {/* show username when logged in, otherwise sign in icon */}
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu((s) => !s)}
+                  className="text-sm font-medium flex items-center space-x-2"
+                >
+                  <span>{user.name || user.username || user.email}</span>
+                  <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
+                </button>
+
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
+                    <button
+                      onClick={() => {
+                        // logout: clear storage and state
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("auth");
+                        setUser(null);
+                        setShowUserMenu(false);
+                        navigate("/");
+                      }}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/signin" className="text-xl">
+                <LuUserRound />
+              </Link>
+            )}
 
             <button className="text-xl">
               <IoSearchSharp />
             </button>
 
-            <button className="text-xl relative">
+            <Link to="/cart" className="text-xl relative">
               <PiShoppingCartSimpleBold />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
-            </button>
+              {cartCount > 0 && (
+                <span
+                  className={`absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform transition-transform duration-300 ${
+                    cartPulse ? "scale-125" : "scale-100"
+                  }`}
+                >
+                  {cartCount}
+                </span>
+              )}
+            </Link>
 
-            <button className="text-xl">
+            <Link to="/wishlist" className="text-xl relative">
               <FaRegHeart />
-            </button>
+              {wishlistCount > 0 && (
+                <span
+                  className={`absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform transition-transform duration-300 ${
+                    wishlistPulse ? "scale-125" : "scale-100"
+                  }`}
+                >
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </nav>
@@ -197,9 +343,13 @@ const Navigation = () => {
                   </span>
                 </button>
 
-                <button className="py-4 w-full text-left hover:bg-gray-50 px-2 rounded">
+                <Link
+                  to="/essentials/shawls"
+                  onClick={handleCloseFirst}
+                  className="py-5 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                >
                   <span className="py-2">SHAWLS</span>
-                </button>
+                </Link>
               </nav>
             </div>
           </div>

@@ -11,6 +11,37 @@ const ProductDetail = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("M");
 
+  const addToCart = () => {
+    try {
+      const raw = localStorage.getItem("cart");
+      const cart = raw ? JSON.parse(raw) : [];
+
+      // try to find existing same product + size
+      const existing = cart.find(
+        (it) =>
+          it.id === product.id && (it.size || it.selectedSize) === selectedSize
+      );
+      if (existing) {
+        existing.qty = (existing.qty || existing.quantity || 0) + qty;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          imgUrl: product.imgUrl,
+          size: selectedSize,
+          qty: qty,
+        });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // notify other components in same window
+      window.dispatchEvent(new Event("cartChanged"));
+    } catch (e) {
+      console.error("Failed to add to cart", e);
+    }
+  };
+
   if (!product) return <div className="p-8">Product not found</div>;
 
   // thumbnails: use `product.images` if available
@@ -113,7 +144,10 @@ const ProductDetail = () => {
             </button>
           </div>
 
-          <button className="mt-6 w-full bg-black text-white py-3 font-semibold">
+          <button
+            onClick={addToCart}
+            className="mt-6 w-full bg-black text-white py-3 font-semibold"
+          >
             ADD TO CART
           </button>
 

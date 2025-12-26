@@ -63,7 +63,28 @@ const SignIn = () => {
         }
 
         // redirect to admin dashboard
-        navigate("/");
+        // if there was a pending like (user clicked heart before login), apply it to wishlist
+        try {
+          const raw = sessionStorage.getItem("pendingLike");
+          if (raw) {
+            const pending = JSON.parse(raw);
+            const wishRaw = localStorage.getItem("wishlist");
+            const wish = wishRaw ? JSON.parse(wishRaw) : [];
+            const exists = wish.find((w) => w.id === pending.id);
+            if (!exists) {
+              wish.push(pending);
+              localStorage.setItem("wishlist", JSON.stringify(wish));
+              window.dispatchEvent(new Event("wishlistChanged"));
+            }
+            sessionStorage.removeItem("pendingLike");
+            navigate("/wishlist");
+          } else {
+            navigate("/");
+          }
+        } catch (e) {
+          console.error("Failed to apply pending like", e);
+          navigate("/");
+        }
       } else {
         throw new Error((data && data.message) || "Login failed");
       }

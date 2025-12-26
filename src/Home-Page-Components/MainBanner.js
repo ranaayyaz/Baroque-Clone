@@ -18,7 +18,7 @@ const MainBanner = () => {
       </div>
       <div>
         <Link
-          to="/unstitched"
+          to="/shop-all"
           className=" px-7 py-3 bg-white text-black border btn text-xl"
         >
           Shop Now
