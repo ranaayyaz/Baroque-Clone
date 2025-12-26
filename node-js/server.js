@@ -11,19 +11,25 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // Enable CORS for access from different origins/frontends
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "https://baroque.vercel.app/",
-].filter(Boolean);
+const allowedOrigins = [process.env.FRONTEND_URL, "https://baroque.vercel.app"]
+  .filter(Boolean)
+  .map((u) => u.replace(/\/$/, "")); // normalize (no trailing slash)
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (!origin) return next(); // non-browser request
 
+  const originNorm = origin.replace(/\/$/, "");
   const isAllowed =
-    allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production";
+    allowedOrigins.includes(originNorm) ||
+    process.env.NODE_ENV !== "production";
 
-  if (!isAllowed) return next();
+  if (!isAllowed) {
+    // Explicitly deny browser requests from unknown origins to avoid silent CORS failures
+    return res
+      .status(403)
+      .json({ status: "error", message: "Origin not allowed" });
+  }
 
   // Always set Vary when Origin is present so caches distinguish responses
   res.setHeader("Vary", "Origin");
