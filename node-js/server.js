@@ -11,7 +11,11 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // Enable CORS for access from different origins/frontends
-app.use(cors("*"));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+  })
+);
 
 require("./database/connection");
 
