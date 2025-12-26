@@ -26,16 +26,19 @@ const SignUp = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.SERVER_URL}/users/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          password: form.password,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            password: form.password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
