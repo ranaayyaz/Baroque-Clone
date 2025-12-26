@@ -15,7 +15,7 @@ const SignIn = () => {
     setMessage(null);
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:7777/users/login", {
+      const res = await fetch(`${process.env.SERVER_URL}/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, password: form.password }),
