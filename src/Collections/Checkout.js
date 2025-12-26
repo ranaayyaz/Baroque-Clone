@@ -21,12 +21,33 @@ const Checkout = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("cart");
-      setCart(raw ? JSON.parse(raw) : []);
-    } catch (e) {
-      setCart([]);
-    }
+    const load = async () => {
+      try {
+        const authRaw = localStorage.getItem("auth");
+        const token = authRaw ? JSON.parse(authRaw).token : null;
+        if (token) {
+          const res = await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          if (res.ok) {
+            const j = await res.json();
+            if (j && j.status === "success") {
+              setCart(j.cart || []);
+              return;
+            }
+          }
+        }
+        // fallback to localStorage
+        const raw = localStorage.getItem("cart");
+        setCart(raw ? JSON.parse(raw) : []);
+      } catch (e) {
+        setCart([]);
+      }
+    };
+    load();
   }, []);
 
   const handleChange = (e) =>
@@ -65,25 +86,100 @@ const Checkout = () => {
       total: cart.reduce((s, it) => s + (it.price || 0) * (it.qty || 1), 0),
     };
 
-    try {
-      // persist simple order locally
-      const raw = localStorage.getItem("orders");
-      const orders = raw ? JSON.parse(raw) : [];
-      orders.push(order);
-      localStorage.setItem("orders", JSON.stringify(orders));
-      localStorage.setItem("lastOrder", JSON.stringify(order));
+    const doSubmit = async () => {
+      try {
+        const authRaw = localStorage.getItem("auth");
+        const token = authRaw ? JSON.parse(authRaw).token : null;
+        if (!token) {
+          // require login to place order
+          navigate("/signin");
+          return;
+        }
 
-      // clear cart
-      localStorage.removeItem("cart");
-      window.dispatchEvent(new Event("cartChanged"));
+        const payload = {
+          items: cart,
+          contact: form,
+          payment: order.payment,
+        };
 
-      navigate("/order-success");
-    } catch (err) {
-      console.error("Failed to create order", err);
-    }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/orders`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+        const j = await res.json();
+        if (res.ok && j && j.status === "success") {
+          // clear client cart and notify
+          localStorage.removeItem("cart");
+          window.dispatchEvent(new Event("cartChanged"));
+          // save last order locally for order-success page
+          localStorage.setItem(
+            "lastOrder",
+            JSON.stringify(j.order || { id: j.orderId })
+          );
+          navigate("/order-success");
+          return;
+        }
+        setError(j && j.message ? j.message : "Failed to place order");
+      } catch (err) {
+        console.error("Failed to create order", err);
+        setError("Failed to place order");
+      }
+    };
+    doSubmit();
   };
 
   const total = cart.reduce((s, it) => s + (it.price || 0) * (it.qty || 1), 0);
+
+  // auto-fill form from logged in user's profile if available
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const authRaw = localStorage.getItem("auth");
+        const token = authRaw ? JSON.parse(authRaw).token : null;
+        if (token) {
+          const res = await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/users/me/profile`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          if (res.ok) {
+            const j = await res.json();
+            if (j && j.status === "success" && j.profile) {
+              setForm((s) => ({
+                ...s,
+                firstName: j.profile.firstName || "",
+                lastName: j.profile.lastName || "",
+                email: j.profile.email || "",
+              }));
+              return;
+            }
+          }
+        }
+        // fallback: try `user` in localStorage
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          const u = JSON.parse(storedUser);
+          setForm((s) => ({
+            ...s,
+            firstName: u.firstName || u.name || "",
+            lastName: u.lastName || "",
+            email: u.email || "",
+          }));
+        }
+      } catch (err) {
+        // ignore
+      }
+    };
+    loadProfile();
+  }, []);
 
   return (
     <div className="max-w-[1100px] mx-auto p-8">

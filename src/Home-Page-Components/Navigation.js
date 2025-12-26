@@ -210,11 +210,16 @@ const Navigation = () => {
                   <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
                     <button
                       onClick={() => {
-                        // logout: clear auth state
+                        // logout: clear auth state and reset counts
                         localStorage.removeItem("token");
                         localStorage.removeItem("user");
                         localStorage.removeItem("auth");
                         setUser(null);
+                        setCartCount(0);
+                        setWishlistCount(0);
+                        // notify other components
+                        window.dispatchEvent(new Event("cartChanged"));
+                        window.dispatchEvent(new Event("wishlistChanged"));
                         setShowUserMenu(false);
                         navigate("/");
                       }}

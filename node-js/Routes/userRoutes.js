@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const userController = require("../Controllers/userController");
+const orderController = require("../Controllers/orderController");
 const auth = require("../Middleware/auth");
 
 // Route for user login
@@ -25,5 +26,12 @@ router.post("/me/wishlist", auth, userController.replaceWishlist);
 router.post("/me/wishlist/toggle", auth, userController.toggleWishlistItem);
 router.delete("/me/wishlist/:id", auth, userController.removeWishlistItem);
 router.delete("/me/wishlist", auth, userController.clearWishlist);
+
+// Order routes (protected)
+router.post("/me/orders", auth, orderController.createOrder);
+router.get("/me/orders", auth, orderController.getOrders);
+
+// profile
+router.get("/me/profile", auth, userController.getProfile);
 
 module.exports = router;

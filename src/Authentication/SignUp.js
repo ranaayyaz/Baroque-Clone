@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
+import SignIn from "./SignIn";
 const SignUp = () => {
   const [form, setForm] = useState({
     firstName: "",
@@ -10,6 +11,7 @@ const SignUp = () => {
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [message, setMessage] = useState(null);
 
   const handleChange = (e) =>
@@ -54,6 +56,7 @@ const SignUp = () => {
         password: "",
         confirmPassword: "",
       });
+      navigate("/signin");
     } catch (err) {
       setMessage(err.message || "An error occurred");
     } finally {

@@ -11,11 +11,40 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // Enable CORS for access from different origins/frontends
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-  })
-);
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "https://baroque.vercel.app/",
+].filter(Boolean);
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (!origin) return next(); // non-browser request
+
+  const isAllowed =
+    allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production";
+
+  if (!isAllowed) return next();
+
+  // Always set Vary when Origin is present so caches distinguish responses
+  res.setHeader("Vary", "Origin");
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+
+  // Respond to preflight OPTIONS requests immediately
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
 
 require("./database/connection");
 

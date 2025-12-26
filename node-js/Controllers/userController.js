@@ -24,47 +24,89 @@ module.exports = {
   },
 
   //API to authenticate user
-  authenticate: function (req, res) {
-    userModel
-      .findOne({ email: req.body.email })
-      .select("+password")
-      .then((userInfo) => {
-        if (!userInfo) {
-          return res.json({ status: "Error", message: "User not found" });
-        }
+  authenticate: async function (req, res) {
+    try {
+      if (!req.body || !req.body.email)
+        return res
+          .status(400)
+          .json({ status: "Error", message: "Email required" });
+      if (!req.body || !req.body.password)
+        return res
+          .status(400)
+          .json({ status: "Error", message: "Password required" });
 
-        // Compare hashed password (ensure password was selected)
-        if (
-          userInfo.password &&
-          bcrypt.compareSync(req.body.password, userInfo.password)
-        ) {
-          // Token generate
-          const token = jwt.sign(
-            { id: userInfo._id },
-            req.app.get("secretKey"),
-            { expiresIn: "1h" }
-          );
-          const userSafe = {
-            id: userInfo._id,
-            firstName: userInfo.firstName,
-            lastName: userInfo.lastName,
-            email: userInfo.email,
-          };
+      const userInfo = await userModel
+        .findOne({ email: req.body.email })
+        .select("+password");
+      if (!userInfo) {
+        return res
+          .status(404)
+          .json({ status: "Error", message: "User not found" });
+      }
 
-          res.json({
-            status: "success",
-            message: "Login successful",
-            token: token,
-            user: userSafe,
-          });
-        } else {
-          res.json({ status: "Error", message: "Invalid password" });
-        }
-      })
-      .catch((err) => {
-        console.error("Authentication error:", err);
-        res.json({ status: "Error", message: "Authentication failed" });
+      const hashed = userInfo.password;
+      if (!hashed) {
+        return res
+          .status(400)
+          .json({ status: "Error", message: "Invalid credentials" });
+      }
+
+      const match = bcrypt.compareSync(
+        String(req.body.password),
+        String(hashed)
+      );
+      if (match) {
+        const token = jwt.sign({ id: userInfo._id }, req.app.get("secretKey"), {
+          expiresIn: "1h",
+        });
+        const userSafe = {
+          id: userInfo._id,
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email,
+        };
+        return res.json({
+          status: "success",
+          message: "Login successful",
+          token,
+          user: userSafe,
+        });
+      }
+      return res
+        .status(401)
+        .json({ status: "Error", message: "Invalid password" });
+    } catch (err) {
+      console.error("Authentication error:", err);
+      return res
+        .status(500)
+        .json({ status: "Error", message: "Authentication failed" });
+    }
+  },
+
+  // return basic profile for current user
+  getProfile: async function (req, res) {
+    try {
+      const u = await userModel
+        .findById(req.userId)
+        .select("firstName lastName email");
+      if (!u)
+        return res
+          .status(404)
+          .json({ status: "error", message: "User not found" });
+      return res.json({
+        status: "success",
+        profile: {
+          firstName: u.firstName,
+          lastName: u.lastName,
+          email: u.email,
+        },
       });
+    } catch (err) {
+      console.error("Get profile error:", err);
+      return res
+        .status(500)
+        .json({ status: "error", message: "Failed to load profile" });
+    }
   },
 
   // --- CART & WISHLIST HANDLERS ---
@@ -89,7 +131,7 @@ module.exports = {
       const u = await userModel
         .findByIdAndUpdate(req.userId, { $set: { cart } }, { new: true })
         .select("cart");
-      return res.json({ status: "success", cart: u.cart || [] });
+      return res.json({ status: "success", cart: u?.cart || [] });
     } catch (err) {
       console.error(err);
       return res
@@ -126,7 +168,7 @@ module.exports = {
           { new: true }
         )
         .select("cart");
-      return res.json({ status: "success", cart: pushResult.cart });
+      return res.json({ status: "success", cart: pushResult?.cart || [] });
     } catch (err) {
       console.error(err);
       return res
@@ -152,7 +194,7 @@ module.exports = {
         return res
           .status(404)
           .json({ status: "error", message: "Item not found" });
-      return res.json({ status: "success", cart: resDoc.cart });
+      return res.json({ status: "success", cart: resDoc?.cart || [] });
     } catch (err) {
       console.error(err);
       return res
@@ -173,7 +215,7 @@ module.exports = {
           { new: true }
         )
         .select("cart");
-      return res.json({ status: "success", cart: resDoc.cart });
+      return res.json({ status: "success", cart: resDoc?.cart || [] });
     } catch (err) {
       console.error(err);
       return res
@@ -185,9 +227,11 @@ module.exports = {
   // clear cart
   clearCart: async (req, res) => {
     try {
-      const u = await userModel
-        .findByIdAndUpdate(req.userId, { $set: { cart: [] } }, { new: true })
-        .select("cart");
+      await userModel.findByIdAndUpdate(
+        req.userId,
+        { $set: { cart: [] } },
+        { new: true }
+      );
       return res.json({ status: "success", cart: [] });
     } catch (err) {
       console.error(err);
@@ -219,7 +263,7 @@ module.exports = {
       const u = await userModel
         .findByIdAndUpdate(req.userId, { $set: { wishlist } }, { new: true })
         .select("wishlist");
-      return res.json({ status: "success", wishlist: u.wishlist || [] });
+      return res.json({ status: "success", wishlist: u?.wishlist || [] });
     } catch (err) {
       console.error(err);
       return res
@@ -251,7 +295,10 @@ module.exports = {
             { new: true }
           )
           .select("wishlist");
-        return res.json({ status: "success", wishlist: pulled.wishlist || [] });
+        return res.json({
+          status: "success",
+          wishlist: pulled?.wishlist || [],
+        });
       } else {
         // item not present — add it
         const pushed = await userModel
@@ -261,7 +308,10 @@ module.exports = {
             { new: true }
           )
           .select("wishlist");
-        return res.json({ status: "success", wishlist: pushed.wishlist || [] });
+        return res.json({
+          status: "success",
+          wishlist: pushed?.wishlist || [],
+        });
       }
     } catch (err) {
       console.error(err);
@@ -282,7 +332,7 @@ module.exports = {
           { new: true }
         )
         .select("wishlist");
-      return res.json({ status: "success", wishlist: resDoc.wishlist });
+      return res.json({ status: "success", wishlist: resDoc?.wishlist || [] });
     } catch (err) {
       console.error(err);
       return res
