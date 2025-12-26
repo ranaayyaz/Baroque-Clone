@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const load = () => {
+    const load = async () => {
       try {
-        const raw = localStorage.getItem("cart");
-        setCart(raw ? JSON.parse(raw) : []);
+        const token = localStorage.getItem("auth")
+          ? JSON.parse(localStorage.getItem("auth")).token
+          : localStorage.getItem("token");
+        if (!token) {
+          setCart([]);
+          return;
+        }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await res.json();
+        if (data && data.status === "success") setCart(data.cart || []);
+        else setCart([]);
       } catch (e) {
         setCart([]);
       }
@@ -16,33 +30,103 @@ const Cart = () => {
     load();
     const onCart = () => load();
     window.addEventListener("cartChanged", onCart);
-    window.addEventListener("storage", onCart);
     return () => {
       window.removeEventListener("cartChanged", onCart);
-      window.removeEventListener("storage", onCart);
     };
   }, []);
 
-  const updateQty = (idx, newQty) => {
-    const copy = [...cart];
-    copy[idx].qty = Math.max(1, newQty);
-    setCart(copy);
-    localStorage.setItem("cart", JSON.stringify(copy));
-    window.dispatchEvent(new Event("cartChanged"));
+  const navigate = useNavigate();
+
+  const updateQty = async (idx, newQty) => {
+    const item = cart[idx];
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item/${item.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            size: item.size || "",
+            qty: Math.max(1, newQty),
+          }),
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setCart(data.cart);
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
+        );
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const removeItem = (idx) => {
-    const copy = [...cart];
-    copy.splice(idx, 1);
-    setCart(copy);
-    localStorage.setItem("cart", JSON.stringify(copy));
-    window.dispatchEvent(new Event("cartChanged"));
+  const removeItem = async (idx) => {
+    const item = cart[idx];
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item/${
+          item.id
+        }?size=${item.size || ""}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setCart(data.cart);
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
+        );
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const clearCart = () => {
-    setCart([]);
-    localStorage.removeItem("cart");
-    window.dispatchEvent(new Event("cartChanged"));
+  const clearCart = async () => {
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setCart([]);
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: [] } })
+        );
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const total = cart.reduce(

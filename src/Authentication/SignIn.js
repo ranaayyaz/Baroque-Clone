@@ -15,11 +15,14 @@ const SignIn = () => {
     setMessage(null);
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email, password: form.password }),
-      });
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: form.email, password: form.password }),
+        }
+      );
 
       if (!res.ok) {
         let errBody = null;
@@ -62,21 +65,32 @@ const SignIn = () => {
           console.error("Failed to save auth to localStorage", e);
         }
 
+        // No local->server sync: cart and wishlist are server-only now
+
         // redirect to admin dashboard
         // if there was a pending like (user clicked heart before login), apply it to wishlist
         try {
           const raw = sessionStorage.getItem("pendingLike");
           if (raw) {
             const pending = JSON.parse(raw);
-            const wishRaw = localStorage.getItem("wishlist");
-            const wish = wishRaw ? JSON.parse(wishRaw) : [];
-            const exists = wish.find((w) => w.id === pending.id);
-            if (!exists) {
-              wish.push(pending);
-              localStorage.setItem("wishlist", JSON.stringify(wish));
-              window.dispatchEvent(new Event("wishlistChanged"));
+            // apply pending like on server
+            try {
+              await fetch(
+                `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/toggle`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({ item: pending }),
+                }
+              );
+            } catch (e) {
+              console.error("Failed to apply pending like to server", e);
             }
             sessionStorage.removeItem("pendingLike");
+            window.dispatchEvent(new CustomEvent("wishlistChanged"));
             navigate("/wishlist");
           } else {
             navigate("/");

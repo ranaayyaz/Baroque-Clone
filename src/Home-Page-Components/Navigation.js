@@ -48,47 +48,61 @@ const Navigation = () => {
     } catch (e) {
       console.error("Failed to parse stored user/auth", e);
     }
-    const onStorage = (e) => {
-      if (e.key === "auth" || e.key === "user") {
-        try {
-          const newVal = e.newValue;
-          if (newVal) {
-            const parsed = JSON.parse(newVal);
-            setUser(parsed.user || parsed);
-          } else {
-            setUser(null);
-          }
-        } catch (err) {
-          setUser(null);
-        }
-      }
-    };
-    window.addEventListener("storage", onStorage);
-    const onCartChanged = () => {
+
+    const fetchCartCount = async () => {
       try {
-        const c = JSON.parse(localStorage.getItem("cart") || "[]");
-        setCartCount(Array.isArray(c) ? c.reduce((s,i)=>s + (i.qty||i.quantity||1),0) : 0);
+        const token = localStorage.getItem("auth")
+          ? JSON.parse(localStorage.getItem("auth")).token
+          : localStorage.getItem("token");
+        if (!token) {
+          setCartCount(0);
+          return;
+        }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const j = await res.json();
+        if (j && j.status === "success")
+          setCartCount((j.cart || []).reduce((s, i) => s + (i.qty || 1), 0));
+        else setCartCount(0);
       } catch (e) {
         setCartCount(0);
       }
     };
-    window.addEventListener("cartChanged", onCartChanged);
-    // initialize cart count
-    onCartChanged();
-    const onWishlistChanged = () => {
+
+    const fetchWishlistCount = async () => {
       try {
-        const w = JSON.parse(localStorage.getItem("wishlist") || "[]");
-        setWishlistCount(Array.isArray(w) ? w.length : 0);
+        const token = localStorage.getItem("auth")
+          ? JSON.parse(localStorage.getItem("auth")).token
+          : localStorage.getItem("token");
+        if (!token) {
+          setWishlistCount(0);
+          return;
+        }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const j = await res.json();
+        if (j && j.status === "success")
+          setWishlistCount((j.wishlist || []).length || 0);
+        else setWishlistCount(0);
       } catch (e) {
         setWishlistCount(0);
       }
     };
+
+    const onCartChanged = () => fetchCartCount();
+    const onWishlistChanged = () => fetchWishlistCount();
+
+    window.addEventListener("cartChanged", onCartChanged);
     window.addEventListener("wishlistChanged", onWishlistChanged);
-    // initialize wishlist count
-    onWishlistChanged();
+    fetchCartCount();
+    fetchWishlistCount();
 
     return () => {
-      window.removeEventListener("storage", onStorage);
+      // window.removeEventListener("storage", onStorage);
       window.removeEventListener("cartChanged", onCartChanged);
       window.removeEventListener("wishlistChanged", onWishlistChanged);
     };
@@ -196,7 +210,7 @@ const Navigation = () => {
                   <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
                     <button
                       onClick={() => {
-                        // logout: clear storage and state
+                        // logout: clear auth state
                         localStorage.removeItem("token");
                         localStorage.removeItem("user");
                         localStorage.removeItem("auth");

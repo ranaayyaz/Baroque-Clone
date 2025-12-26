@@ -15,49 +15,73 @@ const ProductCard = ({
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("wishlist");
-      const wish = raw ? JSON.parse(raw) : [];
-      setLiked(wish.some((w) => w.id === productId));
-    } catch (e) {
-      setLiked(false);
-    }
+    const load = async () => {
+      try {
+        const a = localStorage.getItem("auth");
+        const token = a
+          ? JSON.parse(a).token || localStorage.getItem("token")
+          : localStorage.getItem("token");
+        if (!token) {
+          setLiked(false);
+          return;
+        }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const j = await res.json();
+        if (j && j.status === "success")
+          setLiked((j.wishlist || []).some((w) => w.id === productId));
+        else setLiked(false);
+      } catch (e) {
+        setLiked(false);
+      }
+    };
+    load();
   }, [productId]);
 
-  const toggleLike = (e) => {
+  const toggleLike = async (e) => {
     e && e.stopPropagation && e.stopPropagation();
     e && e.preventDefault && e.preventDefault();
     // require login: if no auth/user in localStorage, save pending like and redirect to signin
     try {
-      const auth = localStorage.getItem("auth") || localStorage.getItem("user");
-      if (!auth) {
+      const a = localStorage.getItem("auth");
+      const token = a
+        ? JSON.parse(a).token || localStorage.getItem("token")
+        : localStorage.getItem("token");
+      if (!token) {
         const pending = { id: productId, name, price, imgUrl, season };
         try {
           sessionStorage.setItem("pendingLike", JSON.stringify(pending));
         } catch (e) {
           console.error("Failed to save pending like", e);
         }
-        // send user to signin
         window.location.href = "/signin";
         return;
       }
-    } catch (e) {
-      console.error(e);
-    }
-    try {
-      const raw = localStorage.getItem("wishlist");
-      const wish = raw ? JSON.parse(raw) : [];
-      const exists = wish.find((w) => w.id === productId);
-      if (exists) {
-        const next = wish.filter((w) => w.id !== productId);
-        localStorage.setItem("wishlist", JSON.stringify(next));
-        setLiked(false);
-      } else {
-        const next = [...wish, { id: productId, name, price, imgUrl, season }];
-        localStorage.setItem("wishlist", JSON.stringify(next));
-        setLiked(true);
+
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/toggle`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            item: { id: productId, name, price, imgUrl, season },
+          }),
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setLiked((data.wishlist || []).some((w) => w.id === productId));
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", {
+            detail: { wishlist: data.wishlist },
+          })
+        );
       }
-      window.dispatchEvent(new Event("wishlistChanged"));
     } catch (err) {
       console.error("wishlist toggle failed", err);
     }

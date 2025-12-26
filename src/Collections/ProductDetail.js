@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { products } from "../mock/product";
 
 const ProductDetail = () => {
@@ -11,32 +11,54 @@ const ProductDetail = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("M");
 
-  const addToCart = () => {
-    try {
-      const raw = localStorage.getItem("cart");
-      const cart = raw ? JSON.parse(raw) : [];
+  const navigate = useNavigate();
 
-      // try to find existing same product + size
-      const existing = cart.find(
-        (it) =>
-          it.id === product.id && (it.size || it.selectedSize) === selectedSize
-      );
-      if (existing) {
-        existing.qty = (existing.qty || existing.quantity || 0) + qty;
-      } else {
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          imgUrl: product.imgUrl,
-          size: selectedSize,
-          qty: qty,
-        });
+  const addToCart = async () => {
+    try {
+      const item = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imgUrl: product.imgUrl,
+        size: selectedSize,
+        qty,
+      };
+
+      const authRaw =
+        localStorage.getItem("auth") || localStorage.getItem("token");
+      const token = authRaw
+        ? (() => {
+            try {
+              return JSON.parse(authRaw).token || localStorage.getItem("token");
+            } catch {
+              return localStorage.getItem("token");
+            }
+          })()
+        : localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/signin");
+        return;
       }
 
-      localStorage.setItem("cart", JSON.stringify(cart));
-      // notify other components in same window
-      window.dispatchEvent(new Event("cartChanged"));
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ item }),
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        // notify other parts of app; no localStorage writes
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
+        );
+      }
     } catch (e) {
       console.error("Failed to add to cart", e);
     }

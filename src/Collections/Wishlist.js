@@ -1,14 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Wishlist = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const load = () => {
+    const load = async () => {
       try {
-        const raw = localStorage.getItem("wishlist");
-        setItems(raw ? JSON.parse(raw) : []);
+        const token = localStorage.getItem("auth")
+          ? JSON.parse(localStorage.getItem("auth")).token
+          : localStorage.getItem("token");
+        if (!token) {
+          setItems([]);
+          return;
+        }
+        const res = await fetch(
+          `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const data = await res.json();
+        if (data && data.status === "success") setItems(data.wishlist || []);
+        else setItems([]);
       } catch (e) {
         setItems([]);
       }
@@ -16,66 +28,100 @@ const Wishlist = () => {
     load();
     const onChange = () => load();
     window.addEventListener("wishlistChanged", onChange);
-    window.addEventListener("storage", onChange);
     return () => {
       window.removeEventListener("wishlistChanged", onChange);
-      window.removeEventListener("storage", onChange);
     };
   }, []);
 
-  const removeAll = () => {
-    localStorage.removeItem("wishlist");
-    window.dispatchEvent(new Event("wishlistChanged"));
-    setItems([]);
-  };
+  const navigate = useNavigate();
 
-  const removeOne = (id) => {
+  const removeAll = async () => {
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
     try {
-      const raw = localStorage.getItem("wishlist");
-      const wish = raw ? JSON.parse(raw) : [];
-      const next = wish.filter((w) => w.id !== id);
-      localStorage.setItem("wishlist", JSON.stringify(next));
-      window.dispatchEvent(new Event("wishlistChanged"));
-      setItems(next);
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
+        { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setItems([]);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", { detail: { wishlist: [] } })
+        );
+        return;
+      }
     } catch (e) {
-      console.error("Failed to remove wishlist item", e);
+      console.error(e);
     }
   };
 
-  const addToCartItem = (item) => {
+  const removeOne = async (id) => {
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
+    if (!token) return;
     try {
-      const raw = localStorage.getItem("cart");
-      const cart = raw ? JSON.parse(raw) : [];
-      const existing = cart.find((c) => c.id === item.id);
-      if (existing) {
-        existing.qty = (existing.qty || 1) + 1;
-      } else {
-        cart.push({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          imgUrl: item.imgUrl,
-          qty: 1,
-        });
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/${id}`,
+        { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        setItems(data.wishlist || []);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", {
+            detail: { wishlist: data.wishlist || [] },
+          })
+        );
+        return;
       }
-      localStorage.setItem("cart", JSON.stringify(cart));
-      window.dispatchEvent(new Event("cartChanged"));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const addToCartItem = async (item) => {
+    try {
+      const token = localStorage.getItem("auth")
+        ? JSON.parse(localStorage.getItem("auth")).token
+        : localStorage.getItem("token");
+      if (!token) return;
+      const payload = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        imgUrl: item.imgUrl,
+        qty: 1,
+      };
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ item: payload }),
+        }
+      );
+      const data = await res.json();
+      if (data && data.status === "success") {
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
+        );
+      }
     } catch (e) {
       console.error("Failed to add wishlist item to cart", e);
     }
   };
 
-  const addToWishlist = () => {
-    // for compatibility we copy wishlist to a saved key 'wishlistSaved'
-    try {
-      localStorage.setItem("wishlistSaved", JSON.stringify(items));
-      window.dispatchEvent(new Event("wishlistSaved"));
-      // also optionally copy to cart? here we just persist saved wishlist
-      console.log("Wishlist saved (wishlistSaved)");
-    } catch (e) {
-      console.error("Failed to save wishlist", e);
-    }
-  };
+  // Removed local save; wishlist is server-only
 
   if (!items || items.length === 0)
     return (
@@ -143,7 +189,7 @@ const Wishlist = () => {
         </button>
         <button
           className="bg-black text-white px-4 py-2"
-          onClick={addToWishlist}
+          // onClick={addToWishlist}
         >
           Add to Wishlist
         </button>
