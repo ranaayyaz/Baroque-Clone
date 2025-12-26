@@ -1,7 +1,8 @@
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import ImageCard from "../ImageCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getWishlist, setWishlist } from "../helper/wishlistService";
 
 const ProductCard = ({
   productId,
@@ -13,6 +14,8 @@ const ProductCard = ({
   compact = false,
 }) => {
   const [liked, setLiked] = useState(false);
+  const [loadingLike, setLoadingLike] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -25,14 +28,8 @@ const ProductCard = ({
           setLiked(false);
           return;
         }
-        const res = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        const j = await res.json();
-        if (j && j.status === "success")
-          setLiked((j.wishlist || []).some((w) => w.id === productId));
-        else setLiked(false);
+        const wl = await getWishlist(token);
+        setLiked((wl || []).some((w) => w.id === productId));
       } catch (e) {
         setLiked(false);
       }
@@ -43,6 +40,8 @@ const ProductCard = ({
   const toggleLike = async (e) => {
     e && e.stopPropagation && e.stopPropagation();
     e && e.preventDefault && e.preventDefault();
+    if (loadingLike) return;
+    setLoadingLike(true);
     // require login: if no auth/user in localStorage, save pending like and redirect to signin
     try {
       const a = localStorage.getItem("auth");
@@ -56,7 +55,8 @@ const ProductCard = ({
         } catch (e) {
           console.error("Failed to save pending like", e);
         }
-        window.location.href = "/signin";
+        navigate("/signin");
+        setLoadingLike(false);
         return;
       }
 
@@ -73,6 +73,14 @@ const ProductCard = ({
           }),
         }
       );
+      if (res.status === 401) {
+        // clear invalid auth to avoid repeated failing requests
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         setLiked((data.wishlist || []).some((w) => w.id === productId));
@@ -84,6 +92,8 @@ const ProductCard = ({
       }
     } catch (err) {
       console.error("wishlist toggle failed", err);
+    } finally {
+      setLoadingLike(false);
     }
   };
   if (compact) {

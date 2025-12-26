@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { setWishlist, getWishlist } from "../helper/wishlistService";
 
 const Wishlist = () => {
   const [items, setItems] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -14,13 +17,9 @@ const Wishlist = () => {
           setItems([]);
           return;
         }
-        const res = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        const data = await res.json();
-        if (data && data.status === "success") setItems(data.wishlist || []);
-        else setItems([]);
+        const wl = await getWishlist(token);
+        setItems(wl || []);
+        setWishlist(wl || []);
       } catch (e) {
         setItems([]);
       }
@@ -32,8 +31,6 @@ const Wishlist = () => {
       window.removeEventListener("wishlistChanged", onChange);
     };
   }, []);
-
-  const navigate = useNavigate();
 
   const removeAll = async () => {
     const token = localStorage.getItem("auth")
@@ -51,6 +48,7 @@ const Wishlist = () => {
       const data = await res.json();
       if (data && data.status === "success") {
         setItems([]);
+        setWishlist([]);
         window.dispatchEvent(
           new CustomEvent("wishlistChanged", { detail: { wishlist: [] } })
         );
@@ -74,6 +72,7 @@ const Wishlist = () => {
       const data = await res.json();
       if (data && data.status === "success") {
         setItems(data.wishlist || []);
+        setWishlist(data.wishlist || []);
         window.dispatchEvent(
           new CustomEvent("wishlistChanged", {
             detail: { wishlist: data.wishlist || [] },
@@ -110,6 +109,13 @@ const Wishlist = () => {
           body: JSON.stringify({ item: payload }),
         }
       );
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         window.dispatchEvent(

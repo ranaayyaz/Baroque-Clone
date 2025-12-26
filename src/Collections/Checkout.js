@@ -113,6 +113,13 @@ const Checkout = () => {
             body: JSON.stringify(payload),
           }
         );
+        if (res.status === 401) {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/signin");
+          return;
+        }
         const j = await res.json();
         if (res.ok && j && j.status === "success") {
           // clear client cart and notify
@@ -150,6 +157,12 @@ const Checkout = () => {
               headers: { Authorization: `Bearer ${token}` },
             }
           );
+          if (res.status === 401) {
+            localStorage.removeItem("auth");
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            return;
+          }
           if (res.ok) {
             const j = await res.json();
             if (j && j.status === "success" && j.profile) {

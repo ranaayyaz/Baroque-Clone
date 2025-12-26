@@ -20,6 +20,13 @@ const Cart = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        if (res.status === 401) {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/signin");
+          return;
+        }
         const data = await res.json();
         if (data && data.status === "success") setCart(data.cart || []);
         else setCart([]);
@@ -61,6 +68,13 @@ const Cart = () => {
           }),
         }
       );
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         setCart(data.cart);
@@ -90,6 +104,13 @@ const Cart = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         setCart(data.cart);
@@ -116,6 +137,13 @@ const Cart = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         setCart([]);

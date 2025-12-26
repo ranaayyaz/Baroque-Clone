@@ -52,6 +52,13 @@ const ProductDetail = () => {
           body: JSON.stringify({ item }),
         }
       );
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        return;
+      }
       const data = await res.json();
       if (data && data.status === "success") {
         // notify other parts of app; no localStorage writes

@@ -62,6 +62,13 @@ const Navigation = () => {
           `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
+        if (res.status === 401) {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setCartCount(0);
+          return;
+        }
         const j = await res.json();
         if (j && j.status === "success")
           setCartCount((j.cart || []).reduce((s, i) => s + (i.qty || 1), 0));
@@ -84,6 +91,13 @@ const Navigation = () => {
           `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
+        if (res.status === 401) {
+          localStorage.removeItem("auth");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setWishlistCount(0);
+          return;
+        }
         const j = await res.json();
         if (j && j.status === "success")
           setWishlistCount((j.wishlist || []).length || 0);
