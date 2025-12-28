@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { products } from "../mock/product";
 
@@ -12,8 +12,11 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState("M");
 
   const navigate = useNavigate();
+  const addToCartInflight = useRef(false);
 
   const addToCart = async () => {
+    if (addToCartInflight.current) return;
+    addToCartInflight.current = true;
     try {
       const item = {
         id: product.id,
@@ -37,6 +40,7 @@ const ProductDetail = () => {
         : localStorage.getItem("token");
 
       if (!token) {
+        addToCartInflight.current = false;
         navigate("/signin");
         return;
       }
@@ -56,6 +60,7 @@ const ProductDetail = () => {
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        addToCartInflight.current = false;
         navigate("/signin");
         return;
       }
@@ -68,6 +73,8 @@ const ProductDetail = () => {
       }
     } catch (e) {
       console.error("Failed to add to cart", e);
+    } finally {
+      addToCartInflight.current = false;
     }
   };
 

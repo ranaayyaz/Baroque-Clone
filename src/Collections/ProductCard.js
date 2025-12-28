@@ -1,7 +1,7 @@
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import ImageCard from "../ImageCard";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getWishlist, setWishlist } from "../helper/wishlistService";
 
 const ProductCard = ({
@@ -16,6 +16,8 @@ const ProductCard = ({
   const [liked, setLiked] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
   const navigate = useNavigate();
+  // prevent duplicate requests when clicking rapidly or when multiple events fire
+  const inflightRef = useRef(false);
 
   useEffect(() => {
     const load = async () => {
@@ -40,7 +42,13 @@ const ProductCard = ({
   const toggleLike = async (e) => {
     e && e.stopPropagation && e.stopPropagation();
     e && e.preventDefault && e.preventDefault();
-    if (loadingLike) return;
+    // try to stop other handlers immediately
+    e &&
+      e.nativeEvent &&
+      e.nativeEvent.stopImmediatePropagation &&
+      e.nativeEvent.stopImmediatePropagation();
+    if (loadingLike || inflightRef.current) return;
+    inflightRef.current = true;
     setLoadingLike(true);
     // require login: if no auth/user in localStorage, save pending like and redirect to signin
     try {
@@ -56,6 +64,7 @@ const ProductCard = ({
           console.error("Failed to save pending like", e);
         }
         navigate("/signin");
+        inflightRef.current = false;
         setLoadingLike(false);
         return;
       }
@@ -79,6 +88,8 @@ const ProductCard = ({
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/signin");
+        inflightRef.current = false;
+        setLoadingLike(false);
         return;
       }
       const data = await res.json();
@@ -93,6 +104,7 @@ const ProductCard = ({
     } catch (err) {
       console.error("wishlist toggle failed", err);
     } finally {
+      inflightRef.current = false;
       setLoadingLike(false);
     }
   };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setWishlist, getWishlist } from "../helper/wishlistService";
 
@@ -6,6 +6,7 @@ const Wishlist = () => {
   const [items, setItems] = useState([]);
 
   const navigate = useNavigate();
+  const addToCartInflight = useRef(false);
 
   useEffect(() => {
     const load = async () => {
@@ -86,11 +87,17 @@ const Wishlist = () => {
   };
 
   const addToCartItem = async (item) => {
+    if (addToCartInflight.current) return;
+    addToCartInflight.current = true;
     try {
       const token = localStorage.getItem("auth")
         ? JSON.parse(localStorage.getItem("auth")).token
         : localStorage.getItem("token");
-      if (!token) return;
+      if (!token) {
+        addToCartInflight.current = false;
+        navigate("/signin");
+        return;
+      }
       const payload = {
         id: item.id,
         name: item.name,
@@ -113,6 +120,7 @@ const Wishlist = () => {
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        addToCartInflight.current = false;
         navigate("/signin");
         return;
       }
@@ -124,6 +132,8 @@ const Wishlist = () => {
       }
     } catch (e) {
       console.error("Failed to add wishlist item to cart", e);
+    } finally {
+      addToCartInflight.current = false;
     }
   };
 
