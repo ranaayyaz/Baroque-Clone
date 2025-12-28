@@ -50,25 +50,53 @@ const ProductCard = ({
     if (loadingLike || inflightRef.current) return;
     inflightRef.current = true;
     setLoadingLike(true);
-    // require login: if no auth/user in localStorage, save pending like and redirect to signin
+    // Optimistic UI: toggle locally first and update cache; sync in background
     try {
       const a = localStorage.getItem("auth");
       const token = a
         ? JSON.parse(a).token || localStorage.getItem("token")
         : localStorage.getItem("token");
+
+      const prevLiked = liked;
+      // optimistic toggle
+      setLiked(!prevLiked);
+
+      // update local wishlist cache immediately (if available)
+      let prevCache = null;
+      try {
+        const cached = await getWishlist(token);
+        prevCache = Array.isArray(cached) ? [...cached] : [];
+        const updated = prevLiked
+          ? prevCache.filter((w) => w.id !== productId)
+          : [
+              ...prevCache,
+              { id: productId, name, price, imgUrl, season: season || "" },
+            ];
+        setWishlist(updated);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", { detail: { wishlist: updated } })
+        );
+      } catch (e) {
+        // ignore cache errors
+      }
+
+      // if not logged in: save pending and redirect (UI already optimistic)
       if (!token) {
-        const pending = { id: productId, name, price, imgUrl, season };
         try {
-          sessionStorage.setItem("pendingLike", JSON.stringify(pending));
-        } catch (e) {
-          console.error("Failed to save pending like", e);
+          sessionStorage.setItem(
+            "pendingLike",
+            JSON.stringify({ id: productId, name, price, imgUrl, season })
+          );
+        } catch (err) {
+          /* ignore */
         }
-        navigate("/signin");
         inflightRef.current = false;
         setLoadingLike(false);
+        navigate("/signin");
         return;
       }
 
+      // perform network request in background
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/toggle`,
         {
@@ -82,27 +110,62 @@ const ProductCard = ({
           }),
         }
       );
+
       if (res.status === 401) {
-        // clear invalid auth to avoid repeated failing requests
+        // revert and clear auth
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        navigate("/signin");
+        setLiked(prevLiked);
+        if (prevCache) {
+          setWishlist(prevCache);
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", {
+              detail: { wishlist: prevCache },
+            })
+          );
+        }
         inflightRef.current = false;
         setLoadingLike(false);
+        navigate("/signin");
         return;
       }
+
       const data = await res.json();
       if (data && data.status === "success") {
+        // sync with server result
         setLiked((data.wishlist || []).some((w) => w.id === productId));
+        setWishlist(data.wishlist || []);
         window.dispatchEvent(
           new CustomEvent("wishlistChanged", {
-            detail: { wishlist: data.wishlist },
+            detail: { wishlist: data.wishlist || [] },
           })
         );
+      } else {
+        // revert on failure
+        setLiked(prevLiked);
+        if (prevCache) {
+          setWishlist(prevCache);
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", {
+              detail: { wishlist: prevCache },
+            })
+          );
+        }
       }
     } catch (err) {
       console.error("wishlist toggle failed", err);
+      // revert if something went wrong
+      try {
+        const prev = await getWishlist(localStorage.getItem("token"));
+        if (Array.isArray(prev)) {
+          setLiked((prev || []).some((w) => w.id === productId));
+          setWishlist(prev);
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+          );
+        }
+      } catch (e) {}
     } finally {
       inflightRef.current = false;
       setLoadingLike(false);

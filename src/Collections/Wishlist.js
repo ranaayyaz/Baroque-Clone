@@ -89,7 +89,28 @@ const Wishlist = () => {
   const addToCartItem = async (item) => {
     if (addToCartInflight.current) return;
     addToCartInflight.current = true;
+    // optimistic local update to cart
     try {
+      const payload = {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        imgUrl: item.imgUrl,
+        qty: 1,
+        size: item.size || "M",
+      };
+      const raw = localStorage.getItem("cart");
+      const local = raw ? JSON.parse(raw) : [];
+      const idx = local.findIndex(
+        (c) => c.id === payload.id && c.size === payload.size
+      );
+      if (idx >= 0) local[idx].qty = (local[idx].qty || 0) + 1;
+      else local.push(payload);
+      localStorage.setItem("cart", JSON.stringify(local));
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: local } })
+      );
+
       const token = localStorage.getItem("auth")
         ? JSON.parse(localStorage.getItem("auth")).token
         : localStorage.getItem("token");
@@ -98,13 +119,7 @@ const Wishlist = () => {
         navigate("/signin");
         return;
       }
-      const payload = {
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        imgUrl: item.imgUrl,
-        qty: 1,
-      };
+
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
         {
@@ -116,6 +131,7 @@ const Wishlist = () => {
           body: JSON.stringify({ item: payload }),
         }
       );
+
       if (res.status === 401) {
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
@@ -125,7 +141,8 @@ const Wishlist = () => {
         return;
       }
       const data = await res.json();
-      if (data && data.status === "success") {
+      if (data && data.status === "success" && data.cart) {
+        localStorage.setItem("cart", JSON.stringify(data.cart));
         window.dispatchEvent(
           new CustomEvent("cartChanged", { detail: { cart: data.cart } })
         );

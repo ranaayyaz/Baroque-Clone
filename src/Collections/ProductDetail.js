@@ -17,15 +17,32 @@ const ProductDetail = () => {
   const addToCart = async () => {
     if (addToCartInflight.current) return;
     addToCartInflight.current = true;
+    // optimistic add to local cart for immediate UI feedback
+    const item = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imgUrl: product.imgUrl,
+      size: selectedSize,
+      qty,
+    };
+
     try {
-      const item = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        imgUrl: product.imgUrl,
-        size: selectedSize,
-        qty,
-      };
+      // update localStorage cart immediately
+      const raw = localStorage.getItem("cart");
+      const local = raw ? JSON.parse(raw) : [];
+      const idx = local.findIndex(
+        (c) => c.id === item.id && c.size === item.size
+      );
+      if (idx >= 0) {
+        local[idx].qty = (local[idx].qty || 0) + item.qty;
+      } else {
+        local.push(item);
+      }
+      localStorage.setItem("cart", JSON.stringify(local));
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: local } })
+      );
 
       const authRaw =
         localStorage.getItem("auth") || localStorage.getItem("token");
@@ -45,6 +62,7 @@ const ProductDetail = () => {
         return;
       }
 
+      // background server call to persist cart
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
         {
@@ -56,6 +74,7 @@ const ProductDetail = () => {
           body: JSON.stringify({ item }),
         }
       );
+
       if (res.status === 401) {
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
@@ -64,15 +83,19 @@ const ProductDetail = () => {
         navigate("/signin");
         return;
       }
+
       const data = await res.json();
       if (data && data.status === "success") {
-        // notify other parts of app; no localStorage writes
-        window.dispatchEvent(
-          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
-        );
+        // sync local cache if server returns authoritative cart
+        if (data.cart) {
+          localStorage.setItem("cart", JSON.stringify(data.cart));
+          window.dispatchEvent(
+            new CustomEvent("cartChanged", { detail: { cart: data.cart } })
+          );
+        }
       }
-    } catch (e) {
-      console.error("Failed to add to cart", e);
+    } catch (err) {
+      console.error("Failed to add to cart (background)", err);
     } finally {
       addToCartInflight.current = false;
     }

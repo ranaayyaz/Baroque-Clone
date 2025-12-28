@@ -107,8 +107,22 @@ const Navigation = () => {
       }
     };
 
-    const onCartChanged = () => fetchCartCount();
-    const onWishlistChanged = () => fetchWishlistCount();
+    const onCartChanged = (e) => {
+      if (e && e.detail && Array.isArray(e.detail.cart)) {
+        setCartCount(
+          (e.detail.cart || []).reduce((s, i) => s + (i.qty || 1), 0)
+        );
+      } else {
+        fetchCartCount();
+      }
+    };
+    const onWishlistChanged = (e) => {
+      if (e && e.detail && Array.isArray(e.detail.wishlist)) {
+        setWishlistCount((e.detail.wishlist || []).length || 0);
+      } else {
+        fetchWishlistCount();
+      }
+    };
 
     window.addEventListener("cartChanged", onCartChanged);
     window.addEventListener("wishlistChanged", onWishlistChanged);
