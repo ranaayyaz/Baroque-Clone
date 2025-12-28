@@ -165,38 +165,77 @@ const Wishlist = () => {
   const addToCartItem = async (item) => {
     if (addToCartInflight.current) return;
     addToCartInflight.current = true;
-    // optimistic local update to cart
+
+    const prevItems = items ? [...items] : [];
+    const prevCartRaw = localStorage.getItem("cart");
+    const prevCart = prevCartRaw ? JSON.parse(prevCartRaw) : [];
+
+    // optimistic: remove from wishlist locally and add to cart locally
+    const updatedWishlist = (prevItems || []).filter((it) => it.id !== item.id);
+    setItems(updatedWishlist);
+    setWishlist(updatedWishlist);
     try {
-      const payload = {
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        imgUrl: item.imgUrl,
-        qty: 1,
-        size: item.size || "M",
-      };
-      const raw = localStorage.getItem("cart");
-      const local = raw ? JSON.parse(raw) : [];
-      const idx = local.findIndex(
-        (c) => c.id === payload.id && c.size === payload.size
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", {
+          detail: { wishlist: updatedWishlist },
+        })
       );
-      if (idx >= 0) local[idx].qty = (local[idx].qty || 0) + 1;
-      else local.push(payload);
+    } catch (e) {}
+
+    // add to cart locally
+    const payload = {
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      imgUrl: item.imgUrl,
+      qty: 1,
+      size: item.size || "M",
+    };
+    const raw = localStorage.getItem("cart");
+    const local = raw ? JSON.parse(raw) : [];
+    const idx = local.findIndex(
+      (c) => c.id === payload.id && c.size === payload.size
+    );
+    if (idx >= 0) local[idx].qty = (local[idx].qty || 0) + 1;
+    else local.push(payload);
+    try {
       localStorage.setItem("cart", JSON.stringify(local));
+    } catch (e) {}
+    try {
       window.dispatchEvent(
         new CustomEvent("cartChanged", { detail: { cart: local } })
       );
+    } catch (e) {}
 
-      const token = localStorage.getItem("auth")
-        ? JSON.parse(localStorage.getItem("auth")).token
-        : localStorage.getItem("token");
-      if (!token) {
-        addToCartInflight.current = false;
-        navigate("/signin");
-        return;
-      }
+    const token = localStorage.getItem("auth")
+      ? JSON.parse(localStorage.getItem("auth")).token
+      : localStorage.getItem("token");
 
-      const res = await fetch(
+    if (!token) {
+      // revert and require login
+      setItems(prevItems);
+      setWishlist(prevItems);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prevCart));
+      } catch (e) {}
+      try {
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", {
+            detail: { wishlist: prevItems },
+          })
+        );
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prevCart } })
+        );
+      } catch (e) {}
+      addToCartInflight.current = false;
+      navigate("/signin");
+      return;
+    }
+
+    // send both requests in background: add to cart and remove from wishlist
+    try {
+      const addPromise = fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
         {
           method: "POST",
@@ -208,23 +247,106 @@ const Wishlist = () => {
         }
       );
 
-      if (res.status === 401) {
+      const removePromise = fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/${item.id}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const [addRes, removeRes] = await Promise.all([
+        addPromise,
+        removePromise,
+      ]);
+
+      if (addRes.status === 401 || removeRes.status === 401) {
         localStorage.removeItem("auth");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        // revert
+        setItems(prevItems);
+        setWishlist(prevItems);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prevCart));
+        } catch (e) {}
+        try {
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", {
+              detail: { wishlist: prevItems },
+            })
+          );
+          window.dispatchEvent(
+            new CustomEvent("cartChanged", { detail: { cart: prevCart } })
+          );
+        } catch (e) {}
         addToCartInflight.current = false;
         navigate("/signin");
         return;
       }
-      const data = await res.json();
-      if (data && data.status === "success" && data.cart) {
-        localStorage.setItem("cart", JSON.stringify(data.cart));
-        window.dispatchEvent(
-          new CustomEvent("cartChanged", { detail: { cart: data.cart } })
-        );
+
+      const addData = await addRes.json().catch(() => null);
+      const removeData = await removeRes.json().catch(() => null);
+
+      const addOk = addRes.ok && addData && addData.status === "success";
+      const removeOk =
+        removeRes.ok && removeData && removeData.status === "success";
+
+      if (!addOk || !removeOk) {
+        // revert to previous local state
+        setItems(prevItems);
+        setWishlist(prevItems);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prevCart));
+        } catch (e) {}
+        try {
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", {
+              detail: { wishlist: prevItems },
+            })
+          );
+          window.dispatchEvent(
+            new CustomEvent("cartChanged", { detail: { cart: prevCart } })
+          );
+        } catch (e) {}
+      } else {
+        // sync with server authoritative responses if provided
+        if (addData && addData.cart) {
+          try {
+            localStorage.setItem("cart", JSON.stringify(addData.cart));
+          } catch (e) {}
+          window.dispatchEvent(
+            new CustomEvent("cartChanged", { detail: { cart: addData.cart } })
+          );
+        }
+        if (removeData && removeData.wishlist) {
+          setItems(removeData.wishlist || []);
+          setWishlist(removeData.wishlist || []);
+          window.dispatchEvent(
+            new CustomEvent("wishlistChanged", {
+              detail: { wishlist: removeData.wishlist || [] },
+            })
+          );
+        }
       }
     } catch (e) {
-      console.error("Failed to add wishlist item to cart", e);
+      console.error("Failed to add to cart and remove from wishlist", e);
+      // revert on network error
+      setItems(prevItems);
+      setWishlist(prevItems);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prevCart));
+      } catch (err) {}
+      try {
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", {
+            detail: { wishlist: prevItems },
+          })
+        );
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prevCart } })
+        );
+      } catch (e) {}
     } finally {
       addToCartInflight.current = false;
     }
