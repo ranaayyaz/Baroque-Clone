@@ -28,6 +28,11 @@ async function getWishlist(token) {
     try {
       const wl = await fetchWishlistFromServer(token);
       _cache = Array.isArray(wl) ? wl : [];
+      try {
+        localStorage.setItem("wishlist", JSON.stringify(_cache));
+      } catch (e) {
+        /* ignore storage errors */
+      }
       _last = Date.now();
       return _cache;
     } finally {
@@ -40,11 +45,21 @@ async function getWishlist(token) {
 function setWishlist(wl) {
   _cache = Array.isArray(wl) ? wl : [];
   _last = Date.now();
+  try {
+    localStorage.setItem("wishlist", JSON.stringify(_cache));
+  } catch (e) {
+    /* ignore storage errors */
+  }
 }
 
 function invalidateWishlist() {
   _cache = null;
   _last = 0;
+  try {
+    localStorage.removeItem("wishlist");
+  } catch (e) {
+    /* ignore */
+  }
 }
 
 export { getWishlist, setWishlist, invalidateWishlist };
