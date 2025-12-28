@@ -45,14 +45,36 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const updateQty = async (idx, newQty) => {
+    // optimistic qty update locally
     const item = cart[idx];
+    const prev = cart ? [...cart] : [];
+    const nextQty = Math.max(1, newQty);
+    const updated = (cart || []).map((c, i) =>
+      i === idx ? { ...c, qty: nextQty } : c
+    );
+    setCart(updated);
+    try {
+      localStorage.setItem("cart", JSON.stringify(updated));
+    } catch (e) {}
+    try {
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: updated } })
+      );
+    } catch (e) {}
+
     const token = localStorage.getItem("auth")
       ? JSON.parse(localStorage.getItem("auth")).token
       : localStorage.getItem("token");
     if (!token) {
       navigate("/signin");
+      // revert
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (e) {}
       return;
     }
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item/${item.id}`,
@@ -64,7 +86,7 @@ const Cart = () => {
           },
           body: JSON.stringify({
             size: item.size || "",
-            qty: Math.max(1, newQty),
+            qty: nextQty,
           }),
         }
       );
@@ -73,27 +95,75 @@ const Cart = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/signin");
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
         return;
       }
       const data = await res.json();
       if (data && data.status === "success") {
         setCart(data.cart);
+        try {
+          localStorage.setItem("cart", JSON.stringify(data.cart));
+        } catch (e) {}
         window.dispatchEvent(
           new CustomEvent("cartChanged", { detail: { cart: data.cart } })
         );
         return;
+      } else {
+        // revert
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
       }
     } catch (e) {
       console.error(e);
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (err) {}
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: prev } })
+      );
     }
   };
 
   const removeItem = async (idx) => {
     const item = cart[idx];
+    const prev = cart ? [...cart] : [];
+    const updated = (prev || []).filter((_, i) => i !== idx);
+    // optimistic local remove
+    setCart(updated);
+    try {
+      localStorage.setItem("cart", JSON.stringify(updated));
+    } catch (e) {}
+    try {
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: updated } })
+      );
+    } catch (e) {}
+
     const token = localStorage.getItem("auth")
       ? JSON.parse(localStorage.getItem("auth")).token
       : localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      // revert and require signin
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (e) {}
+      navigate("/signin");
+      return;
+    }
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item/${
@@ -109,18 +179,44 @@ const Cart = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/signin");
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
         return;
       }
       const data = await res.json();
       if (data && data.status === "success") {
         setCart(data.cart);
+        try {
+          localStorage.setItem("cart", JSON.stringify(data.cart));
+        } catch (e) {}
         window.dispatchEvent(
           new CustomEvent("cartChanged", { detail: { cart: data.cart } })
         );
         return;
+      } else {
+        // revert on failure
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
       }
     } catch (e) {
       console.error(e);
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (err) {}
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: prev } })
+      );
     }
   };
 
@@ -128,7 +224,27 @@ const Cart = () => {
     const token = localStorage.getItem("auth")
       ? JSON.parse(localStorage.getItem("auth")).token
       : localStorage.getItem("token");
-    if (!token) return;
+    const prev = cart ? [...cart] : [];
+    // optimistic clear
+    setCart([]);
+    try {
+      localStorage.setItem("cart", JSON.stringify([]));
+    } catch (e) {}
+    try {
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: [] } })
+      );
+    } catch (e) {}
+
+    if (!token) {
+      navigate("/signin");
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (e) {}
+      return;
+    }
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/cart`,
@@ -142,6 +258,13 @@ const Cart = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         navigate("/signin");
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
         return;
       }
       const data = await res.json();
@@ -151,9 +274,24 @@ const Cart = () => {
           new CustomEvent("cartChanged", { detail: { cart: [] } })
         );
         return;
+      } else {
+        setCart(prev);
+        try {
+          localStorage.setItem("cart", JSON.stringify(prev));
+        } catch (e) {}
+        window.dispatchEvent(
+          new CustomEvent("cartChanged", { detail: { cart: prev } })
+        );
       }
     } catch (e) {
       console.error(e);
+      setCart(prev);
+      try {
+        localStorage.setItem("cart", JSON.stringify(prev));
+      } catch (err) {}
+      window.dispatchEvent(
+        new CustomEvent("cartChanged", { detail: { cart: prev } })
+      );
     }
   };
 

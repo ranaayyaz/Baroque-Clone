@@ -34,29 +34,59 @@ const Wishlist = () => {
   }, []);
 
   const removeAll = async () => {
+    // optimistic: clear locally first
     const token = localStorage.getItem("auth")
       ? JSON.parse(localStorage.getItem("auth")).token
       : localStorage.getItem("token");
+    const prev = items ? [...items] : [];
+    setItems([]);
+    setWishlist([]);
+    try {
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", { detail: { wishlist: [] } })
+      );
+    } catch (e) {}
+
     if (!token) {
       navigate("/signin");
       return;
     }
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
         { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
-      if (data && data.status === "success") {
-        setItems([]);
-        setWishlist([]);
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        // revert to previous state
+        setItems(prev);
+        setWishlist(prev);
         window.dispatchEvent(
-          new CustomEvent("wishlistChanged", { detail: { wishlist: [] } })
+          new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
         );
         return;
       }
+      if (!(data && data.status === "success")) {
+        // revert
+        setItems(prev);
+        setWishlist(prev);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+        );
+      }
     } catch (e) {
       console.error(e);
+      // revert
+      setItems(prev);
+      setWishlist(prev);
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+      );
     }
   };
 
@@ -64,14 +94,56 @@ const Wishlist = () => {
     const token = localStorage.getItem("auth")
       ? JSON.parse(localStorage.getItem("auth")).token
       : localStorage.getItem("token");
-    if (!token) return;
+    const prev = items ? [...items] : [];
+    const updated = (prev || []).filter((it) => it.id !== id);
+    // optimistic update
+    setItems(updated);
+    setWishlist(updated);
+    try {
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", { detail: { wishlist: updated } })
+      );
+    } catch (e) {}
+
+    if (!token) {
+      navigate("/signin");
+      // revert
+      setItems(prev);
+      setWishlist(prev);
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+      );
+      return;
+    }
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/${id}`,
         { method: "DELETE", headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
-      if (data && data.status === "success") {
+      if (res.status === 401) {
+        localStorage.removeItem("auth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        navigate("/signin");
+        // revert
+        setItems(prev);
+        setWishlist(prev);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+        );
+        return;
+      }
+      if (!(data && data.status === "success")) {
+        // revert
+        setItems(prev);
+        setWishlist(prev);
+        window.dispatchEvent(
+          new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+        );
+      } else {
+        // sync with server
         setItems(data.wishlist || []);
         setWishlist(data.wishlist || []);
         window.dispatchEvent(
@@ -79,10 +151,14 @@ const Wishlist = () => {
             detail: { wishlist: data.wishlist || [] },
           })
         );
-        return;
       }
     } catch (e) {
       console.error(e);
+      setItems(prev);
+      setWishlist(prev);
+      window.dispatchEvent(
+        new CustomEvent("wishlistChanged", { detail: { wishlist: prev } })
+      );
     }
   };
 
