@@ -235,7 +235,7 @@ const Navigation = () => {
                 </button>
 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
+                  <div className="absolute right-0 mt-2 w-40 bg-white  border rounded shadow-md z-50">
                     <button
                       onClick={() => {
                         // logout: clear auth state and reset counts
@@ -251,7 +251,7 @@ const Navigation = () => {
                         setShowUserMenu(false);
                         navigate("/");
                       }}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="w-sm text-left px-[3.3rem] py-2 border bg-black text-white trans"
                     >
                       Logout
                     </button>
