@@ -251,7 +251,7 @@ const Navigation = () => {
                         setShowUserMenu(false);
                         navigate("/");
                       }}
-                      className="w-sm text-left px-[3.3rem] py-2 border bg-black text-white trans"
+                      className="w-sm text-left px-[3.3rem] py-2 border bg-black text-white trans hover:border-black"
                     >
                       Logout
                     </button>

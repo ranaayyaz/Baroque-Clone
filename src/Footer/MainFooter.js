@@ -1,11 +1,19 @@
 import React from "react";
-import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok, FaWhatsapp, FaCcMastercard, FaCcVisa } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaTiktok,
+  FaWhatsapp,
+  FaCcMastercard,
+  FaCcVisa,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const MainFooter = () => {
   return (
-    <footer className="bg-[#2f2f2f] py-8">
-      <div className="container mx-auto px-4">
+    <footer className="bg-[#2f2f2f]">
+      <div className="container mx-auto">
         {/* Main Sections */}
         <div className="flex flex-col lg:flex-row justify-between pt-10">
           {/* ABOUT SECTION */}
@@ -111,11 +119,11 @@ const MainFooter = () => {
             <div className="mb-4 lg:mb-0 lg:w-3/12 text-center lg:text-left">
               <p className="font-bold text-[#bdb5b5] text-lg">PAKISTAN</p>
             </div>
-            
+
             <div className="mb-4 lg:mb-0 lg:w-3/12">
               <p className="text-[#bdb5b5]">© 2025 – BAROQUE</p>
             </div>
-            
+
             <div className="mb-4 lg:mb-0 lg:w-3/12">
               <div className="flex space-x-4">
                 <i className="text-3xl text-white">

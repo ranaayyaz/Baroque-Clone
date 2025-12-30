@@ -52,7 +52,8 @@ app.use((req, res, next) => {
   next();
 });
 
-require("./database/connection");
+const connectToDatabase = require("./database/connection");
+const { getConnectionState } = require("./database/connection");
 
 //User Routes
 var userRoutes = require("./Routes/userRoutes");
@@ -60,6 +61,24 @@ app.use("/users", userRoutes);
 
 app.set("secretKey", "Im a Fullstack web developer 7613341 &&8326&^&%^*(%#");
 
-app.listen(7777, () => {
-  console.log("Server is running on port 7777");
+(async () => {
+  try {
+    await connectToDatabase();
+  } catch (err) {
+    console.error("Failed to connect to database. Exiting.", err);
+    process.exit(1);
+  }
+
+  const port = process.env.PORT || 7777;
+  app.listen(port, () => {
+    console.log("Server is running on port", port);
+  });
+})();
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  const dbState = getConnectionState();
+  const dbStatus =
+    dbState === 1 ? "connected" : dbState === 2 ? "connecting" : "disconnected";
+  res.json({ status: "ok", db: dbStatus });
 });

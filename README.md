@@ -68,3 +68,16 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Server (node-js) deployment notes
+
+If you deploy the `node-js` server to Vercel (or any hosting), you must set the MongoDB connection string in environment variables. The server looks for `MONGO_URL`, `MONGODB_URI`, or `MONGO_URI`.
+
+Steps for Vercel:
+
+- In the Vercel dashboard for your project go to Settings → Environment Variables.
+- Add a variable named `MONGO_URL` with your MongoDB Atlas connection string (or `MONGODB_URI`/`MONGO_URI`).
+- Make sure your Atlas cluster allows connections from Vercel (add IP 0.0.0.0/0 temporarily or configure Vercel's recommended network access).
+- Redeploy the project after adding the variable.
+
+You can verify the server and DB status using the `/health` endpoint (returns `{ status: 'ok', db: 'connected' }` when connected).
