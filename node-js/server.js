@@ -22,10 +22,15 @@ app.use((req, res, next) => {
 
   const originNorm = origin.replace(/\/$/, "");
   let isAllowed =
-    allowedOrigins.includes(originNorm) || process.env.NODE_ENV !== "production";
+    allowedOrigins.includes(originNorm) ||
+    process.env.NODE_ENV !== "production";
 
   // Optionally allow any vercel.app subdomain (useful for Vercel previews)
-  if (!isAllowed && allowVercelSubdomains && originNorm.endsWith(".vercel.app")) {
+  if (
+    !isAllowed &&
+    allowVercelSubdomains &&
+    originNorm.endsWith(".vercel.app")
+  ) {
     isAllowed = true;
   }
 
