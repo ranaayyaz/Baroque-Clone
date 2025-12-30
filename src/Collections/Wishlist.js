@@ -242,24 +242,19 @@ const Wishlist = () => {
 
     // send both requests in background: add to cart and remove from wishlist
     try {
-      const addPromise = fetch(`${API_BASE}/users/me/cart/item`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ item: payload }),
-        }
-      );
+      const addPromise = fetch(`${API_BASE}/users/me/cart/item`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ item: payload }),
+      });
 
-      const removePromise = fetch(
-        `${API_BASE}/users/me/wishlist/${item.id}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const removePromise = fetch(`${API_BASE}/users/me/wishlist/${item.id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const [addRes, removeRes] = await Promise.all([
         addPromise,
