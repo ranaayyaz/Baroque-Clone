@@ -302,11 +302,17 @@ const Cart = () => {
 
   if (!cart || cart.length === 0)
     return (
-      <div className="max-w-[1100px] mx-auto p-8">
-        <h2 className="text-2xl font-semibold mb-4">Your Cart is empty</h2>
-        <Link to="/" className="text-black underline">
-          Continue Shopping
-        </Link>
+      <div className="mt-[8rem]">
+        <div className="max-w-[1100px] mx-auto p-12 text-center letterSpacing">
+          <h2 className="text-2xl font-semibold mb-10">Your Cart Is Empty</h2>
+
+          <Link
+            to="/"
+            className="inline-block text-white border border-black bg-black px-7 py-3 trans mb-10"
+          >
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     );
 
