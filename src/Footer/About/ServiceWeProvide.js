@@ -1,5 +1,4 @@
 import React from "react";
-import ScrollToTop from "./../../ScrollToTop";
 
 function ServiceWeProvide() {
   return (

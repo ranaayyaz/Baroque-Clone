@@ -73,6 +73,10 @@ function App() {
                 <Route path="/our-store" element={<OurShop />} />{" "}
                 <Route path="/contact-us" element={<ContactUs />} />{" "}
                 <Route
+                  path="/service-we-provide"
+                  element={<ServiceWeProvide />}
+                />{" "}
+                <Route
                   path="/dispatch-timeline"
                   element={<DispatchTimeline />}
                 />{" "}
