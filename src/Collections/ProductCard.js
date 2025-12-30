@@ -12,6 +12,8 @@ const ProductCard = ({
   season,
   layout = "grid",
   compact = false,
+  showDiscountBadge = false,
+  discountPrice,
 }) => {
   const [liked, setLiked] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
@@ -211,8 +213,12 @@ const ProductCard = ({
     );
   }
 
+  const linkState = discountPrice
+    ? { discountPrice, originalPrice: price }
+    : undefined;
+
   return (
-    <Link to={`/product/${productId || ""}`}>
+    <Link to={`/product/${productId || ""}`} state={linkState}>
       <div className="relative flex flex-col items-center">
         <span className="cursor-pointer w-full ">
           <ImageCard imgUrl={imgUrl} />
@@ -228,13 +234,31 @@ const ProductCard = ({
           {liked ? <IoHeart /> : <IoHeartOutline />}
         </button>
 
-        <span className="space- text-center mt-4 leading-7">
-          <span className="tracking-widest uppercase">{name}</span>
-          <br />
-          <strong>PKR {price}</strong>
-          <br />
-          <span className="text-sm text-upercase">{season}</span>
-        </span>
+        {/* Discount badge on top-right corner when provided */}
+        {showDiscountBadge && discountPrice ? (
+          <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded shadow-md z-10">
+            PKR {discountPrice}
+          </div>
+        ) : null}
+
+        <div className="space- text-center mt-4 leading-7">
+          <span className="tracking-widest uppercase block">{name}</span>
+          {discountPrice ? (
+            <div className="mt-1">
+              <strong className="text-red-600 block">
+                PKR {discountPrice}
+              </strong>
+              <span className="line-through text-gray-400 text-sm block">
+                PKR {price}
+              </span>
+            </div>
+          ) : (
+            <strong className="block">PKR {price}</strong>
+          )}
+          {season ? (
+            <span className="text-sm text-upercase block mt-1">{season}</span>
+          ) : null}
+        </div>
       </div>
     </Link>
   );

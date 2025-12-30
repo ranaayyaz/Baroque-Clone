@@ -19,7 +19,7 @@ const MainBanner = () => {
       <div>
         <Link
           to="/shop-all"
-          className=" px-7 py-3 bg-white text-black border btn text-xl"
+          className=" px-7 py-3 bg-white text-black border border-black btn text-xl"
         >
           Shop Now
         </Link>

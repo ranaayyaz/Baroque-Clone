@@ -5,7 +5,7 @@ function ContactUs() {
     <div>
 <div className="mt-[4.5rem] border-t border-gray-300"></div>
   <div className="p-4 mt-[6rem] mb-[4rem]">
-  <h1 className="text-4xl letterSpacing  text-center mb-12">CONTACT</h1>
+  <h1 className="text-4xl letterSpacing  text-center mb-12">CONTACT US</h1>
   
   <div className="max-w-md mx-auto">
     <div className="space-y-4">

@@ -188,6 +188,11 @@ const Navigation = () => {
     setShowCountryModal(false);
   };
 
+  const handleShopNow = () => {
+    setShowCountryModal(false);
+    navigate("/");
+  };
+
   return (
     <>
       {/* Original Navbar - Tailwind CSS Version */}
@@ -199,7 +204,7 @@ const Navigation = () => {
         <div className="relative flex justify-between items-center h-full px-4 sm:px-6 md:px-8 lg:px-12">
           {/* Left - Menu */}
           <button onClick={handleShowFirst}>
-            <i className="text-[1.8rem]">
+            <i className=" text-[1.8rem]">
               <LiaBarsSolid />
             </i>
           </button>
@@ -217,7 +222,7 @@ const Navigation = () => {
           <div className="hidden lg:flex space-x-5 items-center">
             <button
               onClick={handleCountryClick}
-              className="flex items-center text-sm font-medium"
+              className="flex items-center text-[12px] font-medium"
             >
               PAKISTAN
               <MdOutlineKeyboardArrowDown className="ml-1 text-lg" />
@@ -259,16 +264,16 @@ const Navigation = () => {
                 )}
               </div>
             ) : (
-              <Link to="/signin" className="text-xl">
+              <Link to="/signin" className="text-2xl">
                 <LuUserRound />
               </Link>
             )}
 
-            <button className="text-xl">
+            <button className="text-2xl">
               <IoSearchSharp />
             </button>
 
-            <Link to="/cart" className="text-xl relative">
+            <Link to="/cart" className="text-2xl relative">
               <PiShoppingCartSimpleBold />
               {cartCount > 0 && (
                 <span
@@ -281,7 +286,7 @@ const Navigation = () => {
               )}
             </Link>
 
-            <Link to="/wishlist" className="text-xl relative">
+            <Link to="/wishlist" className="text-2xl relative">
               <FaRegHeart />
               {wishlistCount > 0 && (
                 <span
@@ -384,11 +389,16 @@ const Navigation = () => {
                   </span>
                 </button>
 
-                <button className="py-4 border-b w-full text-left hover:bg-gray-50 px-2 rounded">
+                <Link
+                  onClick={handleCloseFirst}
+                  to="/special-price"
+                  state={{ title: "SPECIAL PRICES" }}
+                  className="py-4 border-b w-full text-left hover:bg-gray-50 px-2 rounded"
+                >
                   <span className="font-semibold text-red-600 py-4">
                     SPECIAL PRICES
                   </span>
-                </button>
+                </Link>
 
                 <Link
                   to="/essentials/shawls"
@@ -621,7 +631,7 @@ const Navigation = () => {
 
               {/* Shop Now Button */}
               <button
-                onClick={handleCloseCountryModal}
+                onClick={handleShopNow}
                 className="w-full bg-black text-white py-3 px-6  font-semibold hover:bg-transparent hover:text-black border border-black transition duration-200"
               >
                 Shop now

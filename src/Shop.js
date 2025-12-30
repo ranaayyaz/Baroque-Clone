@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { BsFillGridFill, BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaBars } from "react-icons/fa6";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -6,6 +7,9 @@ import { products } from "./mock/product";
 import ProductCard from "./Collections/ProductCard";
 
 function Shop() {
+  const location = useLocation();
+  const pageTitle = (location && location.state && location.state.title) || "";
+  const isSpecialPricePage = location && location.pathname === "/special-price";
   const [viewMode, setViewMode] = useState("grid-4");
 
   const productGridClass = (() => {
@@ -20,6 +24,11 @@ function Shop() {
 
   return (
     <>
+      {pageTitle && (
+        <div className="max-w-[1100px] mx-auto px-5 mt-[8rem]">
+          <h1 className="text-3xl font-semibold text-red-600 text-center ">{pageTitle}</h1>
+        </div>
+      )}
       <div className="mt-20 bg-white border-y border-b border-gray-300 shadow-sm">
         <div className="flex items-center px-2">
           <div className="flex w-[15%] sm:w-[10%] lg:w-[8%] gap-4 justify-center py-3">
@@ -79,6 +88,10 @@ function Shop() {
             price={product.price}
             season={product.season}
             layout={viewMode === "list" ? "list" : "grid"}
+            showDiscountBadge={isSpecialPricePage}
+            discountPrice={
+              isSpecialPricePage ? Math.round(product.price * 0.8) : undefined
+            }
           />
         ))}
       </div>

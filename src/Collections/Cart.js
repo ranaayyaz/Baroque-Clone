@@ -295,10 +295,12 @@ const Cart = () => {
     }
   };
 
-  const total = cart.reduce(
-    (s, it) => s + (it.price || 0) * (it.qty || it.quantity || 1),
-    0
-  );
+  const total = cart.reduce((s, it) => {
+    const unitPrice =
+      it.discountPrice ?? it.price ?? it.originalPrice ?? it.basePrice ?? 0;
+    const qty = it.qty || it.quantity || 1;
+    return s + unitPrice * qty;
+  }, 0);
 
   if (!cart || cart.length === 0)
     return (
@@ -333,7 +335,18 @@ const Cart = () => {
               <div className="font-semibold">{it.name}</div>
               <div className="text-sm text-gray-500">Size: {it.size}</div>
               <div className="text-sm text-gray-700">
-                PKR {it.price.toLocaleString()}
+                {it.discountPrice ? (
+                  <div className="flex flex-col items-start">
+                    <span className="text-red-600 font-semibold">
+                      PKR {Number(it.discountPrice).toLocaleString()}
+                    </span>
+                    <span className="line-through text-gray-400 text-xs">
+                      PKR {(it.originalPrice || it.price || 0).toLocaleString()}
+                    </span>
+                  </div>
+                ) : (
+                  <span>PKR {(it.price || 0).toLocaleString()}</span>
+                )}
               </div>
             </div>
 
@@ -355,7 +368,7 @@ const Cart = () => {
               </div>
 
               <button
-                className="text-red-500 text-sm"
+                className="text-black underline font-bold letterSpacing text-sm"
                 onClick={() => removeItem(idx)}
               >
                 Remove

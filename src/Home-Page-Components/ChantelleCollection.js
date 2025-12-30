@@ -17,7 +17,7 @@ function ChantelleCollection() {
           <ImageCard imgUrl=" https://res.cloudinary.com/dlqzjthos/image/upload/v1766647025/qw_uvqqko.webp" />
           <Link
             to="/chantelle/stitched"
-            className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-white transition"
+            className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-black transition"
           >
             STITCHED
           </Link>
@@ -28,7 +28,7 @@ function ChantelleCollection() {
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1766647068/sd_gsjkds.webp" />
           <Link
             to="/chantelle/unstitched"
-            className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-white transition"
+            className="absolute bottom-[5rem] left-1/2  -translate-x-1/2 bg-white text-black px-5 py-3 letterSpacing  hover:bg-black hover:text-white border border-black transition"
           >
             UNSTITCHED
           </Link>

@@ -1,11 +1,17 @@
 import { useState, useRef } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { products } from "../mock/product";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
   const pid = parseInt(id, 10);
   const product = products.find((p) => p.id === pid);
+
+  const discountFromState = location?.state?.discountPrice;
+  const originalPriceFromState = location?.state?.originalPrice;
+  const hasDiscount = Number.isFinite(discountFromState);
+  const effectivePrice = hasDiscount ? discountFromState : product?.price;
 
   const [qty, setQty] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -18,13 +24,16 @@ const ProductDetail = () => {
     if (addToCartInflight.current) return;
     addToCartInflight.current = true;
     // optimistic add to local cart for immediate UI feedback
+    const discountPrice = hasDiscount ? effectivePrice : undefined;
     const item = {
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: effectivePrice,
+      discountPrice,
       imgUrl: product.imgUrl,
       size: selectedSize,
       qty,
+      originalPrice: product.price,
     };
 
     try {
@@ -158,9 +167,20 @@ const ProductDetail = () => {
           <h4 className="text-sm text-gray-500 tracking-widest">
             {product.name.toUpperCase()}
           </h4>
-          <h2 className="text-2xl font-semibold mt-4">
-            PKR {product.price.toLocaleString()}
-          </h2>
+          {hasDiscount ? (
+            <div className="mt-4">
+              <div className="text-2xl font-semibold text-red-600">
+                PKR {Number(effectivePrice).toLocaleString()}
+              </div>
+              <div className="text-sm text-gray-500 line-through">
+                PKR {product.price.toLocaleString()}
+              </div>
+            </div>
+          ) : (
+            <h2 className="text-2xl font-semibold mt-4">
+              PKR {product.price.toLocaleString()}
+            </h2>
+          )}
           <div className="text-xs text-gray-500 mt-2">
             SKU: {`PR-${product.id}`}
           </div>

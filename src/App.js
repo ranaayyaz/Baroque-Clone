@@ -32,6 +32,7 @@ import SignUp from "./Authentication/SignUp";
 import Dashboard from "./Admin/Dashboard";
 import ScrollToTop from "./ScrollToTop";
 import Shop from "./Shop";
+import OurShop from "./Footer/About/OurShop";
 function App() {
   return (
     <Router>
@@ -61,17 +62,15 @@ function App() {
                     </>
                   }
                 />{" "}
+                <Route path="/special-price" element={<Shop />} />{" "}
                 <Route path="/shop-all" element={<Shop />} />{" "}
                 <Route path="/who-we-are" element={<WhoWeAre />} />{" "}
                 <Route
                   path="/our-responsibility"
                   element={<OurResponsibility />}
                 />{" "}
-                <Route
-                  path="/service-we-provide"
-                  element={<ServiceWeProvide />}
-                />{" "}
                 <Route path="/careers" element={<CareerS />} />{" "}
+                <Route path="/our-store" element={<OurShop />} />{" "}
                 <Route path="/contact-us" element={<ContactUs />} />{" "}
                 <Route
                   path="/dispatch-timeline"

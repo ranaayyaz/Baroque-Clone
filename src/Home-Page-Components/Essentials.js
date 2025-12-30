@@ -17,7 +17,7 @@ function Essentials() {
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201752/8_afwuqi.webp" />
           <Link
             to="/essentials/ensembles"
-            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
             ENSEMBLES
           </Link>
@@ -28,7 +28,7 @@ function Essentials() {
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201753/9_loocrc.webp" />
           <Link
             to="/essentials/shawls"
-            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
             SHAWLS
           </Link>
@@ -39,7 +39,7 @@ function Essentials() {
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1765201752/10_et3hzq.webp" />
           <Link
             to="/essentials/dupattas"
-            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-white transition text-sm md:text-base"
+            className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
             DUPATTAS
           </Link>
