@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 
 // Enable CORS for access from different origins/frontends
+const allowVercelSubdomains = process.env.ALLOW_VERCEL_SUBDOMAINS === "true";
 const allowedOrigins = [process.env.FRONTEND_URL, "https://baroque.vercel.app"]
   .filter(Boolean)
   .map((u) => u.replace(/\/$/, "")); // normalize (no trailing slash)
@@ -20,12 +21,16 @@ app.use((req, res, next) => {
   if (!origin) return next(); // non-browser request
 
   const originNorm = origin.replace(/\/$/, "");
-  const isAllowed =
-    allowedOrigins.includes(originNorm) ||
-    process.env.NODE_ENV !== "production";
+  let isAllowed =
+    allowedOrigins.includes(originNorm) || process.env.NODE_ENV !== "production";
+
+  // Optionally allow any vercel.app subdomain (useful for Vercel previews)
+  if (!isAllowed && allowVercelSubdomains && originNorm.endsWith(".vercel.app")) {
+    isAllowed = true;
+  }
 
   if (!isAllowed) {
-    // Explicitly deny browser requests from unknown origins to avoid silent CORS failures
+    console.warn(`Blocked CORS origin: ${originNorm}`);
     return res
       .status(403)
       .json({ status: "error", message: "Origin not allowed" });

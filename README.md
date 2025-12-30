@@ -81,3 +81,17 @@ Steps for Vercel:
 - Redeploy the project after adding the variable.
 
 You can verify the server and DB status using the `/health` endpoint (returns `{ status: 'ok', db: 'connected' }` when connected).
+
+If you're seeing CORS errors when the frontend is hosted on Vercel:
+
+- Set `FRONTEND_URL` to your frontend origin (for example `https://your-site.vercel.app`).
+- Or set `ALLOW_VERCEL_SUBDOMAINS=true` to allow any `*.vercel.app` origin (useful for Vercel preview URLs).
+- After changing environment variables, redeploy the server and test from your frontend.
+
+Example Vercel envs for server project:
+
+```
+MONGO_URL=<your-atlas-connection-string>
+FRONTEND_URL=https://your-site.vercel.app
+ALLOW_VERCEL_SUBDOMAINS=true
+```
