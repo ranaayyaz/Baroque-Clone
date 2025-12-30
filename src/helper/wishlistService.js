@@ -3,15 +3,19 @@ let _promise = null;
 let _last = 0;
 const TTL = 30 * 1000; // 30 seconds
 
+const API_BASE = (process.env.REACT_APP_SERVER_URL || "").replace(/\/$/, "");
+if (!API_BASE) {
+  console.warn(
+    "REACT_APP_SERVER_URL not set — wishlistService will call relative URLs. Set REACT_APP_SERVER_URL in Vercel environment variables."
+  );
+}
+
 async function fetchWishlistFromServer(token) {
   try {
     if (!token) return [];
-    const res = await fetch(
-      `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const res = await fetch(`${API_BASE}/users/me/wishlist`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!res.ok) return [];
     const j = await res.json();
     return j && j.status === "success" ? j.wishlist || [] : [];

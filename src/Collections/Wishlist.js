@@ -2,6 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setWishlist, getWishlist } from "../helper/wishlistService";
 
+const API_BASE = (process.env.REACT_APP_SERVER_URL || "").replace(/\/$/, "");
+if (!API_BASE) {
+  console.warn(
+    "REACT_APP_SERVER_URL not set — requests will be made relative to current origin. Set REACT_APP_SERVER_URL in Vercel environment variables."
+  );
+}
+
 const Wishlist = () => {
   const [items, setItems] = useState([]);
 
@@ -235,8 +242,7 @@ const Wishlist = () => {
 
     // send both requests in background: add to cart and remove from wishlist
     try {
-      const addPromise = fetch(
-        `${process.env.REACT_APP_SERVER_URL}/users/me/cart/item`,
+      const addPromise = fetch(`${API_BASE}/users/me/cart/item`,
         {
           method: "POST",
           headers: {
@@ -248,7 +254,7 @@ const Wishlist = () => {
       );
 
       const removePromise = fetch(
-        `${process.env.REACT_APP_SERVER_URL}/users/me/wishlist/${item.id}`,
+        `${API_BASE}/users/me/wishlist/${item.id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
