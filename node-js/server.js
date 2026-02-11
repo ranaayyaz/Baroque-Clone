@@ -32,11 +32,17 @@ const allowedOrigins = rawFrontendUrls
   .filter(Boolean)
   .map((u) => u.replace(/\/$/, "")); // normalize (no trailing slash)
 
+// Debug toggle: when true the server will accept any Origin header
+// (useful to debug CORS in staging). DO NOT enable in production long-term.
+const debugAllowAll = process.env.DEBUG_ALLOW_ALL_CORS === "true";
+
 console.log(
   "CORS allowed origins:",
   allowedOrigins,
   "allowVercelSubdomains:",
   allowVercelSubdomains,
+  "debugAllowAll:",
+  debugAllowAll,
 );
 
 app.use((req, res, next) => {
@@ -44,6 +50,27 @@ app.use((req, res, next) => {
   if (!origin) return next(); // non-browser request
 
   const originNorm = origin.replace(/\/$/, "");
+
+  // If debug mode enabled, allow any origin that sends an Origin header.
+  if (debugAllowAll) {
+    console.warn(
+      `DEBUG_ALLOW_ALL_CORS enabled — allowing origin: ${originNorm}`,
+    );
+    res.setHeader("Vary", "Origin");
+    res.setHeader("Access-Control-Allow-Origin", origin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    );
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+    );
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    return next();
+  }
+
   let isAllowed =
     allowedOrigins.includes(originNorm) ||
     process.env.NODE_ENV !== "production";
