@@ -64,6 +64,7 @@ module.exports = {
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
           email: userInfo.email,
+          role: userInfo.role || 'user',
         };
         return res.json({
           status: "success",

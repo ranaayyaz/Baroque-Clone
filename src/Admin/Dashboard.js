@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FiBarChart2,
   FiPackage,
@@ -6,10 +7,30 @@ import {
   FiUsers,
   FiDollarSign,
   FiSettings,
+  FiLogOut,
+  FiMoon,
+  FiSun,
 } from "react-icons/fi";
+import DashboardOverview from "./DashboardOverview";
+import Products from "./Products";
+import Orders from "./Orders";
+import Customers from "./Customers";
+import Analytics from "./Analytics";
+import Settings from "./Settings";
 
 const Dashboard = () => {
   const [page, setPage] = useState("dashboard");
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const navigate = useNavigate();
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const newValue = !prev;
+      localStorage.setItem('darkMode', newValue);
+      return newValue;
+    });
+  };
 
   // Menu items with icons
   const menu = [
@@ -21,26 +42,51 @@ const Dashboard = () => {
     { id: "settings", name: "Settings", icon: <FiSettings /> },
   ];
 
-  // Stats data
-  const stats = [
-    { title: "Total Orders", value: "1,234" },
-    { title: "Revenue", value: "Rs. 45,678" },
-    { title: "Customers", value: "567" },
-    { title: "Products", value: "89" },
-  ];
+  // Handle logout
+  const handleLogout = async () => {
+    if (window.confirm("Are you sure you want to go back to home?")) {
+      navigate("/");
+    }
+  };
+
+  // Render the appropriate component based on page state
+  const renderContent = () => {
+    switch (page) {
+      case "dashboard":
+        return <DashboardOverview />;
+      case "products":
+        return <Products />;
+      case "orders":
+        return <Orders />;
+      case "customers":
+        return <Customers />;
+      case "analytics":
+        return <Analytics />;
+      case "settings":
+        return <Settings />;
+      default:
+        return <DashboardOverview />;
+    }
+  };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className={`flex min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
       {/* Left Sidebar with Icons */}
-      <div className="w-64 bg-gray-800 text-white">
-        <div className="p-4 text-xl font-bold">Admin Panel</div>
-        <div className="mt-4">
+      <div className={`w-64 ${darkMode ? "bg-gray-800" : "bg-gray-800"} text-white flex flex-col`}>
+        {/* Header */}
+        <div className="p-4 text-xl font-bold border-b border-gray-700">
+          <div className="mb-2">Admin Panel</div>
+          <p className="text-sm font-normal text-gray-400">Administrator</p>
+        </div>
+
+        {/* Menu Items */}
+        <div className="mt-4 flex-1">
           {menu.map((item) => (
             <button
               key={item.id}
               onClick={() => setPage(item.id)}
-              className={`flex items-center w-full px-4 py-3 ${
-                page === item.id ? "bg-gray-700" : "hover:bg-gray-700"
+              className={`flex items-center w-full px-4 py-3 transition-colors ${
+                page === item.id ? "bg-gray-700 border-l-4 border-blue-500" : "hover:bg-gray-700"
               }`}
             >
               <span className="mr-3">{item.icon}</span>
@@ -48,66 +94,41 @@ const Dashboard = () => {
             </button>
           ))}
         </div>
+
+        {/* Bottom Controls */}
+        <div className="border-t border-gray-700 p-4 space-y-2">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center w-full px-4 py-2 hover:bg-gray-700 rounded transition-colors"
+          >
+            {darkMode ? (
+              <>
+                <FiSun className="mr-2" />
+                Light Mode
+              </>
+            ) : (
+              <>
+                <FiMoon className="mr-2" />
+                Dark Mode
+              </>
+            )}
+          </button>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center w-full px-4 py-2 bg-red-600 hover:bg-red-700 rounded transition-colors"
+          >
+            <FiLogOut className="mr-2" />
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <div key={index} className="bg-white p-6 rounded-lg shadow">
-              <p className="text-gray-500">{stat.title}</p>
-              <p className="text-2xl font-bold mt-2">{stat.value}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Content Area */}
-        <div className="bg-white p-6 rounded-lg shadow">
-          {page === "dashboard" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Dashboard Overview</h2>
-              <p>Welcome to your admin dashboard.</p>
-            </div>
-          )}
-
-          {page === "products" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Manage Products</h2>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                + Add New Product
-              </button>
-            </div>
-          )}
-
-          {page === "orders" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Recent Orders</h2>
-              <p>Order list will appear here.</p>
-            </div>
-          )}
-
-          {page === "customers" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Customers</h2>
-              <p>Customer list will appear here.</p>
-            </div>
-          )}
-
-          {page === "analytics" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Analytics</h2>
-              <p>Charts and reports will appear here.</p>
-            </div>
-          )}
-
-          {page === "settings" && (
-            <div>
-              <h2 className="text-xl font-bold mb-4">Settings</h2>
-              <p>Configure your store settings.</p>
-            </div>
-          )}
-        </div>
+      <div className={`flex-1 p-6 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
+        {renderContent()}
       </div>
     </div>
   );

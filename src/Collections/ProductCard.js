@@ -3,6 +3,7 @@ import ImageCard from "../ImageCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getWishlist, setWishlist } from "../helper/wishlistService";
+import { useInventory } from "../context/InventoryContext";
 
 const ProductCard = ({
   productId,
@@ -18,6 +19,8 @@ const ProductCard = ({
   const [liked, setLiked] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
   const navigate = useNavigate();
+  const { getStock } = useInventory();
+  const stock = getStock(productId);
   // prevent duplicate requests when clicking rapidly or when multiple events fire
   const inflightRef = useRef(false);
 
@@ -229,12 +232,12 @@ const ProductCard = ({
           onClick={(e) => {
             toggleLike(e);
           }}
-          className={`absolute top-2 left-2 p-2 rounded-full shadow-md z-10`}
+          className={`absolute top-2 left-2 p-2 rounded-full shadow-md z-10 bg-white`}
         >
           {liked ? <IoHeart /> : <IoHeartOutline />}
         </button>
 
-        {/* Discount badge on top-right corner when provided */}
+        {/* Discount badge if provided */}
         {showDiscountBadge && discountPrice ? (
           <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded shadow-md z-10">
             PKR {discountPrice}
