@@ -5,16 +5,39 @@ const dotenv = require("dotenv");
 const app = express();
 dotenv.config();
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse application/json
 app.use(bodyParser.json());
 
 // Enable CORS for access from different origins/frontends
-const allowVercelSubdomains = process.env.ALLOW_VERCEL_SUBDOMAINS === "true";
-const allowedOrigins = [process.env.FRONTEND_URL, "https://baroque.vercel.app"]
+// Support a comma-separated list in `FRONTEND_URLS` or a single `FRONTEND_URL`.
+// In production, if no frontend URL is provided we allow Vercel subdomains by default
+// (useful for Vercel preview deployments). To explicitly control this, set
+// `ALLOW_VERCEL_SUBDOMAINS=true` in the environment.
+const allowVercelSubdomainsEnv = process.env.ALLOW_VERCEL_SUBDOMAINS;
+const allowVercelSubdomains =
+  allowVercelSubdomainsEnv === "true" ||
+  (process.env.NODE_ENV === "production" &&
+    !process.env.FRONTEND_URL &&
+    !process.env.FRONTEND_URLS);
+
+const rawFrontendUrls =
+  process.env.FRONTEND_URLS ||
+  process.env.FRONTEND_URL ||
+  "https://baroque.vercel.app";
+const allowedOrigins = rawFrontendUrls
+  .split(",")
+  .map((u) => u.trim())
   .filter(Boolean)
   .map((u) => u.replace(/\/$/, "")); // normalize (no trailing slash)
+
+console.log(
+  "CORS allowed origins:",
+  allowedOrigins,
+  "allowVercelSubdomains:",
+  allowVercelSubdomains,
+);
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -47,11 +70,11 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS"
+    "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization",
   );
 
   // Respond to preflight OPTIONS requests immediately
