@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { FiLock, FiUnlock, FiRefreshCw } from "react-icons/fi";
+import { FiLock, FiUnlock } from "react-icons/fi";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   // Fetch customers from backend
   useEffect(() => {
-    fetchCustomers();
+    let mounted = true;
+    async function initialAndPoll() {
+      await fetchCustomers();
+      const id = setInterval(() => {
+        if (mounted) fetchCustomers();
+      }, 10000);
+      return () => clearInterval(id);
+    }
+
+    const cleanupPromise = initialAndPoll();
+    return () => {
+      mounted = false;
+      // in case initialAndPoll returned a cleanup function (it does), call it
+      cleanupPromise &&
+        cleanupPromise.then &&
+        cleanupPromise.then((fn) => fn && fn());
+    };
   }, []);
 
   const fetchCustomers = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
@@ -28,44 +44,14 @@ const Customers = () => {
       }
 
       const data = await response.json();
+      // prefer server list when present
       setCustomers(data.users || []);
     } catch (err) {
-      setError(err.message);
-      // Demo data fallback
-      setCustomers([
-        {
-          id: 1,
-          name: "Ali Ahmad",
-          email: "ali@example.com",
-          orders: 5,
-          status: "active",
-          joined: "2024-01-15",
-        },
-        {
-          id: 2,
-          name: "Fatima Khan",
-          email: "fatima@example.com",
-          orders: 8,
-          status: "active",
-          joined: "2024-02-10",
-        },
-        {
-          id: 3,
-          name: "Hassan Khan",
-          email: "hassan@example.com",
-          orders: 3,
-          status: "blocked",
-          joined: "2024-03-05",
-        },
-        {
-          id: 4,
-          name: "Amira Ali",
-          email: "amira@example.com",
-          orders: 12,
-          status: "active",
-          joined: "2023-12-20",
-        },
-      ]);
+      // silently fallback to previous list when fetch fails (no visible error)
+      console.warn(
+        "Fetch customers failed, keeping existing list:",
+        err.message || err,
+      );
     } finally {
       setLoading(false);
     }
@@ -89,11 +75,8 @@ const Customers = () => {
       if (response.ok) {
         setCustomers(
           customers.map((customer) =>
-            customer.id === userId
-              ? {
-                  ...customer,
-                  status: shouldBlock ? "blocked" : "active",
-                }
+            customer._id === userId || customer.id === userId
+              ? { ...customer, status: shouldBlock ? "blocked" : "active" }
               : customer,
           ),
         );
@@ -118,19 +101,8 @@ const Customers = () => {
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-bold">Manage Customers</h2>
-        <button
-          onClick={fetchCustomers}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center gap-2"
-        >
-          <FiRefreshCw /> Refresh
-        </button>
       </div>
-
-      {error && (
-        <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
-          <p className="text-yellow-700 text-sm">{error}</p>
-        </div>
-      )}
+      {/* silent fallback on fetch failure; no error banner */}
 
       {/* Customers Table */}
       <div className="overflow-x-auto">

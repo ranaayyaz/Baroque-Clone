@@ -35,6 +35,7 @@ const orderSchema = new mongoose.Schema({
   },
   total: { type: Number, default: 0 },
   status: { type: String, default: "created" },
+  trackingNumber: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 

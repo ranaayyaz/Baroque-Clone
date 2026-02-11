@@ -359,3 +359,63 @@ module.exports = {
     }
   },
 };
+
+// Change password for authenticated user
+module.exports.changePassword = async function (req, res) {
+  try {
+    const newPassword = req.body.newPassword;
+    if (!newPassword)
+      return res
+        .status(400)
+        .json({ status: "error", message: "newPassword required" });
+    const updated = await userModel
+      .findByIdAndUpdate(
+        req.userId,
+        { $set: { password: newPassword } },
+        { new: true },
+      )
+      .select("firstName lastName email");
+    if (!updated)
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found" });
+    return res.json({ status: "success", message: "Password updated" });
+  } catch (err) {
+    console.error("Change password error:", err);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Failed to change password" });
+  }
+};
+
+// Block a user by email (set role to 'blocked') — requires admin privileges
+module.exports.blockUser = async function (req, res) {
+  try {
+    // check requester is admin
+    const requester = await userModel.findById(req.userId).select("role");
+    if (!requester || requester.role !== "admin")
+      return res.status(403).json({ status: "error", message: "Forbidden" });
+    const email = req.body.email;
+    if (!email)
+      return res
+        .status(400)
+        .json({ status: "error", message: "email required" });
+    const u = await userModel
+      .findOneAndUpdate({ email }, { $set: { role: "blocked" } }, { new: true })
+      .select("firstName lastName email role");
+    if (!u)
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found" });
+    return res.json({
+      status: "success",
+      message: "User blocked",
+      user: { email: u.email, role: u.role },
+    });
+  } catch (err) {
+    console.error("Block user error:", err);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Failed to block user" });
+  }
+};

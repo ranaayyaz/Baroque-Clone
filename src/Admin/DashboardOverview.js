@@ -5,6 +5,7 @@ import {
   FiDollarSign,
   FiShoppingBag,
 } from "react-icons/fi";
+import { products as mockProducts } from "../mock/product";
 
 const DashboardOverview = () => {
   const [stats, setStats] = useState({
@@ -28,7 +29,15 @@ const DashboardOverview = () => {
           `${process.env.REACT_APP_SERVER_URL}/products`,
         );
         const productsData = await productsRes.json();
-        const productsArray = productsData.products || [];
+        // backend may return an array directly or an object { products: [...] }
+        const productsArray = Array.isArray(productsData)
+          ? productsData
+          : productsData?.products || [];
+
+        // fallback to local mock products when backend returns none
+        const productsForCount = productsArray.length
+          ? productsArray
+          : mockProducts || [];
 
         // Fetch users
         const usersRes = await fetch(
@@ -54,20 +63,22 @@ const DashboardOverview = () => {
         const ordersData = await ordersRes.json();
         const ordersArray = ordersData.orders || [];
 
-        // Calculate total revenue from orders
+        // Calculate total revenue from orders (support `total` or `totalAmount`)
         const totalRevenue = ordersArray.reduce((sum, order) => {
-          return sum + (order.totalAmount || 0);
+          return sum + (order.total || order.totalAmount || 0);
         }, 0);
 
         setStats({
-          totalProducts: productsArray.length,
+          totalProducts: productsForCount.length,
           totalUsers: usersArray.length,
           totalOrders: ordersArray.length,
           totalRevenue: totalRevenue,
         });
 
-        // Store first 5 products for display
-        setProducts(productsArray.slice(0, 5));
+        // Store first 5 products for display (prefer backend, fallback to mock)
+        setProducts(
+          (productsArray.length ? productsArray : productsForCount).slice(0, 5),
+        );
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
         setError(err.message);
@@ -108,6 +119,44 @@ const DashboardOverview = () => {
 
   return (
     <div>
+      {/* Prominent title placed above the card */}
+      <h2 className="text-3xl font-extrabold text-gray-900 mb-4">
+        Welcome to Admin Dashboard
+      </h2>
+
+      <div className="bg-white p-6 rounded-lg shadow mb-6">
+        <p className="text-gray-600 mb-4">
+          Use the sidebar to manage your ecommerce platform. You can manage
+          products, orders, customers, and system settings.
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="text-center p-4 bg-blue-50 rounded-lg">
+            <p className="text-2xl font-bold text-blue-600">
+              {stats.totalProducts}
+            </p>
+            <p className="text-sm text-gray-600">Products</p>
+          </div>
+          <div className="text-center p-4 bg-green-50 rounded-lg">
+            <p className="text-2xl font-bold text-green-600">
+              {stats.totalUsers}
+            </p>
+            <p className="text-sm text-gray-600">Users</p>
+          </div>
+          <div className="text-center p-4 bg-orange-50 rounded-lg">
+            <p className="text-2xl font-bold text-orange-600">
+              {stats.totalOrders}
+            </p>
+            <p className="text-sm text-gray-600">Orders</p>
+          </div>
+          <div className="text-center p-4 bg-purple-50 rounded-lg">
+            <p className="text-2xl font-bold text-purple-600">
+              Rs. {(stats.totalRevenue / 1000).toFixed(1)}K
+            </p>
+            <p className="text-sm text-gray-600">Revenue</p>
+          </div>
+        </div>
+      </div>
+
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatCard
@@ -186,43 +235,6 @@ const DashboardOverview = () => {
           </div>
         </div>
       )}
-
-      {/* Welcome Section */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Welcome to Admin Dashboard
-        </h2>
-        <p className="text-gray-600 mb-4">
-          Use the sidebar to manage your ecommerce platform. You can manage
-          products, orders, customers, and system settings.
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <p className="text-2xl font-bold text-blue-600">
-              {stats.totalProducts}
-            </p>
-            <p className="text-sm text-gray-600">Products</p>
-          </div>
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <p className="text-2xl font-bold text-green-600">
-              {stats.totalUsers}
-            </p>
-            <p className="text-sm text-gray-600">Users</p>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <p className="text-2xl font-bold text-orange-600">
-              {stats.totalOrders}
-            </p>
-            <p className="text-sm text-gray-600">Orders</p>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <p className="text-2xl font-bold text-purple-600">
-              Rs. {(stats.totalRevenue / 1000).toFixed(1)}K
-            </p>
-            <p className="text-sm text-gray-600">Revenue</p>
-          </div>
-        </div>
-      </div>
 
       {error && (
         <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">

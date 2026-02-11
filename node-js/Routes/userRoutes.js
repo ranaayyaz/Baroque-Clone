@@ -34,4 +34,10 @@ router.get("/me/orders", auth, orderController.getOrders);
 // profile
 router.get("/me/profile", auth, userController.getProfile);
 
+// change password (authenticated)
+router.post("/change-password", auth, userController.changePassword);
+
+// block user (admin only)
+router.post("/block", auth, userController.blockUser);
+
 module.exports = router;

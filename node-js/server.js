@@ -119,6 +119,14 @@ const { getConnectionState } = require("./database/connection");
 var userRoutes = require("./Routes/userRoutes");
 app.use("/users", userRoutes);
 
+// Admin orders routes
+try {
+  const adminOrders = require("./Routes/adminOrders");
+  app.use("/admin/orders", adminOrders);
+} catch (e) {
+  console.warn("adminOrders not mounted:", e.message || e);
+}
+
 app.set("secretKey", "Im a Fullstack web developer 7613341 &&8326&^&%^*(%#");
 
 (async () => {
