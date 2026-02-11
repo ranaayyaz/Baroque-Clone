@@ -20,14 +20,16 @@ import Settings from "./Settings";
 
 const Dashboard = () => {
   const [page, setPage] = useState("dashboard");
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true",
+  );
   const navigate = useNavigate();
 
   // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       const newValue = !prev;
-      localStorage.setItem('darkMode', newValue);
+      localStorage.setItem("darkMode", newValue);
       return newValue;
     });
   };
@@ -70,9 +72,13 @@ const Dashboard = () => {
   };
 
   return (
-    <div className={`flex min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
+    <div
+      className={`flex min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}
+    >
       {/* Left Sidebar with Icons */}
-      <div className={`w-64 ${darkMode ? "bg-gray-800" : "bg-gray-800"} text-white flex flex-col`}>
+      <div
+        className={`w-64 ${darkMode ? "bg-gray-800" : "bg-gray-800"} text-white flex flex-col`}
+      >
         {/* Header */}
         <div className="p-4 text-xl font-bold border-b border-gray-700">
           <div className="mb-2">Admin Panel</div>
@@ -86,7 +92,9 @@ const Dashboard = () => {
               key={item.id}
               onClick={() => setPage(item.id)}
               className={`flex items-center w-full px-4 py-3 transition-colors ${
-                page === item.id ? "bg-gray-700 border-l-4 border-blue-500" : "hover:bg-gray-700"
+                page === item.id
+                  ? "bg-gray-700 border-l-4 border-blue-500"
+                  : "hover:bg-gray-700"
               }`}
             >
               <span className="mr-3">{item.icon}</span>

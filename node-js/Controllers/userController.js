@@ -53,7 +53,7 @@ module.exports = {
 
       const match = bcrypt.compareSync(
         String(req.body.password),
-        String(hashed)
+        String(hashed),
       );
       if (match) {
         const token = jwt.sign({ id: userInfo._id }, req.app.get("secretKey"), {
@@ -64,7 +64,7 @@ module.exports = {
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
           email: userInfo.email,
-          role: userInfo.role || 'user',
+          role: userInfo.role || "user",
         };
         return res.json({
           status: "success",
@@ -154,7 +154,7 @@ module.exports = {
         .findOneAndUpdate(
           { _id: req.userId, "cart.id": item.id, "cart.size": item.size || "" },
           { $inc: { "cart.$.qty": item.qty || 1 } },
-          { new: true }
+          { new: true },
         )
         .select("cart");
       if (incResult && incResult.cart) {
@@ -166,7 +166,7 @@ module.exports = {
         .findByIdAndUpdate(
           req.userId,
           { $push: { cart: { ...item, qty: item.qty || 1 } } },
-          { new: true }
+          { new: true },
         )
         .select("cart");
       return res.json({ status: "success", cart: pushResult?.cart || [] });
@@ -188,7 +188,7 @@ module.exports = {
         .findOneAndUpdate(
           { _id: req.userId, "cart.id": id, "cart.size": size || "" },
           { $set: { "cart.$.qty": qtyNum } },
-          { new: true }
+          { new: true },
         )
         .select("cart");
       if (!resDoc)
@@ -213,7 +213,7 @@ module.exports = {
         .findByIdAndUpdate(
           req.userId,
           { $pull: { cart: { id: id, size: size } } },
-          { new: true }
+          { new: true },
         )
         .select("cart");
       return res.json({ status: "success", cart: resDoc?.cart || [] });
@@ -231,7 +231,7 @@ module.exports = {
       await userModel.findByIdAndUpdate(
         req.userId,
         { $set: { cart: [] } },
-        { new: true }
+        { new: true },
       );
       return res.json({ status: "success", cart: [] });
     } catch (err) {
@@ -284,7 +284,7 @@ module.exports = {
       // check if item exists in wishlist first
       const exists = await userModel.findOne(
         { _id: req.userId, "wishlist.id": item.id },
-        { "wishlist.$": 1 }
+        { "wishlist.$": 1 },
       );
 
       if (exists) {
@@ -293,7 +293,7 @@ module.exports = {
           .findByIdAndUpdate(
             req.userId,
             { $pull: { wishlist: { id: item.id } } },
-            { new: true }
+            { new: true },
           )
           .select("wishlist");
         return res.json({
@@ -306,7 +306,7 @@ module.exports = {
           .findByIdAndUpdate(
             req.userId,
             { $push: { wishlist: item } },
-            { new: true }
+            { new: true },
           )
           .select("wishlist");
         return res.json({
@@ -330,7 +330,7 @@ module.exports = {
         .findByIdAndUpdate(
           req.userId,
           { $pull: { wishlist: { id: id } } },
-          { new: true }
+          { new: true },
         )
         .select("wishlist");
       return res.json({ status: "success", wishlist: resDoc?.wishlist || [] });
@@ -348,7 +348,7 @@ module.exports = {
       await userModel.findByIdAndUpdate(
         req.userId,
         { $set: { wishlist: [] } },
-        { new: true }
+        { new: true },
       );
       return res.json({ status: "success", wishlist: [] });
     } catch (err) {

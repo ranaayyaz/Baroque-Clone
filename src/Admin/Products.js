@@ -28,7 +28,7 @@ const Products = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -41,8 +41,20 @@ const Products = () => {
       setError(err.message);
       // Demo data fallback
       setProducts([
-        { id: 1, name: "Product 1", price: 5000, category: "Fashion", stock: 50 },
-        { id: 2, name: "Product 2", price: 7500, category: "Electronics", stock: 30 },
+        {
+          id: 1,
+          name: "Product 1",
+          price: 5000,
+          category: "Fashion",
+          stock: 50,
+        },
+        {
+          id: 2,
+          name: "Product 2",
+          price: 7500,
+          category: "Electronics",
+          stock: 30,
+        },
         { id: 3, name: "Product 3", price: 10000, category: "Home", stock: 0 },
       ]);
     } finally {
@@ -57,7 +69,8 @@ const Products = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
 
     try {
       const token = localStorage.getItem("adminToken");
@@ -68,7 +81,7 @@ const Products = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (response.ok) {
@@ -158,7 +171,9 @@ const Products = () => {
               <tr key={product.id} className="border-b hover:bg-gray-50">
                 <td className="px-4 py-2">{product.id}</td>
                 <td className="px-4 py-2 font-semibold">{product.name}</td>
-                <td className="px-4 py-2">Rs. {product.price?.toLocaleString()}</td>
+                <td className="px-4 py-2">
+                  Rs. {product.price?.toLocaleString()}
+                </td>
                 <td className="px-4 py-2">{product.category}</td>
                 <td className="px-4 py-2">
                   <span
@@ -263,4 +278,3 @@ const Products = () => {
 };
 
 export default Products;
-

@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { FiMoon, FiSun, FiAlertCircle } from "react-icons/fi";
 
 const Settings = () => {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true",
+  );
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [passwordData, setPasswordData] = useState({
     oldPassword: "",
@@ -16,7 +18,7 @@ const Settings = () => {
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       const newValue = !prev;
-      localStorage.setItem('darkMode', newValue);
+      localStorage.setItem("darkMode", newValue);
       return newValue;
     });
   };
@@ -44,26 +46,26 @@ const Settings = () => {
 
     try {
       // Call backend API to change password
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/change-password`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             oldPassword: passwordData.oldPassword,
-            newPassword: passwordData.newPassword
+            newPassword: passwordData.newPassword,
           }),
-        }
+        },
       );
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Password change failed');
+        throw new Error(data.message || "Password change failed");
       }
 
       setSuccess("Password changed successfully");
@@ -90,18 +92,16 @@ const Settings = () => {
           <div>
             <h3 className="font-semibold mb-1">Theme</h3>
             <p className="text-sm text-gray-600">
-              {darkMode ? "Currently using dark mode" : "Currently using light mode"}
+              {darkMode
+                ? "Currently using dark mode"
+                : "Currently using light mode"}
             </p>
           </div>
           <button
             onClick={toggleDarkMode}
             className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            {darkMode ? (
-              <FiSun size={20} />
-            ) : (
-              <FiMoon size={20} />
-            )}
+            {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
         </div>
       </div>

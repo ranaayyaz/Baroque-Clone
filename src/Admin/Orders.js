@@ -20,7 +20,7 @@ const Orders = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -83,14 +83,14 @@ const Orders = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ status: newStatus }),
-        }
+        },
       );
 
       if (response.ok) {
         setOrders(
           orders.map((order) =>
-            order.id === orderId ? { ...order, status: newStatus } : order
-          )
+            order.id === orderId ? { ...order, status: newStatus } : order,
+          ),
         );
         alert("Order status updated successfully");
       } else {
@@ -164,17 +164,23 @@ const Orders = () => {
                 <td className="px-4 py-2 font-semibold">#{order.id}</td>
                 <td className="px-4 py-2">{order.customer}</td>
                 <td className="px-4 py-2">{order.items}</td>
-                <td className="px-4 py-2">Rs. {order.total?.toLocaleString()}</td>
+                <td className="px-4 py-2">
+                  Rs. {order.total?.toLocaleString()}
+                </td>
                 <td className="px-4 py-2">{order.date}</td>
                 <td className="px-4 py-2">
-                  <span className={`px-3 py-1 rounded text-sm ${getStatusColor(order.status)}`}>
+                  <span
+                    className={`px-3 py-1 rounded text-sm ${getStatusColor(order.status)}`}
+                  >
                     {order.status}
                   </span>
                 </td>
                 <td className="px-4 py-2">
                   <select
                     value={order.status}
-                    onChange={(e) => handleStatusUpdate(order.id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusUpdate(order.id, e.target.value)
+                    }
                     className="px-3 py-1 border rounded text-sm cursor-pointer"
                   >
                     <option value="Pending">Pending</option>

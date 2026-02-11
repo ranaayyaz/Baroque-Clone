@@ -11,7 +11,8 @@ const Unauthorized = () => {
         <FiAlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-4" />
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Access Denied</h1>
         <p className="text-gray-600 mb-6">
-          You do not have permission to access the admin dashboard. Only administrators can access this area.
+          You do not have permission to access the admin dashboard. Only
+          administrators can access this area.
         </p>
         <div className="flex gap-3">
           <button

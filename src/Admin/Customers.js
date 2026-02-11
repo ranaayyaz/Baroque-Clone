@@ -20,7 +20,7 @@ const Customers = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -83,7 +83,7 @@ const Customers = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ blocked: shouldBlock }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -94,12 +94,10 @@ const Customers = () => {
                   ...customer,
                   status: shouldBlock ? "blocked" : "active",
                 }
-              : customer
-          )
+              : customer,
+          ),
         );
-        alert(
-          `User ${shouldBlock ? "blocked" : "unblocked"} successfully`
-        );
+        alert(`User ${shouldBlock ? "blocked" : "unblocked"} successfully`);
       } else {
         throw new Error("Failed to update user status");
       }

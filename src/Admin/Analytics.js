@@ -38,7 +38,9 @@ const Analytics = () => {
             <div key={index}>
               <div className="flex justify-between mb-1">
                 <span className="text-sm font-medium">{data.month}</span>
-                <span className="text-sm font-medium">Rs. {data.sales.toLocaleString()}</span>
+                <span className="text-sm font-medium">
+                  Rs. {data.sales.toLocaleString()}
+                </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
