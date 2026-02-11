@@ -7,9 +7,6 @@ import {
   FiUsers,
   FiDollarSign,
   FiSettings,
-  FiLogOut,
-  FiMoon,
-  FiSun,
 } from "react-icons/fi";
 import DashboardOverview from "./DashboardOverview";
 import Products from "./Products";
@@ -20,19 +17,7 @@ import Settings from "./Settings";
 
 const Dashboard = () => {
   const [page, setPage] = useState("dashboard");
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true",
-  );
   const navigate = useNavigate();
-
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("darkMode", newValue);
-      return newValue;
-    });
-  };
 
   // Menu items with icons
   const menu = [
@@ -43,13 +28,6 @@ const Dashboard = () => {
     { id: "analytics", name: "Analytics", icon: <FiDollarSign /> },
     { id: "settings", name: "Settings", icon: <FiSettings /> },
   ];
-
-  // Handle logout
-  const handleLogout = async () => {
-    if (window.confirm("Are you sure you want to go back to home?")) {
-      navigate("/");
-    }
-  };
 
   // Render the appropriate component based on page state
   const renderContent = () => {
@@ -72,17 +50,25 @@ const Dashboard = () => {
   };
 
   return (
-    <div
-      className={`flex min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}
-    >
+    <div className="flex min-h-screen bg-gray-200">
       {/* Left Sidebar with Icons */}
-      <div
-        className={`w-64 ${darkMode ? "bg-gray-800" : "bg-gray-800"} text-white flex flex-col`}
-      >
+      <div className="w-64 bg-gray-200 text-gray-900 flex flex-col">
         {/* Header */}
-        <div className="p-4 text-xl font-bold border-b border-gray-700">
-          <div className="mb-2">Admin Panel</div>
-          <p className="text-sm font-normal text-gray-400">Administrator</p>
+        <div className="p-4 text-center border-b border-gray-300">
+          <button
+            onClick={() => navigate("/")}
+            aria-label="Go to homepage"
+            className="mx-auto"
+          >
+            <img
+              alt="BAROQUE Logo"
+              src="https://cdn.shopify.com/s/files/1/2277/5269/files/Baroque_logo_24-Aug-2023_200x60@2x.png?v=1692878661.webp"
+              className="h-10 w-auto mx-auto cursor-pointer"
+            />
+          </button>
+          <p className="mt-1 text-sm font-normal text-gray-700">
+            Administrator
+          </p>
         </div>
 
         {/* Menu Items */}
@@ -91,52 +77,23 @@ const Dashboard = () => {
             <button
               key={item.id}
               onClick={() => setPage(item.id)}
-              className={`flex items-center w-full px-4 py-3 transition-colors ${
+              className={`flex items-center w-full px-4 py-3 transition-colors text-gray-800 ${
                 page === item.id
-                  ? "bg-gray-700 border-l-4 border-blue-500"
-                  : "hover:bg-gray-700"
+                  ? "bg-gray-300 border-l-4 border-blue-500"
+                  : "hover:bg-gray-300"
               }`}
             >
-              <span className="mr-3">{item.icon}</span>
+              <span className="mr-3 text-gray-700">{item.icon}</span>
               {item.name}
             </button>
           ))}
         </div>
 
-        {/* Bottom Controls */}
-        <div className="border-t border-gray-700 p-4 space-y-2">
-          {/* Dark Mode Toggle */}
-          <button
-            onClick={toggleDarkMode}
-            className="flex items-center w-full px-4 py-2 hover:bg-gray-700 rounded transition-colors"
-          >
-            {darkMode ? (
-              <>
-                <FiSun className="mr-2" />
-                Light Mode
-              </>
-            ) : (
-              <>
-                <FiMoon className="mr-2" />
-                Dark Mode
-              </>
-            )}
-          </button>
-
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="flex items-center w-full px-4 py-2 bg-red-600 hover:bg-red-700 rounded transition-colors"
-          >
-            <FiLogOut className="mr-2" />
-            Logout
-          </button>
-        </div>
+        {/* Bottom Controls removed (dark mode & logout) */}
       </div>
-
       {/* Main Content */}
-      <div className={`flex-1 p-6 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
-        {renderContent()}
+      <div className="flex-1 p-6 bg-gray-100">
+        <div className="max-w-[1100px] mx-auto">{renderContent()}</div>
       </div>
     </div>
   );

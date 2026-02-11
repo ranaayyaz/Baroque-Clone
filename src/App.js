@@ -33,14 +33,15 @@ import ScrollToTop from "./ScrollToTop";
 import Shop from "./Shop";
 import OurShop from "./Footer/About/OurShop";
 import { InventoryProvider } from "./context/InventoryContext";
-
+import Dashboard from "./Admin/Dashboard";
 function App() {
   return (
     <InventoryProvider>
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* Admin Routes - removed */}
+          {/* Admin Routes */}
+          <Route path="/admin-dashboard" element={<Dashboard />} />
 
           {/* User Routes */}
           <Route path="/signin" element={<SignIn />} />
