@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const Cart = () => {
         setCart([]);
       }
     };
-    load();
+    load().finally(() => setLoading(false));
     const onCart = () => load();
     window.addEventListener("cartChanged", onCart);
     return () => {
@@ -300,6 +301,15 @@ const Cart = () => {
     const qty = it.qty || it.quantity || 1;
     return s + unitPrice * qty;
   }, 0);
+
+  if (loading)
+    return (
+      <div className="mt-[8rem]">
+        <div className="max-w-[1100px] mx-auto p-12 text-center letterSpacing">
+          <h2 className="text-2xl font-semibold mb-10">Loading your cart...</h2>
+        </div>
+      </div>
+    );
 
   if (!cart || cart.length === 0)
     return (
