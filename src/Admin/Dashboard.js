@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Unauthorized from "./Unauthorized";
 import {
   FiBarChart2,
   FiPackage,
@@ -18,6 +19,42 @@ import Settings from "./Settings";
 const Dashboard = () => {
   const [page, setPage] = useState("dashboard");
   const navigate = useNavigate();
+  const [authState, setAuthState] = useState("checking"); // checking | ok | denied
+
+  // Admin lock: only a signed-in user with role "admin" may see this page.
+  useEffect(() => {
+    let user = null;
+    try {
+      const raw =
+        localStorage.getItem("user") || localStorage.getItem("auth");
+      const parsed = raw ? JSON.parse(raw) : null;
+      user = parsed && parsed.user ? parsed.user : parsed;
+    } catch (e) {
+      user = null;
+    }
+    const token = localStorage.getItem("token");
+    if (!token || !user) {
+      navigate("/signin");
+      return;
+    }
+    if (user.role !== "admin") {
+      setAuthState("denied");
+      return;
+    }
+    setAuthState("ok");
+  }, [navigate]);
+
+  if (authState === "checking") {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-600">Checking access...</p>
+      </div>
+    );
+  }
+
+  if (authState === "denied") {
+    return <Unauthorized />;
+  }
 
   // Menu items with icons
   const menu = [
