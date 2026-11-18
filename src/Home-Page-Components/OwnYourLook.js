@@ -13,7 +13,7 @@ function OwnYourLook() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-[70px] relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 lg:px-[70px] relative">
         {/* Pehla ImageCard */}
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl="https://res.cloudinary.com/dlqzjthos/image/upload/v1766646789/76_b6020562-2bf5-4210-9b23-6043ae5e6bc6_hjxhbg.webp" />

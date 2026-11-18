@@ -5,7 +5,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoSearchSharp } from "react-icons/io5";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { LiaBarsSolid } from "react-icons/lia";
-import { FaAngleRight } from "react-icons/fa6";
+import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
@@ -312,6 +312,81 @@ const Navigation = () => {
               )}
             </Link>
           </div>
+
+          {/* Right - Icons (mobile & tablet only) */}
+          <div className="flex lg:hidden items-center space-x-4">
+            <button
+              className="text-[1.4rem]"
+              aria-label="Search"
+              onClick={() => setShowSearch((s) => !s)}
+            >
+              <IoSearchSharp />
+            </button>
+
+            {user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu((s) => !s)}
+                  className="text-[1.4rem]"
+                  aria-label="Account"
+                >
+                  <LuUserRound />
+                </button>
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white border rounded shadow-md z-50 py-1">
+                    <div className="px-4 py-2 text-xs text-gray-500 break-all">
+                      {user.email}
+                    </div>
+                    {user.role === "admin" && (
+                      <button
+                        onClick={() => {
+                          setShowUserMenu(false);
+                          navigate("/admin-dashboard");
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100"
+                      >
+                        Admin Dashboard
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("auth");
+                        setUser(null);
+                        setCartCount(0);
+                        setWishlistCount(0);
+                        window.dispatchEvent(new Event("cartChanged"));
+                        window.dispatchEvent(new Event("wishlistChanged"));
+                        setShowUserMenu(false);
+                        navigate("/");
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/signin" className="text-[1.4rem]" aria-label="Sign in">
+                <LuUserRound />
+              </Link>
+            )}
+
+            <Link to="/cart" className="text-[1.4rem] relative" aria-label="Cart">
+              <PiShoppingCartSimpleBold />
+              {cartCount > 0 && (
+                <span
+                  className={`absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform transition-transform duration-300 ${
+                    cartPulse ? "scale-125" : "scale-100"
+                  }`}
+                >
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -364,7 +439,7 @@ const Navigation = () => {
 
           {/* Canvas Content - FIXED POSITION */}
           <div
-            className="fixed top-0 left-0 h-full w-[400px] bg-white shadow-lg z-50"
+            className="fixed top-0 left-0 h-full w-full max-w-[400px] bg-white shadow-lg z-50 overflow-y-auto"
             style={{ transform: "none" }}
           >
             {/* Header */}
@@ -465,12 +540,26 @@ const Navigation = () => {
           {/* Dusra Canvas - Second Level - FIXED POSITION */}
           {showSecondCanvas && (
             <div
-              className="fixed top-0 left-[400px] h-full w-[400px] bg-white shadow-lg z-[60]"
+              className="fixed top-0 left-0 lg:left-[400px] h-full w-full max-w-[400px] bg-white shadow-lg z-[60] overflow-y-auto"
               style={{ transform: "none" }}
             >
-              {/* Header - Cross/Back Icon Nahin Hai */}
-              <div className="p-4">
+              {/* Header with Back + Close */}
+              <div className="flex justify-between items-center p-4">
+                <button
+                  onClick={() => setShowSecondCanvas(false)}
+                  className="text-gray-500 hover:text-gray-700 text-2xl px-1"
+                  aria-label="Back to menu"
+                >
+                  <FaAngleLeft />
+                </button>
                 <h3 className="text-lg font-semibold">{activeMenu}</h3>
+                <button
+                  onClick={handleCloseFirst}
+                  className="text-gray-500 hover:text-gray-700 text-4xl leading-none"
+                  aria-label="Close menu"
+                >
+                  ×
+                </button>
               </div>
 
               {/* Body */}

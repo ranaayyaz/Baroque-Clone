@@ -11,7 +11,7 @@ function ChantelleCollection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-[70px] relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4 lg:px-[70px] relative">
         {/* Pehla ImageCard */}
         <div className="relative  img-hover-zoom">
           <ImageCard imgUrl=" https://res.cloudinary.com/dlqzjthos/image/upload/v1766647025/qw_uvqqko.webp" />
