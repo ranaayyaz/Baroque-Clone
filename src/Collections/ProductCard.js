@@ -3,7 +3,7 @@ import ImageCard from "../ImageCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getWishlist, setWishlist } from "../helper/wishlistService";
-import { useInventory } from "../context/InventoryContext";
+
 
 const ProductCard = ({
   productId,
@@ -19,8 +19,6 @@ const ProductCard = ({
   const [liked, setLiked] = useState(false);
   const [loadingLike, setLoadingLike] = useState(false);
   const navigate = useNavigate();
-  const { getStock } = useInventory();
-  const stock = getStock(productId);
   // prevent duplicate requests when clicking rapidly or when multiple events fire
   const inflightRef = useRef(false);
 
