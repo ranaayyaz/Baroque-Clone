@@ -154,6 +154,22 @@ try {
   console.warn("adminOrders not mounted:", e.message || e);
 }
 
+// Admin users routes (customers list + block/unblock)
+try {
+  const adminUsers = require("./Routes/adminUsers");
+  app.use("/admin/users", adminUsers);
+} catch (e) {
+  console.warn("adminUsers not mounted:", e.message || e);
+}
+
+// Product catalogue routes (public read, admin writes)
+try {
+  const productRoutes = require("./Routes/productRoutes");
+  app.use("/products", productRoutes);
+} catch (e) {
+  console.warn("productRoutes not mounted:", e.message || e);
+}
+
 app.set("secretKey", "Im a Fullstack web developer 7613341 &&8326&^&%^*(%#");
 
 // Start a normal server only when run directly (local development).
