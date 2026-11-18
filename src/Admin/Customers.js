@@ -29,7 +29,7 @@ const Customers = () => {
   const fetchCustomers = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/admin/users`,
         {
@@ -59,7 +59,7 @@ const Customers = () => {
 
   const handleBlockUser = async (userId, shouldBlock) => {
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/admin/users/${userId}/block`,
         {
