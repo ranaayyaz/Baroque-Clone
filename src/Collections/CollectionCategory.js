@@ -70,6 +70,17 @@ function CollectionCategory({ category }) {
     : [];
 
   const [viewMode, setViewMode] = useState("grid-3");
+  const [sortBy, setSortBy] = useState("featured");
+
+  // Sort a copy of a product list according to the selected sort order
+  const applySort = (list) => {
+    const arr = [...list];
+    if (sortBy === "price-asc") arr.sort((a, b) => (a.price || 0) - (b.price || 0));
+    else if (sortBy === "price-desc") arr.sort((a, b) => (b.price || 0) - (a.price || 0));
+    else if (sortBy === "name-az")
+      arr.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+    return arr;
+  };
 
   // Filter state management
   const [expandedFilters, setExpandedFilters] = useState({
@@ -120,8 +131,8 @@ function CollectionCategory({ category }) {
       "PKR 10,000 - 20,000",
       "PKR 20,000+",
     ],
-    type: ["Suit", "Dress", "Saree", "Lehenga", "Sharara"],
-    fabric: ["Cotton", "Silk", "Georgette", "Chiffon", "Lawn"],
+    type: ["Suit", "Dress", "Shawl", "Dupatta"],
+    fabric: ["Cotton", "Silk", "Georgette", "Chiffon", "Lawn", "Velvet"],
     size: ["XS", "S", "M", "L", "XL", "XXL"],
     pieces: ["2-Piece", "3-Piece", "4-Piece", "5-Piece"],
     style: ["Traditional", "Modern", "Casual", "Formal", "Party Wear"],
@@ -204,8 +215,9 @@ function CollectionCategory({ category }) {
       );
     }
 
-    return result;
-  }, [selectedFilters, category, parent]);
+    return applySort(result);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedFilters, category, parent, sortBy]);
 
   return (
     <>
@@ -281,8 +293,19 @@ function CollectionCategory({ category }) {
             {filteredProducts.length} PRODUCTS
           </div>
 
-          <div className="w-[15%] sm:w-[10%] lg:w-[8%] text-sm flex items-center pl-8 gap-1 text-gray-400 cursor-pointer hover:text-black transition-colors duration-200 py-3">
-            SORT BY <MdKeyboardArrowDown />
+          <div className="w-[30%] sm:w-[22%] lg:w-[16%] text-sm flex items-center justify-end pr-3 gap-1 text-gray-500 py-3">
+            <span className="hidden md:inline">SORT BY</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="bg-white text-black text-sm outline-none cursor-pointer"
+              aria-label="Sort products"
+            >
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-az">Name: A to Z</option>
+            </select>
           </div>
         </div>
       </div>
@@ -623,11 +646,13 @@ function CollectionCategory({ category }) {
                           ""
                         );
                         const keyPrefix = parentKey + normalizedSubKey;
-                        const items = products.filter((p) =>
-                          p.category
-                            .toString()
-                            .toLowerCase()
-                            .startsWith(keyPrefix)
+                        const items = applySort(
+                          products.filter((p) =>
+                            p.category
+                              .toString()
+                              .toLowerCase()
+                              .startsWith(keyPrefix)
+                          )
                         );
 
                         return (

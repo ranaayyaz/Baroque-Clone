@@ -116,7 +116,7 @@ const ProductDetail = () => {
   const thumbs =
     Array.isArray(product.images) && product.images.length
       ? product.images
-      : [product.imgUrl, product.imgUrl, product.imgUrl];
+      : [product.imgUrl];
   const selectedImg = thumbs[selectedIndex] || product.imgUrl;
 
   return (
@@ -234,34 +234,48 @@ const ProductDetail = () => {
             <details className="border p-3">
               <summary className="font-medium">PRODUCT DETAILS</summary>
               <div className="mt-2 text-sm text-gray-600">
-                Description and details about the product.
+                {product.name} — {product.pieces || "3-Piece"} outfit in premium{" "}
+                {product.fabric || "quality"} fabric with fine stitching and
+                finishing. Colours and embroidery are true to the pictures
+                shown. SKU: PR-{product.id}.
               </div>
             </details>
 
             <details className="border p-3">
               <summary className="font-medium">DELIVERY</summary>
               <div className="mt-2 text-sm text-gray-600">
-                Delivery info and timelines.
+                Orders are dispatched within 24–48 hours. Delivery across
+                Pakistan takes 3–5 working days. Cash on Delivery is available
+                nationwide.
               </div>
             </details>
 
             <details className="border p-3">
               <summary className="font-medium">DESCRIPTION</summary>
               <div className="mt-2 text-sm text-gray-600">
-                Full product description.
+                Part of our {product.style || "signature"} collection, this{" "}
+                {product.pieces || "3-Piece"} design pairs elegant detailing
+                with all-day comfort — suitable for everyday wear as well as
+                special occasions, in every season.
               </div>
             </details>
 
             <details className="border p-3">
               <summary className="font-medium">RETURNS AND EXCHANGE</summary>
               <div className="mt-2 text-sm text-gray-600">
-                Return policy details.
+                Easy 14-day exchange for unused items in their original
+                packaging with tags intact. Items must be unworn and unwashed.
+                Contact us on WhatsApp to arrange an exchange.
               </div>
             </details>
 
             <details className="border p-3">
               <summary className="font-medium">CARE INSTRUCTIONS</summary>
-              <div className="mt-2 text-sm text-gray-600">Care info.</div>
+              <div className="mt-2 text-sm text-gray-600">
+                Dry clean is recommended for formal and embroidered outfits.
+                For home washing: gentle machine wash in cold water, do not
+                bleach, dry in shade and iron on low heat.
+              </div>
             </details>
           </div>
         </div>
