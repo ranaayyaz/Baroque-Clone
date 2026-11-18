@@ -30,7 +30,7 @@ var userSchema = new mongoose.Schema({
       season: String,
     },
   ],
-});
+}, { timestamps: true });
 
 // Hash password before save (only when modified)
 userSchema.pre("save", function (next) {
