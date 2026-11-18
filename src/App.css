@@ -38,17 +38,9 @@
     position:relative;
 
   }
-  .btn{
-    position: absolute;
-     margin-top: -110px;
-     left: 47%;
-  }
-  .btn:hover{
-    background-color: transparent;
-    color:white;
-    transition: background-color 0.4s ease;
-    border: white 1px solid;
-  }
+  /* Hero Shop Now button positioning now lives in MainBanner.js (Tailwind classes).
+     The old .btn rule (absolute, left:47%, margin-top:-110px) made the button
+     huge and off-centre on mobile, so it was removed on 2026-11-19. */
 
   .trans:hover{
     background-color: transparent;
