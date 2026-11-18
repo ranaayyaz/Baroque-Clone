@@ -5,38 +5,32 @@ function TopHeader() {
       <div className="flex animate-marquee whitespace-nowrap">
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
         <span className="mx-8">
           <pre>
-            CALL US AT UAN: 042-111-000-786 FOR INTERNATIONAL WEBSITE VISIT
-            BAROQUE.VERCEL.APP
+            FREE SHIPPING ACROSS PAKISTAN · CALL / WHATSAPP: +92 309 7613341
           </pre>
         </span>
       </div>

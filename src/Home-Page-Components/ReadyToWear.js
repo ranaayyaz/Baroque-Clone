@@ -19,7 +19,7 @@ function ReadyToWear() {
             to="/ready-to-wear/formal"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
-            VELVET
+            FORMALS
           </Link>
         </div>
 
@@ -30,7 +30,7 @@ function ReadyToWear() {
             to="/ready-to-wear/winter"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
-            FORMALS
+            WINTER
           </Link>
         </div>
 
@@ -41,7 +41,7 @@ function ReadyToWear() {
             to="/ready-to-wear/casual"
             className="absolute bottom-[3rem] md:bottom-[5rem] left-1/2 -translate-x-1/2 bg-white text-black px-4 py-2 md:px-5 md:py-3 letterSpacing hover:bg-black hover:text-white border border-black transition text-sm md:text-base"
           >
-            WINTER
+            CASUAL
           </Link>
         </div>
       </div>

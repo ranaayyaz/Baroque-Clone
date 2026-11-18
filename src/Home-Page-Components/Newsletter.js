@@ -13,9 +13,7 @@ const Newsletter = () => {
         </h2>
         <br />
         <p class="mt-4 text-gray-600">
-          Sign up to get notified and Get
-          <span class="font-semibold"> 5 % OFF</span>
-          when you subscribe to our newsletter.
+          Sign up to get notified and get <span class="font-semibold">5% OFF</span> on your first order when you subscribe to our newsletter.
         </p>
 
         <form class="mt-8 flex flex-col sm:flex-row items-center gap-4">

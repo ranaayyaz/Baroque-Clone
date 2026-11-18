@@ -13,6 +13,8 @@ const Navigation = () => {
   const [showSecondCanvas, setShowSecondCanvas] = useState(false);
   const [activeMenu, setActiveMenu] = useState("");
   const [showCountryModal, setShowCountryModal] = useState(false); // ✅ New state for country modal
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState(null);
@@ -265,7 +267,11 @@ const Navigation = () => {
               </Link>
             )}
 
-            <button className="text-2xl">
+            <button
+              className="text-2xl"
+              aria-label="Search"
+              onClick={() => setShowSearch((s) => !s)}
+            >
               <IoSearchSharp />
             </button>
 
@@ -298,6 +304,44 @@ const Navigation = () => {
         </div>
       </nav>
 
+      {/* Search bar - toggled from the header search icon */}
+      {showSearch && (
+        <div className="fixed top-[75px] left-0 right-0 z-40 bg-white border-b border-gray-300 shadow-md">
+          <form
+            className="max-w-[800px] mx-auto flex items-center gap-3 px-4 py-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = searchQuery.trim();
+              setShowSearch(false);
+              navigate(q ? `/shop-all?q=${encodeURIComponent(q)}` : "/shop-all");
+            }}
+          >
+            <IoSearchSharp className="text-xl text-gray-500" />
+            <input
+              autoFocus
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search products... (e.g. velvet, lawn, formal)"
+              className="flex-1 border border-gray-300 px-4 py-2.5 outline-none focus:border-black"
+            />
+            <button
+              type="submit"
+              className="bg-black text-white px-6 py-2.5 tracking-widest text-sm"
+            >
+              SEARCH
+            </button>
+            <button
+              type="button"
+              aria-label="Close search"
+              onClick={() => setShowSearch(false)}
+              className="text-2xl text-gray-500 px-1"
+            >
+              ×
+            </button>
+          </form>
+        </div>
+      )}
+
       {/* Pehla Canvas - Fixed Content */}
       {showFirstCanvas && (
         <div className="fixed inset-0 z-50">
@@ -327,9 +371,9 @@ const Navigation = () => {
               <nav className="flex flex-col">
                 <button
                   className="py-3 border-b flex justify-between items-center w-full text-left hover:bg-gray-50 px-2 rounded"
-                  onClick={() => handleSecondCanvas("CHANTELE")}
+                  onClick={() => handleSecondCanvas("CHANTELLE")}
                 >
-                  <span className="py-2">CHANTELE</span>
+                  <span className="py-2">CHANTELLE</span>
                   <span className="text-gray-400 py-2">
                     <i>
                       <FaAngleRight />
@@ -421,7 +465,7 @@ const Navigation = () => {
               {/* Body */}
               <div className="p-4">
                 <nav className="flex flex-col">
-                  {activeMenu === "CHANTELE" && (
+                  {activeMenu === "CHANTELLE" && (
                     <>
                       <Link
                         to="/chantelle/stitched"
