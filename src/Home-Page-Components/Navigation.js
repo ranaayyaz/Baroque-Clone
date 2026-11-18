@@ -239,6 +239,17 @@ const Navigation = () => {
 
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-40 bg-white  border rounded shadow-md z-50">
+                    {user.role === "admin" && (
+                      <button
+                        onClick={() => {
+                          setShowUserMenu(false);
+                          navigate("/admin-dashboard");
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm font-medium hover:bg-gray-100"
+                      >
+                        Admin Dashboard
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         // logout: clear auth state and reset counts
