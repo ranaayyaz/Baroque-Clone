@@ -119,7 +119,7 @@ export default function Settings() {
           Open product manager to create, edit or delete products.
         </p>
         <button
-          onClick={() => (window.location.href = "/admin")}
+          onClick={() => (window.location.href = "/admin-dashboard")}
           className="px-4 py-2 bg-blue-600 text-white rounded"
         >
           Open Products
