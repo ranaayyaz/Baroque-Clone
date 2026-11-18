@@ -85,3 +85,15 @@
   justify-content: space-evenly;
   padding: 50px 50px 0px 0px;
 }
+/* --- Mobile responsiveness fixes (2026-11-19) --- */
+/* Safety net: never allow sideways page scrolling */
+html, body {
+  overflow-x: clip;
+}
+
+/* Announcement marquee: faster on phones so the phone number appears sooner */
+@media (max-width: 640px) {
+  .animate-marquee {
+    animation-duration: 18s;
+  }
+}
