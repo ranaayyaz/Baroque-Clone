@@ -83,7 +83,7 @@ const MainFooter = () => {
                   </a>{" "}
                 </li>
                 <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
-                  UAN 111-302-302
+                  Phone: +92 309 7613341
                 </li>
                 <li className="text-[#bdb5b5] hover:text-[#e8dada] cursor-pointer">
                   <a
