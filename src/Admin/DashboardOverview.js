@@ -41,7 +41,7 @@ const DashboardOverview = () => {
 
         // Fetch users
         const usersRes = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/users`,
+          `${process.env.REACT_APP_SERVER_URL}/admin/users`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const DashboardOverview = () => {
 
         // Fetch orders
         const ordersRes = await fetch(
-          `${process.env.REACT_APP_SERVER_URL}/orders`,
+          `${process.env.REACT_APP_SERVER_URL}/admin/orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
