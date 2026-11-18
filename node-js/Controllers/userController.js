@@ -5,8 +5,22 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   //API to create student data
   register: function (req, res) {
+    const body = req.body || {};
+    const adminEmail = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+    const isAdminEmail =
+      adminEmail &&
+      String(body.email || "").trim().toLowerCase() === adminEmail;
+    // Only the fields below are accepted from the client; the role is
+    // decided on the server (the configured ADMIN_EMAIL becomes admin).
+    const newUser = {
+      firstName: body.firstName,
+      lastName: body.lastName,
+      email: body.email,
+      password: body.password,
+      role: isAdminEmail ? "admin" : "user",
+    };
     userModel
-      .create(req.body)
+      .create(newUser)
       .then((results) => {
         res.status(201).json({
           status: "success",
@@ -56,6 +70,30 @@ module.exports = {
         String(hashed),
       );
       if (match) {
+        // Blocked accounts cannot sign in
+        if (userInfo.role === "blocked") {
+          return res.status(403).json({
+            status: "Error",
+            message: "Your account has been blocked. Please contact support.",
+          });
+        }
+
+        // Bootstrap: the configured ADMIN_EMAIL always has admin access
+        let role = userInfo.role || "user";
+        const adminEmail = (process.env.ADMIN_EMAIL || "")
+          .trim()
+          .toLowerCase();
+        if (
+          adminEmail &&
+          String(userInfo.email || "").trim().toLowerCase() === adminEmail &&
+          role !== "admin"
+        ) {
+          await userModel.findByIdAndUpdate(userInfo._id, {
+            $set: { role: "admin" },
+          });
+          role = "admin";
+        }
+
         const token = jwt.sign({ id: userInfo._id }, req.app.get("secretKey"), {
           expiresIn: "1h",
         });
@@ -64,7 +102,7 @@ module.exports = {
           firstName: userInfo.firstName,
           lastName: userInfo.lastName,
           email: userInfo.email,
-          role: userInfo.role || "user",
+          role: role,
         };
         return res.json({
           status: "success",
