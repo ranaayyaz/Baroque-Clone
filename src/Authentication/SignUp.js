@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SignIn from "./SignIn";
 const SignUp = () => {
   const [form, setForm] = useState({
     firstName: "",
