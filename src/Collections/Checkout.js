@@ -195,7 +195,7 @@ const Checkout = () => {
   }, []);
 
   return (
-    <div className="max-w-[1100px] mx-auto p-8">
+    <div className="max-w-[1100px] mx-auto p-4 sm:p-8">
       <h2 className="text-2xl font-semibold mb-6">Checkout</h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <form onSubmit={handleSubmit} className="lg:col-span-2 space-y-4">

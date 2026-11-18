@@ -305,7 +305,7 @@ const Cart = () => {
   if (loading)
     return (
       <div className="mt-[8rem]">
-        <div className="max-w-[1100px] mx-auto p-12 text-center letterSpacing">
+        <div className="max-w-[1100px] mx-auto p-6 sm:p-12 text-center letterSpacing">
           <h2 className="text-2xl font-semibold mb-10">Loading your cart...</h2>
         </div>
       </div>
@@ -314,7 +314,7 @@ const Cart = () => {
   if (!cart || cart.length === 0)
     return (
       <div className="mt-[8rem]">
-        <div className="max-w-[1100px] mx-auto p-12 text-center letterSpacing">
+        <div className="max-w-[1100px] mx-auto p-6 sm:p-12 text-center letterSpacing">
           <h2 className="text-2xl font-semibold mb-10">Your Cart Is Empty</h2>
 
           <Link
@@ -328,12 +328,12 @@ const Cart = () => {
     );
 
   return (
-    <div className="max-w-[1100px] mx-auto p-8">
+    <div className="max-w-[1100px] mx-auto p-4 sm:p-8">
       <h2 className="text-2xl font-semibold mb-6">Shopping Cart</h2>
       <div className="space-y-4">
         {cart.map((it, idx) => (
-          <div key={idx} className="flex items-center gap-6 border p-4">
-            <div className="w-40 h-40 bg-white flex items-center justify-center p-2">
+          <div key={idx} className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 border p-4">
+            <div className="w-full h-60 sm:w-40 sm:h-40 bg-white flex items-center justify-center p-2">
               <img
                 src={it.imgUrl}
                 alt={it.name}
@@ -359,7 +359,7 @@ const Cart = () => {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-row justify-between items-center sm:flex-col sm:items-end sm:justify-start gap-2 w-full sm:w-auto">
               <div className="flex items-center gap-2">
                 <button
                   className="px-2 border"
@@ -400,10 +400,10 @@ const Cart = () => {
           </div>
         </div>
       </div>
-      <div className="mt-6 flex justify-end">
+      <div className="mt-6 flex sm:justify-end">
         <Link
           to="/checkout"
-          className="bg-black text-white px-6 py-3 font-semibold"
+          className="bg-black text-white px-6 py-3 font-semibold w-full sm:w-auto text-center"
         >
           Proceed to Checkout
         </Link>

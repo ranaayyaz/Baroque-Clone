@@ -120,7 +120,7 @@ const ProductDetail = () => {
 
   return (
     <div className="max-w-[1200px] mx-auto my-12 px-4">
-      <div className="flex gap-8 pt-12">
+      <div className="flex flex-col lg:flex-row gap-8 pt-12">
         {/* Left thumbnails */}
         <div className="hidden lg:flex flex-col gap-4 w-20">
           {thumbs.map((t, i) => (
@@ -162,7 +162,7 @@ const ProductDetail = () => {
         </div>
 
         {/* Right details */}
-        <div className="w-[380px]">
+        <div className="w-full lg:w-[380px]">
           <h4 className="text-sm text-gray-500 tracking-widest">
             {product.name.toUpperCase()}
           </h4>
