@@ -19,10 +19,6 @@ const MainFooter = () => {
     setShowCountryModal(true);
   };
 
-  const handleCloseCountryModal = () => {
-    setShowCountryModal(false);
-  };
-
   const handleShopNow = () => {
     setShowCountryModal(false);
     navigate("/");
