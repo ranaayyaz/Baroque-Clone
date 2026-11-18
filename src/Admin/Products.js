@@ -33,11 +33,15 @@ export default function Products() {
     const newPrice = Number(priceInput);
     if (!Number.isFinite(newPrice)) return alert("Enter a valid price");
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/products/${id}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
           body: JSON.stringify({ price: newPrice }),
         },
       );
@@ -58,9 +62,13 @@ export default function Products() {
   async function removeProduct(id) {
     if (!window.confirm("Delete this product?")) return;
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/products/${id}`,
-        { method: "DELETE" },
+        {
+          method: "DELETE",
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        },
       );
       if (!res.ok) throw new Error("Delete failed");
       setProducts((p) => p.filter((x) => x.id !== id));
