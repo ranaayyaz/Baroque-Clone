@@ -12,7 +12,7 @@ const Orders = () => {
     async function fetchOrders() {
       setLoading(true);
       try {
-        const token = localStorage.getItem("adminToken");
+        const token = localStorage.getItem("token");
         const res = await fetch(
           `${process.env.REACT_APP_SERVER_URL}/admin/orders`,
           {
@@ -44,7 +44,7 @@ const Orders = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/admin/orders/${orderId}/status`,
         {
@@ -76,7 +76,7 @@ const Orders = () => {
 
   async function viewOrder(id) {
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/admin/orders/${id}`,
         {
