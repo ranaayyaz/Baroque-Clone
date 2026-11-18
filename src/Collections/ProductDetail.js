@@ -9,7 +9,6 @@ const ProductDetail = () => {
   const product = products.find((p) => p.id === pid);
 
   const discountFromState = location?.state?.discountPrice;
-  const originalPriceFromState = location?.state?.originalPrice;
   const hasDiscount = Number.isFinite(discountFromState);
   const effectivePrice = hasDiscount ? discountFromState : product?.price;
 
