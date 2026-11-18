@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const load = async () => {
@@ -40,9 +41,7 @@ const Cart = () => {
     return () => {
       window.removeEventListener("cartChanged", onCart);
     };
-  }, []);
-
-  const navigate = useNavigate();
+  }, [navigate]);
 
   const updateQty = async (idx, newQty) => {
     // optimistic qty update locally
