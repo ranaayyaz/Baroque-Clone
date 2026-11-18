@@ -115,6 +115,33 @@ app.use((req, res, next) => {
 const connectToDatabase = require("./database/connection");
 const { getConnectionState } = require("./database/connection");
 
+// Cached database connection: on Vercel (serverless) each cold start
+// connects once and reuses the connection; locally it behaves the same.
+let dbReadyPromise = null;
+function ensureDb() {
+  if (!dbReadyPromise) {
+    dbReadyPromise = connectToDatabase().catch((err) => {
+      dbReadyPromise = null;
+      throw err;
+    });
+  }
+  return dbReadyPromise;
+}
+
+// Make sure the database is connected before handling API requests
+app.use(async (req, res, next) => {
+  if (req.path === "/health") return next();
+  try {
+    await ensureDb();
+    next();
+  } catch (err) {
+    console.error("Database connection failed:", err.message || err);
+    res
+      .status(500)
+      .json({ status: "error", message: "Database unavailable" });
+  }
+});
+
 //User Routes
 var userRoutes = require("./Routes/userRoutes");
 app.use("/users", userRoutes);
@@ -129,19 +156,25 @@ try {
 
 app.set("secretKey", "Im a Fullstack web developer 7613341 &&8326&^&%^*(%#");
 
-(async () => {
-  try {
-    await connectToDatabase();
-  } catch (err) {
-    console.error("Failed to connect to database. Exiting.", err);
-    process.exit(1);
-  }
+// Start a normal server only when run directly (local development).
+// On Vercel the app is exported below and served as a serverless function.
+if (require.main === module) {
+  (async () => {
+    try {
+      await ensureDb();
+    } catch (err) {
+      console.error("Failed to connect to database. Exiting.", err);
+      process.exit(1);
+    }
 
-  const port = process.env.PORT || 7777;
-  app.listen(port, () => {
-    console.log("Server is running on port", port);
-  });
-})();
+    const port = process.env.PORT || 7777;
+    app.listen(port, () => {
+      console.log("Server is running on port", port);
+    });
+  })();
+}
+
+module.exports = app;
 
 // Health check endpoint
 app.get("/health", (req, res) => {
